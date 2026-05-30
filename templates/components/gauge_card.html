@@ -1,0 +1,57 @@
+{% comment %}
+SVG semicircle gauge card.
+Variables:
+  value        — 0–100 numeric score (static)
+  alpine_value — Alpine.js expression for the 0-100 numeric score
+  label        — text label below gauge
+  color        — "green" | "amber" | "orange" | "red"
+  sublabel     — optional small text below label
+{% endcomment %}
+{% with c=color|default:"green" %}
+{% with pct=value|default:0 %}
+<div class="bg-white rounded-[20px] border border-gray-100 shadow-sm p-5 flex flex-col items-center gap-2">
+
+  <!-- SVG Gauge -->
+  <div class="relative w-28 h-16 overflow-hidden">
+    <svg viewBox="0 0 100 54" class="w-full h-full">
+      <!-- Track arc -->
+      <path d="M 10 50 A 40 40 0 0 1 90 50"
+            fill="none" stroke="#e5e7eb" stroke-width="10" stroke-linecap="round"/>
+      <!-- Value arc (CSS variable drives dashoffset) -->
+      {% if alpine_value %}
+      <path d="M 10 50 A 40 40 0 0 1 90 50"
+            fill="none"
+            stroke="{% if c == 'green' %}#16a34a{% elif c == 'amber' %}#d97706{% elif c == 'orange' %}#ea580c{% else %}#dc2626{% endif %}"
+            stroke-width="10" stroke-linecap="round"
+            stroke-dasharray="125.66"
+            :style="`stroke-dashoffset: calc(125.66px - (125.66px * ${ {{ alpine_value }} } / 100)); transition: stroke-dashoffset 0.8s ease;`"/>
+      {% else %}
+      <path d="M 10 50 A 40 40 0 0 1 90 50"
+            fill="none"
+            stroke="{% if c == 'green' %}#16a34a{% elif c == 'amber' %}#d97706{% elif c == 'orange' %}#ea580c{% else %}#dc2626{% endif %}"
+            stroke-width="10" stroke-linecap="round"
+            stroke-dasharray="125.66"
+            stroke-dashoffset="{{ pct|floatformat:0 }}"
+            style="stroke-dashoffset: calc(125.66px - (125.66px * {{ pct }} / 100));
+                   transition: stroke-dashoffset 0.8s ease;"/>
+      {% endif %}
+    </svg>
+    <!-- Score in center -->
+    <div class="absolute inset-0 flex items-end justify-center pb-1">
+      {% if alpine_value %}
+      <span class="text-xl font-bold text-gray-900" x-text="{{ alpine_value }}"></span>
+      {% else %}
+      <span class="text-xl font-bold text-gray-900">{{ pct }}</span>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Labels -->
+  <p class="text-xs font-semibold text-gray-700 text-center">{{ label }}</p>
+  {% if sublabel %}
+  <p class="text-[10px] text-gray-400 text-center -mt-1">{{ sublabel }}</p>
+  {% endif %}
+
+</div>
+{% endwith %}
+{% endwith %}

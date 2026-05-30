@@ -1,0 +1,14 @@
+{% comment %}
+Empty state placeholder — shown when no data is seeded yet.
+Variables: icon_path, title, description
+{% endcomment %}
+<div class="flex flex-col items-center justify-center py-16 text-center">
+  <div class="flex items-center justify-center w-16 h-16 rounded-2xl bg-gray-100 text-gray-400 mb-4">
+    <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.4">
+      {% if icon_path %}<path stroke-linecap="round" stroke-linejoin="round" d="{{ icon_path }}"/>
+      {% else %}<path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>{% endif %}
+    </svg>
+  </div>
+  <p class="text-sm font-semibold text-gray-700">{{ title|default:"No data yet" }}</p>
+  <p class="mt-1 text-xs text-gray-400 max-w-xs">{{ description|default:"Seed demo data to see this section populated." }}</p>
+</div>

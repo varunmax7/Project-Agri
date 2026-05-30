@@ -1,0 +1,15 @@
+{% comment %}
+Page section header — title + optional description + optional action slot.
+Variables:
+  section_title   — heading text
+  section_desc    — optional subtitle
+{% endcomment %}
+<div class="flex items-start justify-between mb-4">
+  <div>
+    <h2 class="text-base font-semibold text-gray-900">{{ section_title }}</h2>
+    {% if section_desc %}
+    <p class="mt-0.5 text-xs text-gray-500">{{ section_desc }}</p>
+    {% endif %}
+  </div>
+  {% block header_action %}{% endblock %}
+</div>

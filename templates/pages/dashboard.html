@@ -1,0 +1,395 @@
+{% extends 'base.html' %}
+{% load static floodguard_tags %}
+
+{% block content %}
+
+<div x-data="dashboardData()" x-init="initDashboard({{ current_farm.id|default:0 }})">
+  
+  <!-- Loading State -->
+  <div x-show="loading" class="flex items-center justify-center h-64">
+    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
+    <span class="ml-2 text-gray-500">Loading dashboard...</span>
+  </div>
+
+  <div x-show="!loading" x-cloak>
+    <!-- ── Row 1: 5 Metric Cards ──────────────────────────────────── -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-6">
+      {% include 'components/metric_card.html' with label="Rainfall Outlook" alpine_value="data?.climate_indices?.rainfall_outlook_pct" unit="%" alpine_confidence="data?.climate_indices?.rainfall_confidence" color="blue" alpine_trend="data?.climate_indices?.rainfall_outlook_pct > 100 ? 'up' : (data?.climate_indices?.rainfall_outlook_pct < 80 ? 'down' : 'stable')" icon_path="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" %}
+      
+      {% include 'components/metric_card.html' with label="Water Stress" alpine_value="data?.climate_indices?.water_stress_score" unit="" alpine_confidence="data?.climate_indices?.water_stress_confidence" color="amber" alpine_trend="data?.climate_indices?.water_stress_score > 60 ? 'up' : 'down'" icon_path="M12 2c0 0-8 7.58-8 13a8 8 0 0016 0C20 9.58 12 2 12 2z" %}
+      
+      {% include 'components/metric_card.html' with label="Heat Stress" alpine_value="data?.climate_indices?.heat_stress_score" unit="" alpine_confidence="data?.climate_indices?.heat_stress_confidence" color="orange" alpine_trend="data?.climate_indices?.heat_stress_score > 50 ? 'up' : 'stable'" icon_path="M12 3v1m0 16v1m8.66-10h-1M4.34 12h-1m15 5.66l-.71-.71M6.34 6.34l-.71-.71" %}
+      
+      {% include 'components/metric_card.html' with label="Agri Resilience" alpine_value="data?.climate_indices?.agri_resilience_score" unit="" alpine_confidence="data?.climate_indices?.agri_resilience_confidence" color="green" alpine_trend="'stable'" icon_path="M12 3c0 9 6 12 6 12H6S12 12 12 3z" %}
+      
+      {% include 'components/metric_card.html' with label="Climate Stress Index" alpine_value="data?.climate_indices?.climate_stress_index" unit="" alpine_confidence="data?.climate_indices?.csi_confidence" color="red" alpine_trend="data?.climate_indices?.climate_stress_index > 60 ? 'up' : 'down'" icon_path="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" %}
+    </div>
+
+    <!-- ── Row 2: Climate Risk Map + Recommended Crops ────────────── -->
+    <div class="grid grid-cols-1 lg:grid-cols-5 gap-4 mb-6">
+
+      <!-- Climate Risk Map -->
+      <div class="lg:col-span-3 bg-white rounded-[20px] border border-gray-100 shadow-sm overflow-hidden flex flex-col">
+        <div class="flex items-center justify-between px-5 py-3.5 border-b border-gray-100">
+          <div>
+            <h3 class="text-sm font-semibold text-gray-900">Climate Risk Map</h3>
+            <p class="text-xs text-gray-400">District-level choropleth · <span x-text="data?.season"></span> <span x-text="data?.year"></span></p>
+          </div>
+          <div class="flex items-center gap-2">
+            <!-- Layer switcher -->
+            <select id="mapLayerSwitcher" class="text-xs border border-gray-200 rounded-lg px-2 py-1.5 text-gray-600 bg-white focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+              <option value="climate_risk">Climate Risk</option>
+              <option value="rainfall_anomaly">Rainfall Anomaly</option>
+              <option value="heat_stress">Heat Stress</option>
+              <option value="water_stress">Water Stress</option>
+            </select>
+          </div>
+        </div>
+        <!-- Map container: intentionally outside x-cloak so Leaflet can measure it immediately -->
+        <div id="climate-risk-map" style="height:300px; width:100%;"></div>
+        <!-- Risk legend -->
+        <div class="flex items-center gap-4 px-5 py-3 border-t border-gray-100 bg-white z-10">
+          <span class="text-[10px] text-gray-400 font-medium">RISK LEVEL</span>
+          <span class="flex items-center gap-1 text-xs text-gray-600">
+            <span class="w-2.5 h-2.5 rounded-sm inline-block bg-primary-500"></span> Low
+          </span>
+          <span class="flex items-center gap-1 text-xs text-gray-600">
+            <span class="w-2.5 h-2.5 rounded-sm inline-block bg-amber-400"></span> Moderate
+          </span>
+          <span class="flex items-center gap-1 text-xs text-gray-600">
+            <span class="w-2.5 h-2.5 rounded-sm inline-block bg-orange-500"></span> High
+          </span>
+          <span class="flex items-center gap-1 text-xs text-gray-600">
+            <span class="w-2.5 h-2.5 rounded-sm inline-block bg-red-500"></span> Very High
+          </span>
+        </div>
+      </div>
+
+      <!-- Recommended Crops Table -->
+      <div class="lg:col-span-2 bg-white rounded-[20px] border border-gray-100 shadow-sm flex flex-col">
+        <div class="flex items-center justify-between px-5 py-3.5 border-b border-gray-100">
+          <h3 class="text-sm font-semibold text-gray-900">Recommended Crops</h3>
+          <a href="{% url 'core:crop_advisory' %}" class="text-xs text-primary-600 hover:text-primary-700 font-medium">View all →</a>
+        </div>
+        <div class="flex-1 overflow-auto">
+          <table class="min-w-full text-xs">
+            <thead>
+              <tr class="bg-gray-50 text-gray-500 uppercase tracking-wide text-[10px]">
+                <th class="px-5 py-2.5 text-left font-medium">Crop</th>
+                <th class="px-4 py-2.5 text-left font-medium">Suitability</th>
+                <th class="px-4 py-2.5 text-left font-medium">Risk</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-50">
+              <template x-for="item in data?.recommended_crops || []" :key="item.id">
+                <tr class="hover:bg-gray-50 transition-colors">
+                  <td class="px-5 py-3 font-medium text-gray-800" x-text="item.crop_details.name + ' ' + item.crop_details.icon"></td>
+                  <td class="px-4 py-3">
+                    <div class="flex items-center gap-2">
+                      <div class="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden w-20">
+                        <div class="h-full rounded-full"
+                             :class="item.suitability_pct >= 80 ? 'bg-primary-500' : (item.suitability_pct >= 60 ? 'bg-amber-400' : 'bg-red-400')"
+                             :style="`width: ${item.suitability_pct}%`"></div>
+                      </div>
+                      <span class="text-gray-700 font-medium" x-text="`${item.suitability_pct}%`"></span>
+                    </div>
+                  </td>
+                  <td class="px-4 py-3">
+                    <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium"
+                          :class="{
+                            'bg-green-100 text-green-800': item.risk_level === 'low',
+                            'bg-amber-100 text-amber-800': item.risk_level === 'moderate',
+                            'bg-red-100 text-red-800': item.risk_level === 'high' || item.risk_level === 'very_high'
+                          }"
+                          x-text="item.risk_level.charAt(0).toUpperCase() + item.risk_level.slice(1).replace('_', ' ')">
+                    </span>
+                  </td>
+                </tr>
+              </template>
+              <tr x-show="!(data?.recommended_crops?.length)">
+                <td colspan="3" class="px-5 py-6 text-center text-gray-400 text-xs">No crop recommendations available.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Row 3: Key Indices Gauges + Crop Timeline ──────────────── -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
+
+      <!-- Key Indices Gauges -->
+      <div class="lg:col-span-1 bg-white rounded-[20px] border border-gray-100 shadow-sm p-5">
+        <h3 class="text-sm font-semibold text-gray-900 mb-4">Key Indices</h3>
+        <div class="grid grid-cols-2 gap-3">
+          {% include 'components/gauge_card.html' with alpine_value="data?.climate_indices?.rainfall_outlook_pct" label="Rainfall" color="blue" %}
+          {% include 'components/gauge_card.html' with alpine_value="data?.climate_indices?.water_stress_score" label="Water Stress" color="amber" %}
+          {% include 'components/gauge_card.html' with alpine_value="data?.climate_indices?.heat_stress_score" label="Heat Stress" color="orange" %}
+          {% include 'components/gauge_card.html' with alpine_value="data?.climate_indices?.agri_resilience_score" label="Resilience" color="green" %}
+        </div>
+      </div>
+
+      <!-- Crop Timeline (Placeholder / Needs dynamic data from crop calendar) -->
+      <div class="lg:col-span-2 bg-white rounded-[20px] border border-gray-100 shadow-sm p-5">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-sm font-semibold text-gray-900">Crop Timeline</h3>
+          <span class="text-xs text-gray-400"><span x-text="data?.season"></span> <span x-text="data?.year"></span></span>
+        </div>
+        <!-- Timeline placeholder -->
+        <div class="space-y-3">
+          {% for stage in "Sowing,Vegetative,Flowering,Harvest"|split:"," %}
+          <div>
+            <div class="flex items-center justify-between mb-1">
+              <span class="text-xs text-gray-600 font-medium">{{ stage }}</span>
+              <span class="text-[10px] text-gray-400">
+                {% if forloop.counter == 1 %}Jun 15 – Jul 5
+                {% elif forloop.counter == 2 %}Jul 6 – Aug 20
+                {% elif forloop.counter == 3 %}Aug 21 – Sep 10
+                {% else %}Sep 11 – Oct 15{% endif %}
+              </span>
+            </div>
+            <div class="h-3 bg-gray-100 rounded-full overflow-hidden">
+              <div class="h-full rounded-full
+                {% if forloop.counter == 1 %}bg-sky-400
+                {% elif forloop.counter == 2 %}bg-primary-500
+                {% elif forloop.counter == 3 %}bg-amber-400
+                {% else %}bg-orange-400{% endif %}"
+                style="width: {% cycle '100' '85' '40' '0' %}%; margin-left: {% cycle '0' '15' '55' '70' %}%"></div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        <!-- Month ruler -->
+        <div class="flex justify-between mt-3 text-[10px] text-gray-300 font-medium">
+          {% for m in "Jun,Jul,Aug,Sep,Oct"|split:"," %}
+          <span>{{ m }}</span>
+          {% endfor %}
+        </div>
+      </div>
+
+    </div>
+
+<!-- ── Row 4: Water Req vs Availability + Yield Risk ──────────── -->
+    <div class="grid grid-cols-1 lg:grid-cols-5 gap-4 mb-6">
+
+      <!-- Water Req vs Availability Bar Chart -->
+      <div class="lg:col-span-3 bg-white rounded-[20px] border border-gray-100 shadow-sm p-5">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-sm font-semibold text-gray-900">Water Requirement vs Availability</h3>
+          <div class="flex items-center gap-3 text-[10px] font-medium text-gray-500">
+            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-sm bg-sky-400 inline-block"></span>Availability</span>
+            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-sm bg-primary-500 inline-block"></span>Requirement</span>
+          </div>
+        </div>
+        <canvas id="waterBalanceChart" class="max-h-52"></canvas>
+      </div>
+
+      <!-- Yield Risk Donut -->
+      <div class="lg:col-span-2 bg-white rounded-[20px] border border-gray-100 shadow-sm p-5 flex flex-col">
+        <h3 class="text-sm font-semibold text-gray-900 mb-4">Yield Risk</h3>
+        <div class="flex-1 flex flex-col items-center justify-center">
+          <div class="relative w-40 h-40">
+            <canvas id="yieldRiskChart"></canvas>
+            <div class="absolute inset-0 flex flex-col items-center justify-center">
+              <p class="text-2xl font-bold text-gray-900"><span id="yieldRiskValue">0</span>%</p>
+              <p class="text-[10px] text-gray-400">Yield at risk</p>
+            </div>
+          </div>
+          <div class="flex flex-wrap justify-center gap-3 mt-4 text-xs text-gray-600">
+            <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-primary-500 inline-block"></span>Low Risk <span id="yieldLowRiskValue">0</span>%</span>
+            <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-amber-400 inline-block"></span>Med Risk <span id="yieldMedRiskValue">0</span>%</span>
+            <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-red-400 inline-block"></span>High Risk <span id="yieldHighRiskValue">0</span>%</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── Row 5: Future Outlook Suitability Strip ────────────────── -->
+    <div class="bg-white rounded-[20px] border border-gray-100 shadow-sm p-5">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-sm font-semibold text-gray-900">Future Outlook — Crop Suitability <span class="font-normal text-gray-400 text-xs ml-2" x-text="data?.future_outlook?.scenario"></span></h3>
+        <a href="{% url 'core:future_outlook' %}" class="text-xs text-primary-600 hover:text-primary-700 font-medium">View full outlook →</a>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <template x-for="decade in [2030, 2035, 2040]" :key="decade">
+          <div class="bg-gray-50 rounded-[20px] p-4">
+            <p class="text-xs text-gray-400 font-medium mb-2" x-text="decade"></p>
+            <div class="space-y-2">
+              <template x-for="item in (data?.future_outlook?.suitability_trends || []).filter(t => t.year === decade)" :key="item.id">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs text-gray-700" x-text="item.crop_details.name"></span>
+                  <div class="flex items-center gap-1.5">
+                    <div class="w-16 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                      <div class="h-full rounded-full"
+                           :class="item.suitability_pct >= 80 ? 'bg-primary-500' : (item.suitability_pct >= 60 ? 'bg-amber-400' : 'bg-red-400')"
+                           :style="`width: ${item.suitability_pct}%`"></div>
+                    </div>
+                    <span class="text-[10px] font-medium text-gray-600" x-text="`${item.suitability_pct}%`"></span>
+                  </div>
+                </div>
+              </template>
+              <div x-show="!(data?.future_outlook?.suitability_trends?.filter(t => t.year === decade).length)">
+                <span class="text-xs text-gray-400">No projections</span>
+              </div>
+            </div>
+          </div>
+        </template>
+      </div>
+    </div>
+
+  </div> <!-- End !loading wrapper -->
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+function dashboardData() {
+    return {
+        data: null,
+        loading: true,
+        async initDashboard(farmId) {
+            if (!farmId) {
+                console.warn("No farm ID provided to dashboard.");
+                this.loading = false;
+                return;
+            }
+            try {
+                const res = await fetch(`/api/v1/farms/${farmId}/dashboard/`);
+                if (res.ok) {
+                    const json = await res.json(); this.data = json.results || json;
+                    window.dispatchEvent(new CustomEvent('dashboard-data-loaded', { detail: this.data }));
+                } else {
+                    console.error("Dashboard API error", await res.text());
+                }
+            } catch (err) {
+                console.error("Failed to load dashboard data", err);
+            } finally {
+                this.loading = false;
+            }
+        }
+    }
+}
+
+// ── Dashboard Map & Charts ──────────────────────────────────────────
+let dashboardMap = null;
+let riskLayer = null;
+let dashboardData_cached = null;
+
+// Initialize the map immediately — the container is always in the DOM
+document.addEventListener('DOMContentLoaded', () => {
+    const mapEl = document.getElementById('climate-risk-map');
+    if (!mapEl || dashboardMap) return;
+
+    dashboardMap = L.map('climate-risk-map', {
+        zoomControl: true,
+        attributionControl: true
+    }).setView([20.5937, 78.9629], 5);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        maxZoom: 18
+    }).addTo(dashboardMap);
+
+    // Multiple invalidateSize calls to handle any layout shifts
+    [100, 300, 600, 1000].forEach(ms => setTimeout(() => dashboardMap.invalidateSize(), ms));
+});
+
+function loadMapLayer(layerType, season) {
+    if (!dashboardMap) return;
+    if (riskLayer) { dashboardMap.removeLayer(riskLayer); riskLayer = null; }
+
+    fetch(`/api/v1/climate-risk-zones/geojson/?season=${season || 'Kharif'}&layer_type=${layerType}`)
+        .then(r => r.json())
+        .then(geoJson => {
+            if (!geoJson.features || geoJson.features.length === 0) return;
+            riskLayer = L.geoJSON(geoJson, {
+                style: function(feature) {
+                    const risk = feature.properties.risk_level;
+                    let color = '#22c55e';
+                    if (risk === 'moderate') color = '#fbbf24';
+                    else if (risk === 'high') color = '#f97316';
+                    else if (risk === 'very_high') color = '#ef4444';
+                    return { color: '#fff', weight: 1, fillColor: color, fillOpacity: 0.65 };
+                },
+                onEachFeature: function(feature, layer) {
+                    layer.bindPopup(`<b>${feature.properties.district || ''}</b><br>Risk: ${feature.properties.risk_level}`);
+                }
+            }).addTo(dashboardMap);
+            dashboardMap.fitBounds(riskLayer.getBounds(), { padding: [20, 20] });
+        }).catch(() => {});
+}
+
+// Wire layer switcher once DOM ready
+document.addEventListener('DOMContentLoaded', () => {
+    const switcher = document.getElementById('mapLayerSwitcher');
+    if (switcher) {
+        switcher.addEventListener('change', (e) => {
+            loadMapLayer(e.target.value, dashboardData_cached?.season);
+        });
+    }
+});
+
+// Charts and additional map data when API responds
+window.addEventListener('dashboard-data-loaded', (e) => {
+    const data = e.detail;
+    dashboardData_cached = data;
+
+    // Load GeoJSON on top of already-visible map
+    const switcher = document.getElementById('mapLayerSwitcher');
+    if (switcher) loadMapLayer(switcher.value, data.season);
+
+    // --- Water Balance Chart ---
+    const wbCtx = document.getElementById('waterBalanceChart');
+    if (wbCtx && data.water_balance && data.water_balance.length > 0) {
+        const labels = data.water_balance.map(item => item.month);
+        const availability = data.water_balance.map(item => item.availability_mm);
+        const requirement = data.water_balance.map(item => item.requirement_mm);
+        new Chart(wbCtx, {
+            type: 'bar',
+            data: {
+                labels: labels.length ? labels : ['Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+                datasets: [
+                    { label: 'Availability (mm)', data: availability, backgroundColor: 'rgba(56,189,248,0.7)', borderRadius: 4 },
+                    { label: 'Requirement (mm)', data: requirement, backgroundColor: 'rgba(22,163,74,0.7)', borderRadius: 4 },
+                ]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: true,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { grid: { display: false }, ticks: { font: { size: 11 } } },
+                    y: { grid: { color: '#f3f4f6' }, ticks: { font: { size: 11 } }, title: { display: true, text: 'mm', font: { size: 10 }, color: '#9ca3af' } }
+                }
+            }
+        });
+    }
+
+    // --- Yield Risk Donut ---
+    const yrCtx = document.getElementById('yieldRiskChart');
+    if (yrCtx && data.yield_risks && data.yield_risks.length > 0) {
+        const risk = data.yield_risks[0];
+        let low = 0, med = 0, high = 0;
+        if (risk.risk_label === 'high') { high = risk.risk_pct; med = 20; low = 100 - high - med; }
+        else if (risk.risk_label === 'moderate') { med = risk.risk_pct; low = 100 - med - 10; high = 10; }
+        else { low = risk.risk_pct || 80; med = 100 - low; high = 0; }
+        document.getElementById('yieldRiskValue').innerText = risk.risk_pct;
+        document.getElementById('yieldLowRiskValue').innerText = low;
+        document.getElementById('yieldMedRiskValue').innerText = med;
+        document.getElementById('yieldHighRiskValue').innerText = high;
+        new Chart(yrCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Low Risk', 'Medium Risk', 'High Risk'],
+                datasets: [{ data: [low, med, high], backgroundColor: ['#22c55e', '#f59e0b', '#f87171'], borderWidth: 0, hoverOffset: 4 }]
+            },
+            options: {
+                cutout: '72%',
+                plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ${ctx.raw}%` } } },
+                responsive: true, maintainAspectRatio: true,
+            }
+        });
+    }
+});
+</script>
+{% endblock %}

@@ -1,4 +1,3 @@
-from django.contrib.gis.db import models as gis_models
 from django.db import models
 
 class LocationClimateIndex(models.Model):
@@ -31,14 +30,15 @@ class LocationClimateIndex(models.Model):
         return f"{self.farm or self.district} — {self.season} {self.year}"
 
 
-class ClimateRiskZone(gis_models.Model):
+class ClimateRiskZone(models.Model):
     class RiskLevel(models.TextChoices):
         LOW = 'low', 'Low'
         MODERATE = 'moderate', 'Moderate'
         HIGH = 'high', 'High'
         VERY_HIGH = 'very_high', 'Very High'
 
-    geometry = gis_models.MultiPolygonField(srid=4326)
+    # Stored as GeoJSON Feature dictionary: {"type": "MultiPolygon", "coordinates": [...]}
+    geometry = models.JSONField(default=dict)
     district = models.CharField(max_length=100)
     state = models.CharField(max_length=100, blank=True)
     risk_level = models.CharField(max_length=10, choices=RiskLevel.choices)

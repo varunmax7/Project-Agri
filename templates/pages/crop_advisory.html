@@ -1,0 +1,352 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<div x-data="cropAdvisoryData()" x-init="initData({{ current_farm.id|default:0 }})">
+
+<!-- Loading State -->
+<div x-show="loading" class="flex items-center justify-center h-64">
+  <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
+  <span class="ml-2 text-gray-500">Loading crop advisories...</span>
+</div>
+
+<div x-show="!loading" x-cloak>
+  <div class="grid grid-cols-1 lg:grid-cols-5 gap-4 mb-6">
+    <!-- Suitability Ranking List -->
+    <div class="lg:col-span-2 bg-white rounded-xl border border-gray-100 shadow-sm flex flex-col h-80">
+      <div class="flex items-center justify-between px-5 py-3.5 border-b border-gray-100 shrink-0">
+        <h3 class="text-sm font-semibold text-gray-900">Suitability Ranking</h3>
+        <span class="text-xs text-gray-400" x-text="seasonText"></span>
+      </div>
+      <div class="flex-1 divide-y divide-gray-50 overflow-y-auto">
+        <template x-for="item in suitabilityList" :key="item.id">
+          <div @click="selectCrop(item)" 
+               class="flex items-center gap-3 px-5 py-3.5 hover:bg-primary-50 transition-colors cursor-pointer"
+               :class="selectedCrop?.id === item.id ? 'bg-primary-50 ring-inset ring-2 ring-primary-500' : ''">
+            <span class="text-xl" x-text="item.crop_detail?.icon || ''"></span>
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-medium text-gray-800" x-text="item.crop_detail?.name"></p>
+              <div class="flex items-center gap-2 mt-1">
+                <div class="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                  <div class="h-full bg-primary-500 rounded-full" :style="`width: ${item.suitability_pct}%`"></div>
+                </div>
+                <span class="text-xs font-semibold text-gray-700" x-text="`${item.suitability_pct}%`"></span>
+              </div>
+            </div>
+            <span class="inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium"
+                  :class="getRiskBadgeClass(item.risk_level)"
+                  x-text="getRiskLabel(item.risk_level)"></span>
+          </div>
+        </template>
+        <div x-show="suitabilityList.length === 0" class="p-5 text-center text-sm text-gray-500">
+          No crop suitability data found for this farm.
+        </div>
+      </div>
+    </div>
+
+    <!-- Crop Suitability Map -->
+    <div class="lg:col-span-3 bg-white rounded-xl border border-gray-100 shadow-sm flex flex-col overflow-hidden h-80">
+      <div class="flex items-center justify-between px-5 py-3.5 border-b border-gray-100 shrink-0">
+        <h3 class="text-sm font-semibold text-gray-900">Crop Suitability Map</h3>
+        <select x-model="selectedCropId" @change="onSelectDropdown" class="text-xs border border-gray-200 rounded-lg px-2 py-1.5 text-gray-600 bg-white focus:ring-2 focus:ring-primary-500">
+          <template x-for="item in suitabilityList" :key="item.id">
+            <option :value="item.id" x-text="item.crop_detail?.name"></option>
+          </template>
+        </select>
+      </div>
+      <!-- Map container always in DOM so Leaflet can measure it -->
+      <div class="flex-1 relative" style="min-height:260px;">
+        <div id="crop-map" style="position:absolute;inset:0;min-height:260px;"></div>
+        <div x-show="mapLoading" class="absolute inset-0 z-10 bg-white/70 flex items-center justify-center" style="pointer-events:none;">
+          <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-primary-600"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Crop Detail Tabs -->
+  <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-5" x-data="{ tab: 'suitability' }">
+    <div class="border-b border-gray-200 mb-5">
+      <nav class="-mb-px flex gap-6">
+        {% for t in "suitability,comparison,calendar,best_practices"|split:"," %}
+        <button @click="tab = '{{ t }}'"
+                :class="tab === '{{ t }}' ? 'border-primary-600 text-primary-700 font-semibold' : 'border-transparent text-gray-500 hover:text-gray-700'"
+                class="whitespace-nowrap pb-3 pt-1 border-b-2 text-sm transition-colors">
+          {% if t == 'suitability' %}Suitability{% elif t == 'comparison' %}Comparison{% elif t == 'calendar' %}Calendar{% else %}Best Practices{% endif %}
+        </button>
+        {% endfor %}
+      </nav>
+    </div>
+
+    <div x-show="tab === 'suitability'">
+      <div x-show="selectedCrop">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div class="bg-gray-50 rounded-xl p-4">
+            <p class="text-xs text-gray-400 mb-1">Expected Yield Range</p>
+            <p class="text-lg font-bold text-gray-900">
+              <span x-text="selectedCrop.expected_yield_min"></span> – <span x-text="selectedCrop.expected_yield_max"></span>
+              <span class="text-sm font-normal text-gray-500">q/ha</span>
+            </p>
+          </div>
+          <div class="bg-gray-50 rounded-xl p-4">
+            <p class="text-xs text-gray-400 mb-1">Risk Level</p>
+            <span class="inline-flex items-center rounded-full px-3 py-1 text-sm font-medium"
+                  :class="getRiskBadgeClass(selectedCrop.risk_level)"
+                  x-text="getRiskLabel(selectedCrop.risk_level)"></span>
+          </div>
+          <div class="bg-gray-50 rounded-xl p-4">
+            <p class="text-xs text-gray-400 mb-1">Recommendation</p>
+            <p class="text-sm font-semibold text-primary-700" x-text="selectedCrop.recommendation_label"></p>
+          </div>
+        </div>
+        <div class="mt-4">
+          <p class="text-xs font-semibold text-gray-600 mb-2">Why <span x-text="selectedCrop.crop_detail?.name"></span> is suitable:</p>
+          <ul class="space-y-1.5">
+            <template x-for="reason in selectedCrop.reasons">
+              <li class="flex items-start gap-2 text-xs text-gray-600">
+                <svg class="w-3.5 h-3.5 text-primary-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                <span x-text="reason"></span>
+              </li>
+            </template>
+          </ul>
+        </div>
+      </div>
+      <div x-show="!selectedCrop">
+        <p class="text-sm text-gray-500">Select a crop from the list to view its suitability details.</p>
+      </div>
+    </div>
+    
+    <div x-show="tab === 'comparison'" x-cloak>
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead>
+            <tr>
+              <th scope="col" class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Crop</th>
+              <th scope="col" class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Suitability</th>
+              <th scope="col" class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Water Req (mm)</th>
+              <th scope="col" class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Temp Range (°C)</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-100 bg-white">
+            <template x-for="item in suitabilityList" :key="item.id">
+              <tr>
+                <td class="px-4 py-3 text-sm font-medium text-gray-900" x-text="item.crop_detail?.name"></td>
+                <td class="px-4 py-3">
+                  <div class="flex items-center gap-2">
+                    <div class="w-16 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                      <div class="h-full bg-primary-500 rounded-full" :style="`width: ${item.suitability_pct}%`"></div>
+                    </div>
+                    <span class="text-xs font-medium text-gray-700" x-text="`${item.suitability_pct}%`"></span>
+                  </div>
+                </td>
+                <td class="px-4 py-3 text-sm text-gray-600" x-text="item.crop_detail?.water_requirement_mm"></td>
+                <td class="px-4 py-3 text-sm text-gray-600" x-text="`${item.crop_detail?.temp_min} - ${item.crop_detail?.temp_max}`"></td>
+              </tr>
+            </template>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    
+    <div x-show="tab === 'calendar'" x-cloak>
+      <div x-show="selectedCrop && selectedCrop.crop_detail?.calendars?.length > 0">
+        <template x-for="cal in selectedCrop.crop_detail.calendars" :key="cal.id">
+          <div class="bg-gray-50 rounded-xl p-5 mb-4">
+            <h4 class="text-sm font-semibold text-gray-900 mb-4" x-text="`Agro-Climatic Zone: ${cal.agro_zone}`"></h4>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+              <div>
+                <p class="text-xs text-gray-500 mb-1">Sowing Window</p>
+                <p class="text-sm font-medium text-gray-900" x-text="`${cal.sowing_start} to ${cal.sowing_end}`"></p>
+              </div>
+              <div>
+                <p class="text-xs text-gray-500 mb-1">Vegetative Stage</p>
+                <p class="text-sm font-medium text-gray-900" x-text="`${cal.vegetative} days`"></p>
+              </div>
+              <div>
+                <p class="text-xs text-gray-500 mb-1">Flowering Stage</p>
+                <p class="text-sm font-medium text-gray-900" x-text="`${cal.flowering} days`"></p>
+              </div>
+              <div>
+                <p class="text-xs text-gray-500 mb-1">Harvest Stage</p>
+                <p class="text-sm font-medium text-gray-900" x-text="`${cal.harvest} days`"></p>
+              </div>
+            </div>
+            
+            <!-- Timeline Visualization -->
+            <div class="mt-6 flex h-4 rounded-full overflow-hidden text-[10px] font-bold text-white text-center leading-4">
+               <div class="bg-blue-400 px-1" :style="`width: ${cal.vegetative}%`" title="Vegetative">Veg</div>
+               <div class="bg-purple-400 px-1" :style="`width: ${cal.flowering}%`" title="Flowering">Flowering</div>
+               <div class="bg-amber-400 px-1" :style="`width: ${cal.harvest}%`" title="Harvest">Harvest</div>
+            </div>
+          </div>
+        </template>
+      </div>
+      <div x-show="!selectedCrop || !selectedCrop.crop_detail?.calendars?.length">
+        <p class="text-sm text-gray-500">No crop calendar data available for this crop.</p>
+      </div>
+    </div>
+    
+    <div x-show="tab === 'best_practices'" x-cloak>
+      <div x-show="selectedCrop && selectedCrop.crop_detail?.best_practices?.length > 0">
+        <ul class="space-y-4">
+          <template x-for="bp in selectedCrop.crop_detail.best_practices" :key="bp.id">
+            <li class="bg-gray-50 rounded-xl p-4 flex gap-4">
+              <div class="flex-shrink-0 mt-0.5">
+                <svg class="w-5 h-5 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              </div>
+              <div>
+                <p class="text-sm font-semibold text-gray-900 mb-1" x-text="bp.stage"></p>
+                <p class="text-sm text-gray-600" x-text="bp.text"></p>
+              </div>
+            </li>
+          </template>
+        </ul>
+      </div>
+      <div x-show="!selectedCrop || !selectedCrop.crop_detail?.best_practices?.length">
+        <p class="text-sm text-gray-500">No best practices data available for this crop.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+// ── Crop Advisory Map — init on DOMContentLoaded (before Alpine) ──────
+let mapInstance = null;
+let geoJsonLayerInstance = null;
+
+document.addEventListener('DOMContentLoaded', () => {
+    const mapEl = document.getElementById('crop-map');
+    if (!mapEl || mapInstance) return;
+
+    mapInstance = L.map('crop-map', { zoomControl: true }).setView([18.67, 78.10], 9);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        maxZoom: 18
+    }).addTo(mapInstance);
+
+    // Invalidate at multiple intervals to handle layout shifts
+    [100, 300, 600, 1000].forEach(ms => setTimeout(() => mapInstance.invalidateSize(), ms));
+});
+
+function cropAdvisoryData() {
+    return {
+        loading: true,
+        mapLoading: false,
+        farmId: null,
+        suitabilityList: [],
+        selectedCrop: null,
+        selectedCropId: null,
+        seasonText: 'Latest Season',
+        
+        async initData(id) {
+            this.farmId = id;
+            if (!this.farmId) {
+                this.loading = false;
+                return;
+            }
+            try {
+                const res = await fetch(`/api/v1/advisory/crop-suitability/?farm=${this.farmId}`);
+                if (res.ok) {
+                    const data = await res.json();
+                    this.suitabilityList = data.results || data;
+                    if (this.suitabilityList.length > 0) {
+                        this.seasonText = `${this.suitabilityList[0].season} ${this.suitabilityList[0].year}`;
+                        this.selectCrop(this.suitabilityList[0]);
+                    }
+                }
+            } catch (err) {
+                console.error("Failed to load crop suitability data", err);
+            } finally {
+                this.loading = false;
+            }
+        },
+        
+        selectCrop(item) {
+            this.selectedCrop = item;
+            this.selectedCropId = item.id;
+            this.loadMapLayer();
+        },
+        
+        onSelectDropdown() {
+            const crop = this.suitabilityList.find(c => c.id == this.selectedCropId);
+            if (crop) {
+                this.selectedCrop = crop;
+                this.loadMapLayer();
+            }
+        },
+        
+        getRiskBadgeClass(level) {
+            if (!level) return 'bg-gray-100 text-gray-800';
+            const val = level.toLowerCase();
+            if (val === 'low') return 'bg-green-100 text-green-800';
+            if (val === 'medium') return 'bg-amber-100 text-amber-800';
+            if (val === 'high') return 'bg-red-100 text-red-800';
+            return 'bg-gray-100 text-gray-800';
+        },
+        
+        getRiskLabel(level) {
+            if (!level) return 'Unknown';
+            const val = level.toLowerCase();
+            if (val === 'low') return 'Low Risk';
+            if (val === 'medium') return 'Medium Risk';
+            if (val === 'high') return 'High Risk';
+            return 'Unknown Risk';
+        },
+        
+        initMap() {
+            // Map is already initialized on DOMContentLoaded
+            // Just load the layer if a crop is selected
+            if (this.selectedCrop) this.loadMapLayer();
+        },
+        
+        async loadMapLayer() {
+            if (!mapInstance || !this.selectedCrop) return;
+            
+            this.mapLoading = true;
+            
+            if (geoJsonLayerInstance) {
+                mapInstance.removeLayer(geoJsonLayerInstance);
+            }
+            
+            try {
+                const layerType = `suitability_${this.selectedCrop.crop_detail.name.toLowerCase()}`;
+                const res = await fetch(`/api/v1/climate-risk-zones/geojson/?layer_type=${layerType}`);
+                if (res.ok) {
+                    const geojsonData = await res.json();
+                    if (geojsonData.features && geojsonData.features.length > 0) {
+                        geoJsonLayerInstance = L.geoJSON(geojsonData, {
+                            style: (feature) => {
+                                const suitability = feature.properties.risk_level || 'low'; // Using risk_level field for suitability in the demo
+                                let color = '#10b981'; // Default green for suitable
+                                if (suitability === 'moderate') color = '#f59e0b';
+                                else if (suitability === 'high') color = '#ef4444';
+                                
+                                return {
+                                    fillColor: color,
+                                    weight: 1,
+                                    opacity: 0.8,
+                                    color: 'white',
+                                    fillOpacity: 0.6
+                                };
+                            }
+                        }).addTo(mapInstance);
+                        
+                        mapInstance.fitBounds(geoJsonLayerInstance.getBounds(), { padding: [20, 20] });
+                    }
+                }
+            } catch (err) {
+                console.error("Failed to load map layer", err);
+            } finally {
+                this.mapLoading = false;
+            }
+        }
+    }
+}
+</script>
+{% endblock %}

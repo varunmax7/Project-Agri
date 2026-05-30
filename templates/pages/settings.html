@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+{% load floodguard_tags %}
+
+{% block content %}
+
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6" x-data="{ tab: 'profile' }">
+
+  <!-- Settings nav -->
+  <div class="lg:col-span-1 bg-white rounded-xl border border-gray-100 shadow-sm p-2 h-fit">
+    {% for item in "profile|Profile & Account|M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z,location|Location & Farm|M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z,units|Units & Season|M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3,notifications|Notifications|M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9,security|Password & Security|M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"|split:"," %}
+    {% with parts=item|split:"|" %}
+    <button @click="tab = '{{ parts.0 }}'"
+            :class="tab === '{{ parts.0 }}' ? 'bg-primary-50 text-primary-700' : 'text-gray-600 hover:bg-gray-50'"
+            class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors">
+      <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+        <path stroke-linecap="round" stroke-linejoin="round" d="{{ parts.2 }}"/>
+      </svg>
+      {{ parts.1 }}
+    </button>
+    {% endwith %}
+    {% endfor %}
+  </div>
+
+  <!-- Settings content -->
+  <div class="lg:col-span-2 bg-white rounded-xl border border-gray-100 shadow-sm p-6">
+
+    <!-- Profile -->
+    <div x-show="tab === 'profile'">
+      <h3 class="text-base font-semibold text-gray-900 mb-5">Profile & Account</h3>
+      <div class="flex items-center gap-5 mb-6 pb-6 border-b border-gray-100">
+        <div class="flex items-center justify-center w-16 h-16 rounded-full bg-primary-600 text-white text-xl font-bold">
+          {{ request.user.first_name|first|upper }}{{ request.user.last_name|first|upper }}
+        </div>
+        <div>
+          <p class="font-semibold text-gray-900">{{ request.user.get_full_name|default:request.user.username }}</p>
+          <p class="text-sm text-gray-500">{{ request.user.email }}</p>
+          <p class="text-xs text-gray-400 capitalize mt-0.5">{{ request.user.role|lower }} account</p>
+        </div>
+      </div>
+      <form class="space-y-4">
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-medium text-gray-600 mb-1.5">First Name</label>
+            <input type="text" value="{{ request.user.first_name }}" class="w-full border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-gray-600 mb-1.5">Last Name</label>
+            <input type="text" value="{{ request.user.last_name }}" class="w-full border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none">
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-gray-600 mb-1.5">Email</label>
+          <input type="email" value="{{ request.user.email }}" class="w-full border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none">
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-gray-600 mb-1.5">Phone</label>
+          <input type="tel" value="{{ request.user.farmer_profile.phone|default:'' }}" placeholder="+91 XXXXX XXXXX" class="w-full border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none">
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-gray-600 mb-1.5">Language</label>
+          <select class="w-full border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none bg-white">
+            <option value="en">English</option>
+            <option value="hi">हिंदी (Hindi)</option>
+            <option value="te">తెలుగు (Telugu)</option>
+          </select>
+        </div>
+        <div class="pt-2">
+          <button type="submit" class="px-5 py-2.5 bg-primary-600 hover:bg-primary-700 text-white text-sm font-semibold rounded-xl transition-colors">
+            Save Changes
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Location -->
+    <div x-show="tab === 'location'" x-cloak>
+      <h3 class="text-base font-semibold text-gray-900 mb-5">Location & Farm</h3>
+      {% include 'components/empty_state.html' with title="Farm management" description="Add and manage your farms via My Farm module." icon_path="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" %}
+    </div>
+
+    <!-- Units -->
+    <div x-show="tab === 'units'" x-cloak>
+      <h3 class="text-base font-semibold text-gray-900 mb-5">Units & Season</h3>
+      <div class="space-y-5">
+        <div>
+          <label class="block text-xs font-medium text-gray-600 mb-1.5">Default Season</label>
+          <select class="w-full border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none bg-white">
+            <option>Kharif</option><option>Rabi</option><option>Zaid</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-gray-600 mb-1.5">Area Unit</label>
+          <select class="w-full border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none bg-white">
+            <option>Acres</option><option>Hectares</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-gray-600 mb-1.5">Temperature Unit</label>
+          <select class="w-full border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none bg-white">
+            <option>Celsius (°C)</option><option>Fahrenheit (°F)</option>
+          </select>
+        </div>
+        <button class="px-5 py-2.5 bg-primary-600 hover:bg-primary-700 text-white text-sm font-semibold rounded-xl transition-colors">Save Preferences</button>
+      </div>
+    </div>
+
+    <!-- Notifications -->
+    <div x-show="tab === 'notifications'" x-cloak>
+      <h3 class="text-base font-semibold text-gray-900 mb-5">Notification Preferences</h3>
+      <div class="space-y-4">
+        {% for item in "Weather Alerts|Get notified of extreme weather events,Crop Advisories|Receive sowing and harvesting reminders,Water Stress Alerts|Alerts when soil moisture drops below threshold,Strategic Alerts|Long-term climate risk and planning alerts,Weekly Summary|Weekly digest of key indices and recommendations"|split:"," %}
+        {% with parts=item|split:"|" %}
+        <div class="flex items-center justify-between py-3 border-b border-gray-50">
+          <div>
+            <p class="text-sm font-medium text-gray-800">{{ parts.0 }}</p>
+            <p class="text-xs text-gray-400">{{ parts.1 }}</p>
+          </div>
+          <button
+            x-data="{ on: true }"
+            @click="on = !on"
+            :class="on ? 'bg-primary-600' : 'bg-gray-200'"
+            class="relative inline-flex h-5 w-9 items-center rounded-full transition-colors">
+            <span :class="on ? 'translate-x-4' : 'translate-x-1'" class="inline-block h-3.5 w-3.5 rounded-full bg-white transition-transform shadow-sm"></span>
+          </button>
+        </div>
+        {% endwith %}
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Security -->
+    <div x-show="tab === 'security'" x-cloak>
+      <h3 class="text-base font-semibold text-gray-900 mb-5">Password & Security</h3>
+      <form class="space-y-4">
+        <div>
+          <label class="block text-xs font-medium text-gray-600 mb-1.5">Current Password</label>
+          <input type="password" class="w-full border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none">
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-gray-600 mb-1.5">New Password</label>
+          <input type="password" class="w-full border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none">
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-gray-600 mb-1.5">Confirm New Password</label>
+          <input type="password" class="w-full border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none">
+        </div>
+        <button type="submit" class="px-5 py-2.5 bg-primary-600 hover:bg-primary-700 text-white text-sm font-semibold rounded-xl transition-colors">Update Password</button>
+      </form>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,75 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgis/postgis:16-3.4
+    environment:
+      POSTGRES_USER: ${DB_USER:-floodguard}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-floodguard}
+      POSTGRES_DB: ${DB_NAME:-floodguard}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    env_file:
+      - .env.prod
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    volumes:
+      - redis_data:/data
+
+  web:
+    build: .
+    command: gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 3
+    volumes:
+      - static_volume:/app/staticfiles
+      - media_volume:/app/media
+    env_file:
+      - .env.prod
+    depends_on:
+      - db
+      - redis
+    restart: unless-stopped
+
+  celery_worker:
+    build: .
+    command: celery -A config worker -l info
+    volumes:
+      - media_volume:/app/media
+    env_file:
+      - .env.prod
+    depends_on:
+      - web
+      - redis
+      - db
+    restart: unless-stopped
+
+  celery_beat:
+    build: .
+    command: celery -A config beat -l info
+    env_file:
+      - .env.prod
+    depends_on:
+      - celery_worker
+      - redis
+      - db
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:1.25-alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - static_volume:/app/staticfiles
+      - media_volume:/app/media
+    depends_on:
+      - web
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  redis_data:
+  static_volume:
+  media_volume:

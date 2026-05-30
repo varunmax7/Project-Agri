@@ -20,7 +20,6 @@ DJANGO_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.gis',
 ]
 
 THIRD_PARTY_APPS = [
@@ -28,10 +27,13 @@ THIRD_PARTY_APPS = [
     'rest_framework_simplejwt',
     'corsheaders',
     'django_extensions',
+    'drf_spectacular',
+    'django_celery_beat',
 ]
 
 LOCAL_APPS = [
     'apps.accounts',
+    'apps.core',
     'apps.farms',
     'apps.cropdata',
     'apps.climate',
@@ -68,6 +70,9 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'builtins': [
+                'apps.core.templatetags.floodguard_tags',
+            ],
         },
     },
 ]
@@ -76,9 +81,8 @@ WSGI_APPLICATION = 'config.wsgi.application'
 ASGI_APPLICATION = 'config.asgi.application'
 
 DATABASES = {
-    'default': env.db('DATABASE_URL')
+    'default': env.db('DATABASE_URL', default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}")
 }
-DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'
 
 if env('GDAL_LIBRARY_PATH', default=None):
     GDAL_LIBRARY_PATH = env('GDAL_LIBRARY_PATH')
@@ -93,6 +97,10 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 AUTH_USER_MODEL = 'accounts.User'
+
+LOGIN_URL = '/auth/login/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/auth/login/'
 
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'Asia/Kolkata'
@@ -118,6 +126,29 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 20,
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'FloodGuard Agri Intelligence API',
+    'DESCRIPTION': (
+        'Climate intelligence platform helping farmers make long-term crop, '
+        'water, and investment decisions. API-first design serving web dashboard '
+        'and future mobile clients.'
+    ),
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    'COMPONENT_SPLIT_REQUEST': True,
+    'TAGS': [
+        {'name': 'auth', 'description': 'Authentication & registration'},
+        {'name': 'farms', 'description': 'Farm and field management'},
+        {'name': 'dashboard', 'description': 'Aggregated dashboard data'},
+        {'name': 'cropdata', 'description': 'Crop catalogue, calendars, best practices'},
+        {'name': 'climate', 'description': 'Climate indices, risk zones, projections'},
+        {'name': 'advisory', 'description': 'Crop suitability, water balance, irrigation'},
+        {'name': 'alerts', 'description': 'Alerts and notifications'},
+        {'name': 'reports', 'description': 'PDF report generation'},
+    ],
 }
 
 from datetime import timedelta
@@ -133,5 +164,17 @@ CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = TIME_ZONE
+
+from celery.schedules import crontab
+CELERY_BEAT_SCHEDULE = {
+    'generate-alerts-every-minute': {
+        'task': 'apps.core.tasks.generate_alerts_task',
+        'schedule': crontab(minute='*'),  # Every minute for demo purposes
+    },
+    'refresh-climate-data-daily': {
+        'task': 'apps.core.tasks.refresh_climate_data_task',
+        'schedule': crontab(hour=2, minute=0),  # 2:00 AM daily
+    },
+}
 
 CORS_ALLOWED_ORIGINS = env.list('CORS_ALLOWED_ORIGINS', default=[])

@@ -1,0 +1,215 @@
+{% extends 'base.html' %}
+{% load floodguard_tags %}
+
+{% block content %}
+
+<div x-data="myFarmData()" x-init="initData({{ current_farm.id|default:0 }})">
+
+<!-- Loading State -->
+<div x-show="loading" class="flex items-center justify-center h-64">
+  <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
+  <span class="ml-2 text-gray-500">Loading farm details...</span>
+</div>
+
+<div x-show="!loading" x-cloak>
+  <!-- ── Farm Header ────────────────────────────────────────────── -->
+  <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 mb-6">
+    <div class="flex flex-col sm:flex-row sm:items-center gap-4">
+      <div class="flex items-center justify-center w-14 h-14 rounded-2xl bg-primary-50 text-primary-600 shrink-0">
+        <svg class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/>
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 21V12h6v9"/>
+        </svg>
+      </div>
+      <div class="flex-1 min-w-0">
+        <h2 class="text-xl font-bold text-gray-900" x-text="data?.farm?.name || 'My Farm'"></h2>
+        <p class="text-sm text-gray-500 mt-0.5" x-text="`${data?.farm?.village || ''}, ${data?.farm?.district || ''}, ${data?.farm?.state || ''}`"></p>
+      </div>
+      <div class="flex flex-wrap gap-3 shrink-0">
+        <div class="text-center px-4 py-2 bg-gray-50 rounded-xl">
+          <p class="text-lg font-bold text-gray-900" x-text="data?.farm?.area_acres || '--'"></p>
+          <p class="text-[10px] text-gray-400 mt-0.5">Acres</p>
+        </div>
+        <div class="text-center px-4 py-2 bg-gray-50 rounded-xl">
+          <p class="text-lg font-bold text-gray-900 capitalize" x-text="data?.farm?.soil_type || '--'"></p>
+          <p class="text-[10px] text-gray-400 mt-0.5">Soil Type</p>
+        </div>
+        <div class="text-center px-4 py-2 bg-gray-50 rounded-xl">
+          <p class="text-lg font-bold text-gray-900 capitalize" x-text="data?.farm?.irrigation_source || '--'"></p>
+          <p class="text-[10px] text-gray-400 mt-0.5">Irrigation</p>
+        </div>
+        <div class="text-center px-4 py-2 bg-gray-50 rounded-xl">
+          <p class="text-lg font-bold text-gray-900"><span x-text="data?.farm?.elevation || '--'"></span> m</p>
+          <p class="text-[10px] text-gray-400 mt-0.5">Elevation</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Tabs ───────────────────────────────────────────────────── -->
+  <div x-data="{ tab: 'overview' }">
+    <div class="border-b border-gray-200 mb-6">
+      <nav class="-mb-px flex gap-6 overflow-x-auto">
+        {% for t in "overview,field_summary,soil_water,irrigation,activity"|split:"," %}
+        <button @click="tab = '{{ t }}'"
+                :class="tab === '{{ t }}' ? 'border-primary-600 text-primary-700 font-semibold' : 'border-transparent text-gray-500 hover:text-gray-700'"
+                class="whitespace-nowrap pb-3 pt-1 border-b-2 text-sm transition-colors shrink-0">
+          {% if t == 'overview' %}Overview{% elif t == 'field_summary' %}Field Summary{% elif t == 'soil_water' %}Soil & Water{% elif t == 'irrigation' %}Irrigation Plan{% else %}Activity Log{% endif %}
+        </button>
+        {% endfor %}
+      </nav>
+    </div>
+
+    <!-- Overview Tab -->
+    <div x-show="tab === 'overview'">
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+        {% include 'components/metric_card.html' with label="NDVI" alpine_value="data?.latest_vegetation?.ndvi" unit="" color="green" icon_path="M12 3c0 9 6 12 6 12H6S12 12 12 3z" %}
+        {% include 'components/metric_card.html' with label="Soil Moisture" alpine_value="data?.latest_vegetation?.soil_moisture" unit="%" color="blue" icon_path="M12 2c0 0-8 7.58-8 13a8 8 0 0016 0C20 9.58 12 2 12 2z" %}
+        {% include 'components/metric_card.html' with label="Land Surface Temp" alpine_value="data?.latest_vegetation?.lst" unit="°C" color="amber" icon_path="M12 3v1m0 16v1m8.66-10h-1M4.34 12h-1" %}
+      </div>
+      
+      <div x-show="!data?.latest_vegetation">
+        {% include 'components/empty_state.html' with title="Vegetation data loads with seed data" description="Run seed_demo_data to populate NDVI, LAI, soil moisture and stress assessments for this farm." %}
+      </div>
+    </div>
+
+    <!-- Field Summary -->
+    <div x-show="tab === 'field_summary'" x-cloak>
+      <div x-show="data?.farm?.fields?.length > 0" class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+        <table class="min-w-full text-sm">
+          <thead>
+            <tr class="bg-gray-50 text-gray-500 uppercase tracking-wide text-[10px]">
+              <th class="px-5 py-3 text-left font-medium">Field Name</th>
+              <th class="px-5 py-3 text-left font-medium">Area (Acres)</th>
+              <th class="px-5 py-3 text-left font-medium">Current Crop</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-50">
+            <template x-for="field in data?.farm?.fields" :key="field.id">
+              <tr class="hover:bg-gray-50">
+                <td class="px-5 py-3 font-medium text-gray-900" x-text="field.name"></td>
+                <td class="px-5 py-3 text-gray-600" x-text="field.area"></td>
+                <td class="px-5 py-3 text-gray-600" x-text="field.current_crop_name ? `${field.current_crop_name} ${field.current_crop_icon || ''}` : 'Fallow'"></td>
+              </tr>
+            </template>
+          </tbody>
+        </table>
+      </div>
+      
+      <div x-show="!data?.farm?.fields?.length">
+        {% include 'components/empty_state.html' with title="No fields added yet" description="Fields will appear here once the farm is seeded with demo data." icon_path="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" %}
+      </div>
+    </div>
+
+    <!-- Soil & Water -->
+    <div x-show="tab === 'soil_water'" x-cloak>
+      <div x-show="data?.stress_assessment">
+        <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-5 mb-4">
+          <h3 class="text-sm font-semibold text-gray-900 mb-4">Current Stress Assessment</h3>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div>
+              <p class="text-[10px] text-gray-400 uppercase tracking-wide">Vegetation</p>
+              <p class="text-sm font-medium mt-1" :class="getStressColor(data?.stress_assessment?.vegetation_stress)" x-text="data?.stress_assessment?.vegetation_stress || 'Unknown'"></p>
+            </div>
+            <div>
+              <p class="text-[10px] text-gray-400 uppercase tracking-wide">Water</p>
+              <p class="text-sm font-medium mt-1" :class="getStressColor(data?.stress_assessment?.water_stress)" x-text="data?.stress_assessment?.water_stress || 'Unknown'"></p>
+            </div>
+            <div>
+              <p class="text-[10px] text-gray-400 uppercase tracking-wide">Heat</p>
+              <p class="text-sm font-medium mt-1" :class="getStressColor(data?.stress_assessment?.heat_stress)" x-text="data?.stress_assessment?.heat_stress || 'Unknown'"></p>
+            </div>
+            <div>
+              <p class="text-[10px] text-gray-400 uppercase tracking-wide">Overall Climate</p>
+              <p class="text-sm font-medium mt-1" :class="getStressColor(data?.stress_assessment?.climate_stress)" x-text="data?.stress_assessment?.climate_stress || 'Unknown'"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div x-show="!data?.stress_assessment">
+        {% include 'components/empty_state.html' with title="Soil & water data not yet available" description="Stress assessments and water balance data will populate here from the API." icon_path="M12 2c0 0-8 7.58-8 13a8 8 0 0016 0C20 9.58 12 2 12 2z" %}
+      </div>
+    </div>
+
+    <!-- Irrigation Plan -->
+    <div x-show="tab === 'irrigation'" x-cloak>
+      <div x-show="data?.irrigation_advisory">
+        <div class="bg-primary-50 border border-primary-200 rounded-xl p-5 mb-4">
+          <div class="flex items-start gap-4">
+            <div class="flex items-center justify-center w-10 h-10 rounded-xl bg-primary-100 text-primary-700 shrink-0">
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 2c0 0-8 7.58-8 13a8 8 0 0016 0C20 9.58 12 2 12 2z"/></svg>
+            </div>
+            <div>
+              <p class="text-sm font-semibold text-primary-900">Next Irrigation Window</p>
+              <p class="text-lg font-bold text-primary-700 mt-0.5" x-text="`${data?.irrigation_advisory?.next_irrigation_date || ''} (${data?.irrigation_advisory?.recommended_amount_mm || 0}mm)`"></p>
+              <p class="text-xs text-primary-600 mt-1" x-text="data?.irrigation_advisory?.advisory_text || ''"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div x-show="!data?.irrigation_advisory">
+        {% include 'components/empty_state.html' with title="Full irrigation schedule loads with seed data" description="IrrigationAdvisory records will show full seasonal plan here." %}
+      </div>
+    </div>
+
+    <!-- Activity Log -->
+    <div x-show="tab === 'activity'" x-cloak>
+      <div x-show="data?.farm?.activity_logs?.length > 0" class="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
+        <div class="relative border-l border-gray-200 ml-3 space-y-6">
+          <template x-for="log in data?.farm?.activity_logs" :key="log.id">
+            <div class="relative pl-6">
+              <span class="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full bg-primary-500 ring-4 ring-white"></span>
+              <p class="text-xs text-gray-400 font-medium mb-0.5" x-text="log.date"></p>
+              <p class="text-sm font-semibold text-gray-900" x-text="log.activity"></p>
+              <p x-show="log.note" class="text-sm text-gray-600 mt-1" x-text="log.note"></p>
+            </div>
+          </template>
+        </div>
+      </div>
+      <div x-show="!data?.farm?.activity_logs?.length">
+        {% include 'components/empty_state.html' with title="No activity logs yet" description="Farm activity logs — sowing, fertilising, harvest — will appear here." icon_path="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" %}
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+function myFarmData() {
+    return {
+        data: null,
+        loading: true,
+        async initData(farmId) {
+            if (!farmId) {
+                this.loading = false;
+                return;
+            }
+            try {
+                const res = await fetch(`/api/v1/farms/${farmId}/dashboard/`);
+                if (res.ok) {
+                    const json = await res.json(); this.data = json.results || json;
+                } else {
+                    console.error("API error", await res.text());
+                }
+            } catch (err) {
+                console.error("Failed to load farm data", err);
+            } finally {
+                this.loading = false;
+            }
+        },
+        getStressColor(level) {
+            if (!level) return 'text-gray-500';
+            const val = level.toLowerCase();
+            if (val === 'low') return 'text-green-600';
+            if (val === 'moderate') return 'text-amber-600';
+            if (val === 'high') return 'text-orange-600';
+            if (val === 'severe' || val === 'very_high') return 'text-red-600';
+            return 'text-gray-500';
+        }
+    }
+}
+</script>
+{% endblock %}

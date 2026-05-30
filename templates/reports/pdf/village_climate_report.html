@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Climate Report</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 2cm;
+            @bottom-center {
+                content: "FloodGuard Agri Intelligence | Page " counter(page) " of " counter(pages);
+                font-size: 9pt;
+                color: #6b7280;
+                font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            }
+        }
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            color: #1f2937;
+            line-height: 1.5;
+            margin: 0;
+            padding: 0;
+            font-size: 11pt;
+        }
+        .header {
+            border-bottom: 2px solid #047857;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            color: #047857;
+            margin: 0;
+            font-size: 24pt;
+            font-weight: 700;
+        }
+        .header p {
+            margin: 5px 0 0 0;
+            color: #6b7280;
+            font-size: 10pt;
+        }
+        .section-title {
+            color: #047857;
+            font-size: 16pt;
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 8px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        .grid-2 {
+            display: flex;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        .col {
+            flex: 1;
+            padding-right: 15px;
+        }
+        .label {
+            font-weight: bold;
+            color: #4b5563;
+            font-size: 10pt;
+        }
+        .value {
+            font-size: 12pt;
+            margin-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        th, td {
+            border: 1px solid #e5e7eb;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f9fafb;
+            color: #374151;
+            font-weight: 600;
+        }
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 9pt;
+            font-weight: bold;
+        }
+        .badge-low { background-color: #d1fae5; color: #065f46; }
+        .badge-medium { background-color: #fef3c7; color: #92400e; }
+        .badge-high { background-color: #fee2e2; color: #991b1b; }
+        
+        .progress-bar {
+            background-color: #e5e7eb;
+            border-radius: 4px;
+            height: 8px;
+            width: 100%;
+            margin-top: 5px;
+        }
+        .progress-fill {
+            background-color: #047857;
+            height: 100%;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Climate & Agriculture Report</h1>
+        <p>Prepared for: <strong>{{ farm.name|default:"Farm" }}</strong></p>
+        <p>Generated on: {{ generation_date|date:"F d, Y" }} | Report Type: {{ report.get_type_display }}</p>
+    </div>
+
+    <!-- Farm Profile -->
+    <h2 class="section-title">Farm Profile</h2>
+    <div class="grid-2">
+        <div class="col">
+            <div class="label">Location</div>
+            <div class="value">{{ farm.village }}, {{ farm.district }}</div>
+            <div class="label">Total Area</div>
+            <div class="value">{{ farm.total_area_hectares|default:"-" }} Hectares</div>
+        </div>
+        <div class="col">
+            <div class="label">Soil Type</div>
+            <div class="value">{{ farm.profile.get_soil_type_display|default:"-" }}</div>
+            <div class="label">Primary Irrigation Source</div>
+            <div class="value">{{ farm.profile.get_primary_irrigation_display|default:"-" }}</div>
+        </div>
+    </div>
+
+    <!-- Crop Suitability -->
+    <h2 class="section-title">Crop Suitability Ranking</h2>
+    {% if suitability_data %}
+    <table>
+        <thead>
+            <tr>
+                <th>Crop</th>
+                <th>Season (Year)</th>
+                <th>Suitability Score</th>
+                <th>Risk Level</th>
+                <th>Expected Yield Range (q/ha)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in suitability_data %}
+            <tr>
+                <td><strong>{{ item.crop.name }}</strong> {{ item.crop.icon }}</td>
+                <td>{{ item.season }} ({{ item.year }})</td>
+                <td>
+                    {{ item.suitability_pct }}%
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: {{ item.suitability_pct }}%;"></div>
+                    </div>
+                </td>
+                <td>
+                    {% if item.risk_level == 'low' %}
+                        <span class="badge badge-low">Low Risk</span>
+                    {% elif item.risk_level == 'medium' %}
+                        <span class="badge badge-medium">Medium Risk</span>
+                    {% else %}
+                        <span class="badge badge-high">High Risk</span>
+                    {% endif %}
+                </td>
+                <td>{{ item.expected_yield_min }} - {{ item.expected_yield_max }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No crop suitability data available for this farm.</p>
+    {% endif %}
+
+    <!-- Water Balance Outlook -->
+    <h2 class="section-title">Water Balance Outlook</h2>
+    {% if water_data %}
+    <table>
+        <thead>
+            <tr>
+                <th>Month</th>
+                <th>Requirement (mm)</th>
+                <th>Availability (mm)</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for water in water_data %}
+            <tr>
+                <td>{{ water.month|date:"F Y" }}</td>
+                <td>{{ water.requirement_mm }}</td>
+                <td>{{ water.availability_mm }}</td>
+                <td>
+                    {% if water.availability_mm >= water.requirement_mm %}
+                        <span style="color: #047857; font-weight: bold;">Surplus</span>
+                    {% else %}
+                        <span style="color: #dc2626; font-weight: bold;">Deficit</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No water balance projections available for this farm.</p>
+    {% endif %}
+
+    <!-- Strategic Interventions -->
+    <h2 class="section-title">Strategic Interventions & Recommendations</h2>
+    <p>Based on the climate modeling for your region, the following structural adjustments are recommended to mitigate long-term climate risks:</p>
+    <ul>
+        <li><strong>Irrigation Infrastructure:</strong> Given potential water deficits in critical growth phases, investment in drip or micro-sprinkler systems is highly advised to optimize water use efficiency by up to 40%.</li>
+        <li><strong>Crop Transition:</strong> If Paddy suitability declines below 50% in future SSP scenarios, consider phasing into drought-resistant cash crops such as Millets or specialized Pulses.</li>
+        <li><strong>Soil Moisture Retention:</strong> Increase organic carbon content through mulching and cover cropping to improve the soil's natural water retention capacity during dry spells.</li>
+    </ul>
+
+</body>
+</html>

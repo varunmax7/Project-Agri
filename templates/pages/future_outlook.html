@@ -1,0 +1,328 @@
+{% extends 'base.html' %}
+{% load floodguard_tags %}
+
+{% block content %}
+
+<div x-data="outlookData()" x-init="initData({{ current_farm.id|default:0 }})">
+
+<!-- Scenario selector + header -->
+<div class="flex flex-col sm:flex-row sm:items-center gap-4 mb-6">
+  <div class="flex-1">
+    <p class="text-xs text-gray-400 mb-1">Climate Scenario</p>
+    <div class="flex gap-2">
+      <template x-for="s in ['ssp245','ssp370','ssp585']" :key="s">
+        <button @click="changeScenario(s)"
+                :class="scenario === s ? 'bg-primary-600 text-white border-primary-600' : 'bg-white text-gray-600 border-gray-200 hover:border-primary-400'"
+                class="px-3 py-1.5 text-xs font-semibold border rounded-lg transition-colors"
+                x-text="getScenarioName(s)">
+        </button>
+      </template>
+    </div>
+  </div>
+  <div class="flex gap-3 shrink-0">
+    <template x-for="yr in ['2030','2035','2040']" :key="yr">
+      <div class="text-center px-4 py-2 bg-white border border-gray-100 shadow-sm rounded-xl">
+        <p class="text-xs font-bold text-gray-900" x-text="yr"></p>
+        <p class="text-[10px] text-gray-400">Decade</p>
+      </div>
+    </template>
+  </div>
+</div>
+
+<!-- Loading State -->
+<div x-show="loading" class="flex items-center justify-center h-64">
+  <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
+  <span class="ml-2 text-gray-500">Loading scenario projections...</span>
+</div>
+
+<!-- Tabs -->
+<div x-show="!loading" x-cloak class="bg-white rounded-xl border border-gray-100 shadow-sm p-5" x-data="{ tab: 'climate' }">
+  <div class="border-b border-gray-200 mb-5">
+    <nav class="-mb-px flex gap-6 overflow-x-auto">
+      {% for t in "climate,suitability,water,risk"|split:"," %}
+      <button @click="tab = '{{ t }}'"
+              :class="tab === '{{ t }}' ? 'border-primary-600 text-primary-700 font-semibold' : 'border-transparent text-gray-500 hover:text-gray-700'"
+              class="whitespace-nowrap pb-3 pt-1 border-b-2 text-sm transition-colors shrink-0">
+        {% if t == 'climate' %}Climate Outlook{% elif t == 'suitability' %}Crop Suitability Trend{% elif t == 'water' %}Water Outlook{% else %}Risk Outlook{% endif %}
+      </button>
+      {% endfor %}
+    </nav>
+  </div>
+
+  <!-- Climate Outlook tab -->
+  <div x-show="tab === 'climate'">
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+      <template x-for="proj in (data?.future_outlook?.climate_projections || [])" :key="proj.id">
+        <div class="bg-gray-50 rounded-xl p-4">
+          <p class="text-xs font-semibold text-gray-500 mb-3"><span x-text="proj.decade"></span> Projection</p>
+          <div class="space-y-2">
+            <div class="flex justify-between text-xs">
+              <span class="text-gray-600">Rainfall change</span>
+              <span class="font-semibold" :class="proj.rainfall_change_pct < 0 ? 'text-red-600' : 'text-green-600'" x-text="`${proj.rainfall_change_pct > 0 ? '+' : ''}${proj.rainfall_change_pct}%`"></span>
+            </div>
+            <div class="flex justify-between text-xs">
+              <span class="text-gray-600">Heat stress index</span>
+              <span class="font-semibold text-orange-600" x-text="proj.heat_stress_index"></span>
+            </div>
+            <div class="flex justify-between text-xs">
+              <span class="text-gray-600">Dry days change</span>
+              <span class="font-semibold text-amber-600" x-text="`${proj.dry_days_change > 0 ? '+' : ''}${proj.dry_days_change} days`"></span>
+            </div>
+            <div class="flex justify-between text-xs">
+              <span class="text-gray-600">Resilience impact</span>
+              <span class="inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium"
+                    :class="getResilienceBadgeClass(proj.heat_stress_index)"
+                    x-text="getResilienceLabel(proj.heat_stress_index)"></span>
+            </div>
+          </div>
+        </div>
+      </template>
+      <div x-show="!data?.future_outlook?.climate_projections?.length" class="col-span-3">
+        <p class="text-sm text-gray-500 text-center py-4">No climate projections available for this scenario.</p>
+      </div>
+    </div>
+    <canvas id="climateOutlookChart" class="max-h-56"></canvas>
+  </div>
+
+  <!-- Crop Suitability Trend tab -->
+  <div x-show="tab === 'suitability'" x-cloak>
+    <div class="mb-4">
+      <canvas id="suitabilityTrendChart" class="max-h-64"></canvas>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+      <template x-for="decade in ['2030','2035','2040']" :key="decade">
+        <div class="bg-gray-50 rounded-xl p-3">
+          <p class="text-xs font-semibold text-gray-500 mb-2" x-text="decade"></p>
+          <template x-for="trend in getTrendsForDecade(decade)" :key="trend.id">
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-xs text-gray-700" x-text="trend.crop_name"></span>
+              <div class="flex items-center gap-1.5">
+                <div class="w-12 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                  <div class="h-full bg-primary-500 rounded-full" :style="`width:${trend.suitability_pct}%`"></div>
+                </div>
+                <span class="text-[10px] font-medium text-gray-600" x-text="`${trend.suitability_pct}%`"></span>
+              </div>
+            </div>
+          </template>
+          <div x-show="getTrendsForDecade(decade).length === 0" class="text-[10px] text-gray-400">No trend data</div>
+        </div>
+      </template>
+    </div>
+  </div>
+
+  <!-- Water Outlook tab -->
+  <div x-show="tab === 'water'" x-cloak>
+    <canvas id="waterOutlookChart" class="max-h-64"></canvas>
+    <div class="mt-4 p-4 bg-amber-50 border border-amber-100 rounded-xl" x-show="data?.future_outlook?.climate_projections?.length > 0">
+      <p class="text-sm font-semibold text-amber-800">Key Insight</p>
+      <p class="text-xs text-amber-700 mt-1">
+        Water availability trend (<span x-text="getInsightData().avail"></span>) vs stress trend (<span x-text="getInsightData().stress"></span>) 
+        by <span x-text="getInsightData().decade"></span> under <span x-text="getScenarioName(scenario)"></span>. 
+        Consider transitioning to drought-tolerant varieties for crops with declining suitability.
+      </p>
+    </div>
+  </div>
+
+  <!-- Risk Outlook tab -->
+  <div x-show="tab === 'risk'" x-cloak>
+    {% include 'components/empty_state.html' with title="Risk outlook loads with seed data" description="ClimateProjection + CropSuitabilityTrend records will drive this view." icon_path="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" %}
+  </div>
+</div>
+
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const decadesLabels = ['2025 (Now)', '2030', '2035', '2040'];
+const chartOpts = {
+  responsive: true, maintainAspectRatio: true,
+  plugins: { legend: { position: 'top', labels: { font: { size: 11 }, boxWidth: 12 } } },
+  scales: { x: { grid: { display: false } }, y: { grid: { color: '#f3f4f6' } } }
+};
+
+function outlookData() {
+    return {
+        data: null,
+        loading: true,
+        farmId: null,
+        scenario: 'ssp245',
+        cChartInstance: null,
+        sChartInstance: null,
+        wChartInstance: null,
+        
+        async initData(id) {
+            this.farmId = id;
+            if (!this.farmId) {
+                this.loading = false;
+                return;
+            }
+            await this.fetchData();
+        },
+        
+        async changeScenario(s) {
+            this.scenario = s;
+            await this.fetchData();
+        },
+        
+        async fetchData() {
+            this.loading = true;
+            try {
+                const res = await fetch(`/api/v1/farms/${this.farmId}/dashboard/?scenario=${this.scenario}`);
+                if (res.ok) {
+                    const json = await res.json(); this.data = json.results || json;
+                    
+                    this.$nextTick(() => {
+                        this.renderCharts();
+                    });
+                }
+            } catch (err) {
+                console.error("Failed to load future outlook data", err);
+            } finally {
+                this.loading = false;
+            }
+        },
+        
+        getScenarioName(s) {
+            if (s === 'ssp245') return 'SSP2-4.5';
+            if (s === 'ssp370') return 'SSP3-7.0';
+            if (s === 'ssp585') return 'SSP5-8.5';
+            return s;
+        },
+        
+        getResilienceBadgeClass(heatStress) {
+            if (!heatStress) return 'bg-gray-100 text-gray-800';
+            if (heatStress < 5) return 'bg-green-100 text-green-800';
+            if (heatStress < 8) return 'bg-amber-100 text-amber-800';
+            return 'bg-red-100 text-red-800';
+        },
+        
+        getResilienceLabel(heatStress) {
+            if (!heatStress) return 'Unknown';
+            if (heatStress < 5) return 'High';
+            if (heatStress < 8) return 'Moderate';
+            return 'Low';
+        },
+        
+        getTrendsForDecade(decade) {
+            if (!this.data?.future_outlook?.suitability_trends) return [];
+            return this.data.future_outlook.suitability_trends.filter(t => parseInt(t.year) === parseInt(decade));
+        },
+        
+        getInsightData() {
+            if (!this.data?.future_outlook?.climate_projections?.length) return { avail: '--', stress: '--', decade: '2040' };
+            const proj = this.data.future_outlook.climate_projections[this.data.future_outlook.climate_projections.length - 1];
+            return {
+                avail: `${proj.soil_moisture_trend > 0 ? '+' : ''}${proj.soil_moisture_trend}`,
+                stress: `${proj.water_stress_trend > 0 ? '+' : ''}${proj.water_stress_trend}`,
+                decade: proj.decade
+            };
+        },
+        
+        renderCharts() {
+            if (!this.data?.future_outlook) return;
+            const projs = this.data.future_outlook.climate_projections || [];
+            
+            // Map data to [2025, 2030, 2035, 2040]
+            // We'll use dummy 0/current data for 2025 as starting point
+            const rainData = [0];
+            const heatData = [this.data.climate_indices?.heat_stress_score || 0];
+            const availData = [100]; // baseline
+            const reqData = [100]; // baseline
+            
+            for (let dec of [2030, 2035, 2040]) {
+                const p = projs.find(x => x.decade === dec);
+                if (p) {
+                    rainData.push(parseFloat(p.rainfall_change_pct));
+                    heatData.push(parseFloat(p.heat_stress_index));
+                    availData.push(100 + parseFloat(p.soil_moisture_trend));
+                    reqData.push(100 + parseFloat(p.water_stress_trend));
+                } else {
+                    rainData.push(null);
+                    heatData.push(null);
+                    availData.push(null);
+                    reqData.push(null);
+                }
+            }
+            
+            // Render Climate Chart
+            if (this.cChartInstance) this.cChartInstance.destroy();
+            const cCtx = document.getElementById('climateOutlookChart');
+            if (cCtx) {
+                this.cChartInstance = new Chart(cCtx, {
+                  type: 'line',
+                  data: {
+                    labels: decadesLabels,
+                    datasets: [
+                      { label: 'Rainfall Change %', data: rainData, borderColor: '#60a5fa', tension: 0.4, fill: false },
+                      { label: 'Heat Stress Index', data: heatData, borderColor: '#f97316', tension: 0.4, fill: false },
+                    ]
+                  },
+                  options: chartOpts
+                });
+            }
+            
+            // Render Water Outlook Chart
+            if (this.wChartInstance) this.wChartInstance.destroy();
+            const wCtx = document.getElementById('waterOutlookChart');
+            if (wCtx) {
+                this.wChartInstance = new Chart(wCtx, {
+                  type: 'bar',
+                  data: {
+                    labels: decadesLabels,
+                    datasets: [
+                      { label: 'Water Availability (relative trend)', data: availData, backgroundColor: 'rgba(56,189,248,0.7)', borderRadius: 4 },
+                      { label: 'Water Requirement (relative trend)', data: reqData, backgroundColor: 'rgba(249,115,22,0.7)', borderRadius: 4 },
+                    ]
+                  },
+                  options: chartOpts
+                });
+            }
+            
+            // Render Crop Suitability Chart
+            const trends = this.data.future_outlook.suitability_trends || [];
+            // Group by crop
+            const cropMap = {};
+            trends.forEach(t => {
+                if (!cropMap[t.crop_name]) {
+                    cropMap[t.crop_name] = { 2030: null, 2035: null, 2040: null };
+                }
+                cropMap[t.crop_name][t.year] = parseFloat(t.suitability_pct);
+            });
+            
+            const suitDatasets = [];
+            const colors = ['#22c55e', '#f59e0b', '#f97316', '#3b82f6'];
+            let colorIdx = 0;
+            
+            // Try to find current suitability from recommended crops
+            const currentRec = this.data.recommended_crops || [];
+            
+            Object.keys(cropMap).forEach(crop => {
+                const current = currentRec.find(c => c.crop_detail?.name === crop)?.suitability_pct || 90; // Default if not found
+                suitDatasets.push({
+                    label: crop,
+                    data: [parseFloat(current), cropMap[crop][2030], cropMap[crop][2035], cropMap[crop][2040]],
+                    borderColor: colors[colorIdx % colors.length],
+                    tension: 0.4, fill: false
+                });
+                colorIdx++;
+            });
+            
+            if (this.sChartInstance) this.sChartInstance.destroy();
+            const sCtx = document.getElementById('suitabilityTrendChart');
+            if (sCtx) {
+                this.sChartInstance = new Chart(sCtx, {
+                  type: 'line',
+                  data: {
+                    labels: decadesLabels,
+                    datasets: suitDatasets
+                  },
+                  options: { ...chartOpts, scales: { ...chartOpts.scales, y: { ...chartOpts.scales.y, min: 40, max: 100, title: { display: true, text: 'Suitability %', font: { size: 10 }, color: '#9ca3af' } } } }
+                });
+            }
+        }
+    }
+}
+</script>
+{% endblock %}

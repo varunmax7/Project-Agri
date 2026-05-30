@@ -1,4 +1,5 @@
 from django.contrib import admin
+
 from .models import LocationClimateIndex, ClimateRiskZone, VegetationObservation, StressAssessment, ClimateProjection
 
 @admin.register(LocationClimateIndex)

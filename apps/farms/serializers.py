@@ -1,7 +1,19 @@
 from rest_framework import serializers
-from django.contrib.gis.geos import Point
-from .models import Farm
+from .models import Farm, Field, ActivityLog
 from apps.cropdata.models import Crop
+
+class FieldSerializer(serializers.ModelSerializer):
+    current_crop_name = serializers.CharField(source='current_crop.name', read_only=True)
+    current_crop_icon = serializers.CharField(source='current_crop.icon', read_only=True)
+
+    class Meta:
+        model = Field
+        fields = ['id', 'name', 'area', 'current_crop', 'current_crop_name', 'current_crop_icon']
+
+class ActivityLogSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ActivityLog
+        fields = ['id', 'activity', 'date', 'note', 'created_at']
 
 class FarmSerializer(serializers.ModelSerializer):
     latitude = serializers.FloatField(write_only=True)
@@ -15,6 +27,9 @@ class FarmSerializer(serializers.ModelSerializer):
         source='primary_crops',
         required=False
     )
+    
+    fields = FieldSerializer(many=True, read_only=True)
+    activity_logs = ActivityLogSerializer(many=True, read_only=True)
 
     class Meta:
         model = Farm
@@ -22,20 +37,19 @@ class FarmSerializer(serializers.ModelSerializer):
             'id', 'name', 'village', 'district', 'state', 
             'latitude', 'longitude', 'location_coordinates', 
             'area_acres', 'soil_type', 'irrigation_source', 'elevation', 
-            'primary_crop_ids'
+            'primary_crop_ids', 'fields', 'activity_logs'
         ]
 
     def get_location_coordinates(self, obj):
-        if obj.location:
-            # point.x is longitude, point.y is latitude
-            return {"latitude": obj.location.y, "longitude": obj.location.x}
+        if obj.location and isinstance(obj.location, dict) and 'coordinates' in obj.location:
+            lng, lat = obj.location['coordinates']
+            return {"latitude": lat, "longitude": lng}
         return None
 
     def create(self, validated_data):
         lat = validated_data.pop('latitude')
         lng = validated_data.pop('longitude')
-        # Create Point object (longitude, latitude)
-        validated_data['location'] = Point(lng, lat, srid=4326)
+        validated_data['location'] = {"type": "Point", "coordinates": [lng, lat]}
         
         # User is injected from context in the view
         validated_data['user'] = self.context['request'].user
@@ -52,7 +66,7 @@ class FarmSerializer(serializers.ModelSerializer):
         if 'latitude' in validated_data and 'longitude' in validated_data:
             lat = validated_data.pop('latitude')
             lng = validated_data.pop('longitude')
-            instance.location = Point(lng, lat, srid=4326)
+            instance.location = {"type": "Point", "coordinates": [lng, lat]}
         
         primary_crops = validated_data.pop('primary_crops', None)
         if primary_crops is not None:

@@ -1,0 +1,25 @@
+{% comment %}
+Risk/status badge.
+Variables:
+  text       — badge label
+  level      — "low" | "moderate" | "high" | "very_high" | "medium"
+  size       — "sm" (default) | "lg"
+{% endcomment %}
+{% with sz=size|default:"sm" %}
+<span class="inline-flex items-center font-semibold rounded-full
+  {% if sz == 'lg' %}px-3 py-1 text-xs{% else %}px-2 py-0.5 text-[10px]{% endif %}
+  {% if level == 'low' or level == 'good' %}bg-primary-50 text-primary-700 ring-1 ring-primary-200
+  {% elif level == 'moderate' or level == 'medium' %}bg-amber-50 text-amber-700 ring-1 ring-amber-200
+  {% elif level == 'high' %}bg-orange-50 text-orange-700 ring-1 ring-orange-200
+  {% elif level == 'very_high' or level == 'critical' %}bg-red-50 text-red-700 ring-1 ring-red-200
+  {% else %}bg-gray-100 text-gray-600 ring-1 ring-gray-200{% endif %}">
+  <!-- Dot -->
+  <span class="mr-1 w-1.5 h-1.5 rounded-full inline-block
+    {% if level == 'low' or level == 'good' %}bg-primary-500
+    {% elif level == 'moderate' or level == 'medium' %}bg-amber-500
+    {% elif level == 'high' %}bg-orange-500
+    {% elif level == 'very_high' or level == 'critical' %}bg-red-500
+    {% else %}bg-gray-400{% endif %}"></span>
+  {{ text }}
+</span>
+{% endwith %}

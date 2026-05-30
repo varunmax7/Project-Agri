@@ -1,0 +1,189 @@
+{% extends 'base.html' %}
+{% load floodguard_tags %}
+
+{% block content %}
+<div x-data="alertsData()" x-init="initData({{ current_farm.id|default:0 }})">
+
+<!-- Summary strip -->
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+  <div @click="tab = 'all'" class="bg-white rounded-xl border border-gray-100 shadow-sm px-5 py-3.5 flex items-center gap-3 cursor-pointer hover:shadow-md transition-shadow">
+    <span class="text-2xl font-bold text-gray-900" x-text="alerts.length"></span>
+    <div>
+      <p class="text-xs font-semibold text-gray-600">All Alerts</p>
+      <p class="text-[10px] text-gray-400">active</p>
+    </div>
+  </div>
+  <div @click="tab = 'weather'" class="bg-white rounded-xl border border-gray-100 shadow-sm px-5 py-3.5 flex items-center gap-3 cursor-pointer hover:shadow-md transition-shadow">
+    <span class="text-2xl font-bold text-gray-900" x-text="alerts.filter(a => a.category === 'weather').length"></span>
+    <div>
+      <p class="text-xs font-semibold text-gray-600">Weather</p>
+      <p class="text-[10px] text-gray-400">active</p>
+    </div>
+  </div>
+  <div @click="tab = 'crop'" class="bg-white rounded-xl border border-gray-100 shadow-sm px-5 py-3.5 flex items-center gap-3 cursor-pointer hover:shadow-md transition-shadow">
+    <span class="text-2xl font-bold text-gray-900" x-text="alerts.filter(a => a.category === 'crop').length"></span>
+    <div>
+      <p class="text-xs font-semibold text-gray-600">Crop</p>
+      <p class="text-[10px] text-gray-400">active</p>
+    </div>
+  </div>
+  <div @click="tab = 'strategic'" class="bg-white rounded-xl border border-gray-100 shadow-sm px-5 py-3.5 flex items-center gap-3 cursor-pointer hover:shadow-md transition-shadow">
+    <span class="text-2xl font-bold text-gray-900" x-text="alerts.filter(a => a.category === 'strategic').length"></span>
+    <div>
+      <p class="text-xs font-semibold text-gray-600">Strategic</p>
+      <p class="text-[10px] text-gray-400">active</p>
+    </div>
+  </div>
+</div>
+
+<!-- Tab bar + alert list -->
+<div class="bg-white rounded-xl border border-gray-100 shadow-sm">
+
+  <div class="flex items-center justify-between px-5 py-3.5 border-b border-gray-100">
+    <nav class="flex gap-5">
+      <template x-for="t in ['all', 'weather', 'crop', 'advisory', 'strategic']">
+        <button @click="tab = t"
+                :class="tab === t ? 'text-primary-700 font-semibold border-b-2 border-primary-600' : 'text-gray-500 hover:text-gray-700'"
+                class="pb-1 text-sm transition-colors capitalize" x-text="t === 'all' ? 'All' : t">
+        </button>
+      </template>
+    </nav>
+    <button @click="markAllRead()" class="text-xs text-primary-600 hover:text-primary-700 font-medium">Mark all read</button>
+  </div>
+
+  <div class="divide-y divide-gray-50">
+    
+    <div x-show="loading" class="p-8 text-center text-gray-500">
+      <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-primary-600 mx-auto mb-2"></div>
+      Loading alerts...
+    </div>
+
+    <template x-for="alert in filteredAlerts" :key="alert.id">
+      <div class="flex gap-4 px-5 py-4 hover:bg-gray-50 transition-colors" :class="alert.is_read ? 'opacity-50 bg-gray-50/50' : 'bg-white'">
+        <!-- Severity indicator -->
+        <div class="flex flex-col items-center pt-1">
+          <span class="w-2 h-2 rounded-full shrink-0 mt-1"
+                :class="{'bg-red-500': alert.severity === 'high', 'bg-amber-400': alert.severity === 'medium', 'bg-primary-500': alert.severity === 'low'}"></span>
+        </div>
+        <!-- Content -->
+        <div class="flex-1 min-w-0">
+          <div class="flex items-start justify-between gap-2">
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-bold"
+                    :class="{'bg-red-50 text-red-700 border border-red-200': alert.severity === 'high', 'bg-amber-50 text-amber-700 border border-amber-200': alert.severity === 'medium', 'bg-sky-50 text-sky-700 border border-sky-200': alert.severity === 'low'}"
+                    x-text="alert.severity.charAt(0).toUpperCase() + alert.severity.slice(1)">
+              </span>
+              <span class="text-[10px] uppercase tracking-wide font-semibold text-gray-500" x-text="alert.category"></span>
+            </div>
+            <span class="text-[10px] font-medium text-gray-400 shrink-0" x-text="timeAgo(alert.created_at)"></span>
+          </div>
+          <p class="mt-1.5 text-sm font-semibold text-gray-900" :class="alert.is_read ? 'text-gray-600' : 'text-gray-900'" x-text="alert.title"></p>
+          <p class="mt-0.5 text-xs text-gray-600 line-clamp-2" :class="alert.is_read ? 'text-gray-400' : 'text-gray-600'" x-text="alert.message"></p>
+        </div>
+        <!-- Read toggle -->
+        <button @click="markRead(alert)" 
+                class="shrink-0 text-gray-300 hover:text-primary-500 transition-colors mt-1" 
+                :class="alert.is_read ? 'text-primary-400' : ''"
+                title="Mark as read">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+          </svg>
+        </button>
+      </div>
+    </template>
+    
+    <div x-show="!loading && filteredAlerts.length === 0" class="p-8 text-center text-sm text-gray-500">
+      No alerts found in this category.
+    </div>
+
+  </div>
+</div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+function alertsData() {
+    return {
+        loading: true,
+        farmId: null,
+        alerts: [],
+        tab: 'all',
+        
+        get filteredAlerts() {
+            if (this.tab === 'all') return this.alerts;
+            return this.alerts.filter(a => a.category === this.tab);
+        },
+        
+        async initData(farmId) {
+            this.farmId = farmId;
+            if (!this.farmId) {
+                this.loading = false;
+                return;
+            }
+            try {
+                const res = await fetch(`/api/v1/alerts/?farm=${this.farmId}`);
+                if (res.ok) {
+                    const json = await res.json();
+                    this.alerts = json.results || json;
+                }
+            } catch (e) {
+                console.error(e);
+            } finally {
+                this.loading = false;
+            }
+        },
+        
+        async markRead(alert) {
+            if (alert.is_read) return;
+            const csrf = document.cookie.match(/csrftoken=([^;]+)/)?.[1] || '';
+            try {
+                const res = await fetch(`/api/v1/alerts/${alert.id}/`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrf
+                    },
+                    body: JSON.stringify({ is_read: true })
+                });
+                if (res.ok) {
+                    alert.is_read = true;
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        },
+        
+        async markAllRead() {
+            if (!this.farmId) return;
+            const csrf = document.cookie.match(/csrftoken=([^;]+)/)?.[1] || '';
+            try {
+                const res = await fetch(`/api/v1/alerts/mark-all-read/?farm=${this.farmId}`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': csrf
+                    }
+                });
+                if (res.ok) {
+                    this.alerts.forEach(a => a.is_read = true);
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        },
+        
+        timeAgo(dateString) {
+            const date = new Date(dateString);
+            const now = new Date();
+            const diffMs = now - date;
+            const diffMins = Math.round(diffMs / 60000);
+            if (diffMins < 60) return `${diffMins}m ago`;
+            const diffHrs = Math.floor(diffMins / 60);
+            if (diffHrs < 24) return `${diffHrs}h ago`;
+            const diffDays = Math.floor(diffHrs / 24);
+            return `${diffDays}d ago`;
+        }
+    }
+}
+</script>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% comment %}
+Tab bar — Alpine.js-powered tabs.
+Usage:
+  {% include 'components/tab_bar.html' with tabs="Overview,Field Summary,Soil & Water" active_tab="Overview" tab_var="myTab" %}
+Then in the page use:
+  <div x-show="myTab === 'Overview'"> ... </div>
+{% endcomment %}
+<div class="border-b border-gray-200 mb-6" x-data="{ {{ tab_var|default:'activeTab' }}: '{{ active_tab|default:'' }}' }">
+  <nav class="-mb-px flex gap-6 overflow-x-auto" aria-label="Tabs">
+    {% for tab in tabs %}
+    <button
+      @click="{{ tab_var|default:'activeTab' }} = '{{ tab }}'"
+      :class="{{ tab_var|default:'activeTab' }} === '{{ tab }}'
+        ? 'border-primary-600 text-primary-700 font-semibold'
+        : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+      class="whitespace-nowrap pb-3 pt-1 border-b-2 text-sm transition-colors shrink-0">
+      {{ tab }}
+    </button>
+    {% endfor %}
+  </nav>
+</div>
