@@ -7,21 +7,17 @@ WORKDIR /app
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    # build dependencies
     build-essential \
-    # PostGIS/GeoDjango dependencies
     binutils \
     libproj-dev \
     gdal-bin \
     libgdal-dev \
-    # WeasyPrint dependencies
     libpango-1.0-0 \
     libpangoft2-1.0-0 \
     libharfbuzz-subset0 \
     libglib2.0-0 \
     libgdk-pixbuf-2.0-0 \
     shared-mime-info \
-    # Utilities
     postgresql-client \
     curl \
     && rm -rf /var/lib/apt/lists/*
@@ -33,8 +29,14 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 # Copy project
 COPY . /app/
 
+# Collect static files (uses dummy SECRET_KEY for build only)
+RUN SECRET_KEY=build-only-not-used \
+    DJANGO_SETTINGS_MODULE=config.settings.prod \
+    DATABASE_URL=sqlite:////tmp/build.db \
+    python manage.py collectstatic --noinput
+
 # Expose port
 EXPOSE 8000
 
-# Set entrypoint
-CMD ["gunicorn", "config.wsgi:application", "--bind", "0.0.0.0:8000"]
+# Startup: migrate then serve
+CMD ["sh", "-c", "python manage.py migrate --noinput && gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 2 --timeout 120"]
