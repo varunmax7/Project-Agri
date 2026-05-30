@@ -38,5 +38,5 @@ RUN SECRET_KEY=build-only-not-used \
 # Expose port
 EXPOSE 8000
 
-# Startup: migrate then serve
-CMD ["sh", "-c", "python manage.py migrate --noinput && gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 2 --timeout 120"]
+# Startup: migrate, create admin if needed, then serve
+CMD ["sh", "-c", "python manage.py migrate --noinput && python manage.py ensure_admin && gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 2 --timeout 120"]
