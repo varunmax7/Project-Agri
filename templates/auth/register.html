@@ -119,6 +119,7 @@
     const form = document.getElementById('registerForm');
     const data = Object.fromEntries(new FormData(form));
     const errEl = document.getElementById('registerError');
+    errEl.classList.add('hidden');
     try {
       const res = await fetch('/api/v1/accounts/register/', {
         method: 'POST',
@@ -126,6 +127,14 @@
         body: JSON.stringify(data)
       });
       if (res.ok) {
+        // Registration worked via API — now do a session login via the standard form
+        const loginRes = await fetch('/auth/login/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'X-CSRFToken': data.csrfmiddlewaretoken },
+          body: new URLSearchParams({ username: data.username, password: data.password }),
+          redirect: 'follow',
+        });
+        // Whether the session login redirected or not, go to the dashboard
         window.location.href = '/';
       } else {
         const json = await res.json();
