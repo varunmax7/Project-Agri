@@ -80,9 +80,17 @@ TEMPLATES = [
 WSGI_APPLICATION = 'config.wsgi.application'
 ASGI_APPLICATION = 'config.asgi.application'
 
-DATABASES = {
-    'default': env.db('DATABASE_URL', default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}")
-}
+import os as _os
+_db_url = _os.environ.get('DATABASE_URL', '').strip()
+if _db_url:
+    DATABASES = {'default': env.db('DATABASE_URL')}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 if env('GDAL_LIBRARY_PATH', default=None):
     GDAL_LIBRARY_PATH = env('GDAL_LIBRARY_PATH')
