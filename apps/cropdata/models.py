@@ -32,3 +32,19 @@ class BestPractice(models.Model):
 
     def __str__(self):
         return f"{self.crop.name} - {self.stage}"
+
+class CropSuitability(models.Model):
+    state = models.CharField(max_length=100)
+    district = models.CharField(max_length=100)
+    crop = models.CharField(max_length=100)
+    suitability_current = models.CharField(max_length=50, blank=True, null=True)
+    suitability_projected = models.CharField(max_length=50, blank=True, null=True)
+    change_class = models.IntegerField(default=0)
+    risk_level = models.CharField(max_length=50, blank=True, null=True)
+    recommendation = models.TextField(blank=True, null=True)
+
+    class Meta:
+        verbose_name_plural = "Crop Suitabilities"
+
+    def __str__(self):
+        return f"{self.crop} in {self.district} ({self.state})"

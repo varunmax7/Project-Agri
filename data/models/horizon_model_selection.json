@@ -1,0 +1,52 @@
+{
+  "sm_anomaly": {
+    "model": "xgb",
+    "feature_set": "FULL",
+    "n_features": 27,
+    "val_score": 0.9165,
+    "val_metrics": {
+      "r2": 0.938,
+      "rmse": 0.00551,
+      "mae": 0.00422,
+      "corr": 0.9694,
+      "n": 214
+    },
+    "test_metrics": {
+      "r2": 0.3999,
+      "rmse": 0.01467,
+      "mae": 0.01075,
+      "corr": 0.6574,
+      "n": 321
+    },
+    "features": [
+      "annual_rainfall",
+      "rainfall_anomaly",
+      "rx1day",
+      "rx3day",
+      "rain_p95",
+      "rain_p99",
+      "cdd",
+      "cwd",
+      "spi3",
+      "spi6",
+      "mean_temperature",
+      "temperature_anomaly",
+      "mean_humidity",
+      "humidity_anomaly",
+      "mean_soil_moisture",
+      "soil_moisture_anomaly",
+      "year",
+      "state_code",
+      "district_code",
+      "mean_pet",
+      "pet_anomaly",
+      "mean_et",
+      "et_anomaly",
+      "mean_solar",
+      "solar_anomaly",
+      "mean_lai",
+      "lai_anomaly"
+    ],
+    "model_path": "E:\\Dhanya\\NABARD\\floodguard_rs\\data\\remote_sensing\\horizon_outputs\\models\\best_sm_model.pkl"
+  }
+}

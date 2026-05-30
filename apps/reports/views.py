@@ -71,16 +71,21 @@ class ReportViewSet(
         report = Report.objects.create(farm=farm, type=report_type, period=period or timezone.now().strftime('%b %Y'))
 
         # Fetch Context for the PDF Template
-        from apps.advisory.models import CropSuitability, WaterBalance
-        suitability_data = CropSuitability.objects.filter(farm=farm).order_by('-suitability_pct')[:5]
-        water_data = WaterBalance.objects.filter(farm=farm).order_by('month')[:6]
+        from apps.cropdata.models import CropSuitability
+        from apps.climate.models import ClimateRiskZone
+        
+        # Real Crop Suitability Data
+        suitability_data = CropSuitability.objects.filter(district__iexact=farm.district).order_by('change_class')
+        
+        # Real Climate Risk Data
+        climate_data = ClimateRiskZone.objects.filter(district__iexact=farm.district, scenario='ssp245')
 
         context = {
             'farm': farm,
             'report': report,
             'user': request.user,
             'suitability_data': suitability_data,
-            'water_data': water_data,
+            'climate_data': climate_data,
             'generation_date': timezone.now()
         }
 

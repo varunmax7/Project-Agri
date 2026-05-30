@@ -1,0 +1,249 @@
+{% extends 'base.html' %}
+{% load floodguard_tags %}
+
+{% block content %}
+<div x-data="districtOutlook()" x-init="init({{ state_districts_json }}, '{{ sel_state }}', '{{ sel_district }}', '{{ sel_scenario }}', '{{ sel_year }}')">
+
+  <!-- ── Filter bar ──────────────────────────────────────────────── -->
+  <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-4 mb-6">
+    <form method="GET" class="flex flex-wrap items-end gap-4">
+
+      <div class="flex flex-col gap-1 min-w-[140px]">
+        <label class="text-[10px] font-semibold text-gray-500 uppercase tracking-wider">State</label>
+        <select name="state" id="state-select" @change="onStateChange($event.target.value)"
+                class="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none bg-white">
+          {% for s in all_states %}
+          <option value="{{ s }}" {% if s == sel_state %}selected{% endif %}>{{ s }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="flex flex-col gap-1 min-w-[160px]">
+        <label class="text-[10px] font-semibold text-gray-500 uppercase tracking-wider">District</label>
+        <select name="district" id="district-select" x-model="selDistrict"
+                class="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none bg-white">
+          <template x-for="d in districts" :key="d">
+            <option :value="d" :selected="d === selDistrict" x-text="d"></option>
+          </template>
+        </select>
+      </div>
+
+      <div class="flex flex-col gap-1 min-w-[180px]">
+        <label class="text-[10px] font-semibold text-gray-500 uppercase tracking-wider">Climate Scenario</label>
+        <select name="scenario"
+                class="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none bg-white">
+          <option value="ssp245" {% if sel_scenario == 'ssp245' %}selected{% endif %}>Moderate Warming (SSP2-4.5)</option>
+          <option value="ssp585" {% if sel_scenario == 'ssp585' %}selected{% endif %}>High Emissions (SSP5-8.5)</option>
+        </select>
+      </div>
+
+      <div class="flex flex-col gap-1 min-w-[120px]">
+        <label class="text-[10px] font-semibold text-gray-500 uppercase tracking-wider">Target Year</label>
+        <select name="year"
+                class="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none bg-white">
+          <option value="2030" {% if sel_year == '2030' %}selected{% endif %}>2030</option>
+          <option value="2035" {% if sel_year == '2035' %}selected{% endif %}>2035</option>
+          <option value="2040" {% if sel_year == '2040' %}selected{% endif %}>2040</option>
+        </select>
+      </div>
+
+      <button type="submit"
+              class="px-5 py-2 bg-gray-900 hover:bg-gray-700 text-white text-sm font-semibold rounded-lg transition-colors">
+        Update
+      </button>
+    </form>
+  </div>
+
+  {% if not crops %}
+  <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-12 text-center">
+    <p class="text-gray-400 text-sm">Select a state and district above to load real data.</p>
+  </div>
+  {% else %}
+
+  <!-- ── Section 1: District Climate Outlook ──────────────────────── -->
+  <section class="mb-6">
+    <h2 class="text-base font-bold text-gray-900 mb-4">1. District Climate Outlook — {{ sel_district }}</h2>
+
+    {% if climate %}
+    <!-- Risk Score Cards -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-4">
+      {% with score=climate.overall_risk|floatformat:1 cls=climate.overall_risk_class %}
+      <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-4">
+        <p class="text-[10px] font-semibold text-gray-500 uppercase tracking-wider mb-1">Overall Risk</p>
+        <p class="text-2xl font-bold {% if 'High' in cls or 'Very High' in cls %}text-red-600{% elif 'Moderate' in cls %}text-amber-500{% else %}text-green-600{% endif %}">{{ score }}</p>
+        <p class="text-xs text-gray-500 mt-0.5">{{ cls }}</p>
+      </div>
+      {% endwith %}
+      <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-4">
+        <p class="text-[10px] font-semibold text-gray-500 uppercase tracking-wider mb-1">Flood Hazard</p>
+        <p class="text-2xl font-bold {% if 'High' in climate.flood_class or 'Very High' in climate.flood_class %}text-red-600{% elif 'Moderate' in climate.flood_class %}text-amber-500{% else %}text-green-600{% endif %}">{{ climate.flood_hazard|floatformat:1 }}</p>
+        <p class="text-xs text-gray-500 mt-0.5">{{ climate.flood_class }}</p>
+      </div>
+      <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-4">
+        <p class="text-[10px] font-semibold text-gray-500 uppercase tracking-wider mb-1">Drought Hazard</p>
+        <p class="text-2xl font-bold {% if 'High' in climate.drought_class %}text-red-600{% elif 'Moderate' in climate.drought_class %}text-amber-500{% else %}text-green-600{% endif %}">{{ climate.drought_hazard|floatformat:1 }}</p>
+        <p class="text-xs text-gray-500 mt-0.5">{{ climate.drought_class }}</p>
+      </div>
+      <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-4">
+        <p class="text-[10px] font-semibold text-gray-500 uppercase tracking-wider mb-1">Agri Stress</p>
+        <p class="text-2xl font-bold {% if 'Severe' in climate.ag_stress_class or 'High' in climate.ag_stress_class %}text-red-600{% elif 'Moderate' in climate.ag_stress_class %}text-amber-500{% else %}text-green-600{% endif %}">{{ climate.ag_stress|floatformat:1 }}</p>
+        <p class="text-xs text-gray-500 mt-0.5">{{ climate.ag_stress_class }}</p>
+      </div>
+    </div>
+
+    <!-- Climate detail strip -->
+    <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-4 grid grid-cols-2 sm:grid-cols-4 gap-4 text-sm mb-4">
+      <div>
+        <p class="text-[10px] text-gray-400 uppercase font-semibold tracking-wider">Temp Change</p>
+        <p class="font-semibold text-gray-800 mt-1">+{{ climate.temp_change }}°C</p>
+      </div>
+      <div>
+        <p class="text-[10px] text-gray-400 uppercase font-semibold tracking-wider">Rainfall Change</p>
+        <p class="font-semibold text-gray-800 mt-1">{% if climate.rainfall_change %}{{ climate.rainfall_change }}%{% else %}—{% endif %}</p>
+      </div>
+      <div>
+        <p class="text-[10px] text-gray-400 uppercase font-semibold tracking-wider">Water Availability</p>
+        <p class="font-semibold text-gray-800 mt-1">{{ climate.water_avail }}</p>
+      </div>
+      <div>
+        <p class="text-[10px] text-gray-400 uppercase font-semibold tracking-wider">Heat Stress Days</p>
+        <p class="font-semibold text-gray-800 mt-1">{{ climate.heat_stress_days }} days</p>
+      </div>
+    </div>
+
+    <!-- Major Crop Analysis -->
+    {% if climate.major_crop_analysis %}
+    <div class="bg-amber-50 border border-amber-200 rounded-xl p-4">
+      <p class="text-xs font-semibold text-amber-700 uppercase tracking-wider mb-1">Why Is Risk Changing? — Major Crop: {{ climate.major_crop }} ({{ climate.major_crop_area }} Thousand Ha)</p>
+      <p class="text-sm text-amber-900 leading-relaxed">{{ climate.major_crop_analysis }}</p>
+    </div>
+    {% endif %}
+    {% endif %}
+  </section>
+
+  <!-- ── Section 2: Recommended Crop Transitions ──────────────────── -->
+  <section class="mb-6">
+    <h2 class="text-base font-bold text-gray-900 mb-4">2. Recommended Crop Transitions</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {% for crop in crops %}
+      <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-5 flex flex-col gap-3">
+        <!-- Crop header -->
+        <div class="flex items-center justify-between">
+          <h3 class="font-semibold text-gray-900">{{ crop.name }}</h3>
+          <div class="flex items-center gap-2">
+            {% if crop.decline > 0 %}
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-red-100 text-red-700">-{{ crop.decline }} class</span>
+            {% elif crop.decline < 0 %}
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-green-100 text-green-700">+{{ crop.decline|cut:"-" }} class</span>
+            {% else %}
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-gray-100 text-gray-600">Stable</span>
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- Suitability track -->
+        <div class="flex items-center gap-3 text-xs">
+          <div class="flex-1">
+            <p class="text-gray-400 mb-1">Current</p>
+            <span class="font-semibold
+              {% if crop.current == 'Highly Suitable' %}text-green-700
+              {% elif crop.current == 'Suitable' %}text-green-600
+              {% elif crop.current == 'Moderate' %}text-amber-600
+              {% elif crop.current == 'Marginal' %}text-orange-500
+              {% else %}text-red-600{% endif %}">
+              {{ crop.current }}
+            </span>
+          </div>
+          <svg class="w-4 h-4 text-gray-300 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+          </svg>
+          <div class="flex-1">
+            <p class="text-gray-400 mb-1">{{ sel_year }} ({{ sel_scenario|upper }})</p>
+            <span class="font-semibold
+              {% if crop.future == 'Highly Suitable' %}text-green-700
+              {% elif crop.future == 'Suitable' %}text-green-600
+              {% elif crop.future == 'Moderate' %}text-amber-600
+              {% elif crop.future == 'Marginal' %}text-orange-500
+              {% else %}text-red-600{% endif %}">
+              {{ crop.future }}
+            </span>
+          </div>
+        </div>
+
+        <!-- Recommendation pill -->
+        <div class="bg-primary-50 border border-primary-100 rounded-lg px-3 py-2 text-xs text-primary-800 font-medium">
+          💡 {{ crop.recommendation }}
+        </div>
+
+        <!-- Explanation -->
+        {% if crop.explanation %}
+        <p class="text-xs text-gray-500 leading-relaxed">{{ crop.explanation }}</p>
+        {% endif %}
+
+        <!-- Meta row -->
+        {% if crop.soil or crop.lgp %}
+        <div class="flex gap-4 text-[10px] text-gray-400 border-t border-gray-50 pt-2">
+          {% if crop.soil %}<span>🪨 {{ crop.soil }}</span>{% endif %}
+          {% if crop.lgp %}<span>📅 {{ crop.lgp }} days LGP</span>{% endif %}
+        </div>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- ── Section 3: Strategic Insights ───────────────────────────── -->
+  <section>
+    <h2 class="text-base font-bold text-gray-900 mb-4">3. Strategic Insights</h2>
+    <div class="space-y-3">
+      {% for crop in crops %}
+      {% if crop.historical %}
+      <div class="bg-white rounded-xl border border-gray-100 shadow-sm px-5 py-4" x-data="{ open: false }">
+        <button @click="open = !open" class="w-full flex items-center justify-between text-left">
+          <p class="text-sm font-semibold text-gray-800">{{ crop.name }} — Historical Trend</p>
+          <svg :class="open ? 'rotate-180' : ''" class="w-4 h-4 text-gray-400 transition-transform shrink-0 ml-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+          </svg>
+        </button>
+        <div x-show="open" x-collapse class="mt-3">
+          <p class="text-sm text-gray-600 leading-relaxed">{{ crop.historical }}</p>
+        </div>
+      </div>
+      {% endif %}
+      {% endfor %}
+    </div>
+  </section>
+
+  {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+function districtOutlook() {
+  return {
+    stateDistricts: {},
+    selState: '',
+    selDistrict: '',
+    selScenario: '',
+    selYear: '',
+    districts: [],
+
+    init(stateDistricts, selState, selDistrict, selScenario, selYear) {
+      this.stateDistricts = stateDistricts;
+      this.selState = selState;
+      this.selDistrict = selDistrict;
+      this.selScenario = selScenario;
+      this.selYear = selYear;
+      this.districts = stateDistricts[selState] || [];
+    },
+
+    onStateChange(state) {
+      this.selState = state;
+      this.districts = this.stateDistricts[state] || [];
+      this.selDistrict = this.districts[0] || '';
+    }
+  };
+}
+</script>
+{% endblock %}

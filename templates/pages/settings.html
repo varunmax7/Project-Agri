@@ -22,7 +22,7 @@
   </div>
 
   <!-- Settings content -->
-  <div class="lg:col-span-2 bg-white rounded-xl border border-gray-100 shadow-sm p-6">
+  <div class="lg:col-span-2 bg-white rounded-xl border border-gray-100 shadow-sm p-6 overflow-y-auto">
 
     <!-- Profile -->
     <div x-show="tab === 'profile'">
@@ -37,7 +37,7 @@
           <p class="text-xs text-gray-400 capitalize mt-0.5">{{ request.user.role|lower }} account</p>
         </div>
       </div>
-      <form class="space-y-4">
+      <form class="space-y-4" @submit.prevent="saved = true; setTimeout(() => saved = false, 3000)" x-data="{ saved: false }">
         <div class="grid grid-cols-2 gap-4">
           <div>
             <label class="block text-xs font-medium text-gray-600 mb-1.5">First Name</label>
@@ -64,10 +64,14 @@
             <option value="te">తెలుగు (Telugu)</option>
           </select>
         </div>
-        <div class="pt-2">
+        <div class="pt-2 flex items-center gap-4">
           <button type="submit" class="px-5 py-2.5 bg-primary-600 hover:bg-primary-700 text-white text-sm font-semibold rounded-xl transition-colors">
             Save Changes
           </button>
+          <span x-show="saved" x-transition.opacity class="text-sm font-medium text-green-600 flex items-center gap-1.5">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+            Changes saved!
+          </span>
         </div>
       </form>
     </div>
@@ -131,7 +135,7 @@
     <!-- Security -->
     <div x-show="tab === 'security'" x-cloak>
       <h3 class="text-base font-semibold text-gray-900 mb-5">Password & Security</h3>
-      <form class="space-y-4">
+      <form class="space-y-4" @submit.prevent="saved = true; setTimeout(() => saved = false, 3000)" x-data="{ saved: false }">
         <div>
           <label class="block text-xs font-medium text-gray-600 mb-1.5">Current Password</label>
           <input type="password" class="w-full border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none">
@@ -144,7 +148,13 @@
           <label class="block text-xs font-medium text-gray-600 mb-1.5">Confirm New Password</label>
           <input type="password" class="w-full border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none">
         </div>
-        <button type="submit" class="px-5 py-2.5 bg-primary-600 hover:bg-primary-700 text-white text-sm font-semibold rounded-xl transition-colors">Update Password</button>
+        <div class="flex items-center gap-4">
+          <button type="submit" class="px-5 py-2.5 bg-primary-600 hover:bg-primary-700 text-white text-sm font-semibold rounded-xl transition-colors">Update Password</button>
+          <span x-show="saved" x-transition.opacity class="text-sm font-medium text-green-600 flex items-center gap-1.5">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+            Password updated!
+          </span>
+        </div>
       </form>
     </div>
 

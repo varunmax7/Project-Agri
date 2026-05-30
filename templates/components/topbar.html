@@ -54,7 +54,7 @@
          x-transition:leave-start="opacity-100 scale-100"
          x-transition:leave-end="opacity-0 scale-95"
          class="absolute right-0 mt-2 w-44 bg-white border border-gray-200 rounded-xl shadow-lg z-50 py-1">
-      {% for season_opt in "Kharif 2025,Rabi 2025,Kharif 2026,Rabi 2026,Kharif 2027"|split:"," %}
+      {% for season_opt in "Kharif 2030,Rabi 2030,Kharif 2035,Rabi 2035,Kharif 2040"|split:"," %}
       <button @click="currentSeason = '{{ season_opt }}'; open = false"
               class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-primary-700 transition-colors">
         {{ season_opt }}
@@ -64,11 +64,11 @@
   </div>
 
   <!-- ── Weather chip ──────────────────────────────────────────── -->
-  <div class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-sky-50 border border-sky-100 rounded-lg">
-    <svg class="w-4 h-4 text-sky-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.7">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m8.66-10h-1M4.34 12h-1m15 5.66l-.71-.71M6.34 6.34l-.71-.71m12.02 12.02l-.71-.71M6.34 17.66l-.71-.71M12 6a6 6 0 100 12A6 6 0 0012 6z"/>
+  <div class="hidden lg:flex items-center gap-2 px-3 py-1.5 bg-sky-50 rounded-lg border border-sky-100">
+    <svg class="w-4 h-4 text-sky-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m8.66-10h-1M4.34 12h-1m15.36 7.07l-.71-.71M6.34 6.34l-.71-.71m12.02 12.02l-.71-.71M6.34 17.66l-.71-.71M12 5a7 7 0 100 14 7 7 0 000-14z"/>
     </svg>
-    <span class="text-xs font-medium text-sky-700">32°C &nbsp;·&nbsp; Partly Cloudy</span>
+    <span class="text-xs font-medium text-sky-700"><span x-text="globalTemp"></span>°C &nbsp;·&nbsp; Partly Cloudy</span>
   </div>
 
   <!-- ── Notification bell ─────────────────────────────────────── -->

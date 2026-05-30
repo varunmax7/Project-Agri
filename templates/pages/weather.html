@@ -1,47 +1,142 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div x-data="weatherData()" x-init="initData({{ current_farm.id|default:1 }})">
 
-<!-- Current Conditions -->
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-  {% include 'components/metric_card.html' with label="Temperature" value="32" unit="°C" color="orange" icon_path="M12 3v1m0 16v1m8.66-10h-1M4.34 12h-1" %}
-  {% include 'components/metric_card.html' with label="Humidity" value="68" unit="%" color="blue" icon_path="M12 2c0 0-8 7.58-8 13a8 8 0 0016 0C20 9.58 12 2 12 2z" %}
-  {% include 'components/metric_card.html' with label="Rainfall (MTD)" value="124" unit="mm" color="blue" icon_path="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" %}
-  {% include 'components/metric_card.html' with label="Wind Speed" value="14" unit="km/h" color="green" icon_path="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" %}
+<!-- Loading State -->
+<div x-show="loading" class="flex items-center justify-center h-64">
+  <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
+  <span class="ml-2 text-gray-500">Loading weather details...</span>
 </div>
 
-<!-- Seasonal Summary + Recent Rainfall -->
-<div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
-  <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
-    <h3 class="text-sm font-semibold text-gray-900 mb-4">Recent Rainfall (30 days)</h3>
-    <canvas id="rainfallChart" class="max-h-52"></canvas>
-  </div>
-  <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
-    <h3 class="text-sm font-semibold text-gray-900 mb-4">Temperature Trend</h3>
-    <canvas id="tempChart" class="max-h-52"></canvas>
-  </div>
-</div>
+<div x-show="!loading" x-cloak>
+    <!-- Current Conditions -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+      {% include 'components/metric_card.html' with label="Temperature" alpine_value="data?.latest_vegetation?.lst" unit="°C" color="orange" icon_path="M12 3v1m0 16v1m8.66-10h-1M4.34 12h-1" %}
+      {% include 'components/metric_card.html' with label="Soil Moisture" alpine_value="data?.latest_vegetation?.soil_moisture" unit="%" color="blue" icon_path="M12 2c0 0-8 7.58-8 13a8 8 0 0016 0C20 9.58 12 2 12 2z" %}
+      {% include 'components/metric_card.html' with label="Rainfall Outlook" alpine_value="data?.climate_indices?.rainfall_outlook_pct" unit="%" color="blue" icon_path="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" %}
+      {% include 'components/metric_card.html' with label="Climate Stress" alpine_value="data?.climate_indices?.climate_stress_index" unit="" color="red" icon_path="M13 10V3L4 14h7v7l9-11h-7z" %}
+    </div>
 
-<!-- Seasonal Summary -->
-<div class="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
-  <h3 class="text-sm font-semibold text-gray-900 mb-4">Seasonal Climate Summary · Kharif 2025</h3>
-  {% include 'components/empty_state.html' with title="Seasonal data loads with seed data" description="LocationClimateIndex records for this farm and season will populate the seasonal summary." icon_path="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" %}
-</div>
+    <!-- Seasonal Summary + Recent Rainfall -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
+      <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
+        <h3 class="text-sm font-semibold text-gray-900 mb-4">Regional Climate Map</h3>
+        <div id="weather-map" style="height: 300px; width: 100%; z-index: 0; border-radius: 8px;"></div>
+      </div>
+      <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
+        <h3 class="text-sm font-semibold text-gray-900 mb-4">Water Balance (Availability vs Req)</h3>
+        <canvas id="weatherWaterChart" style="max-height: 250px;"></canvas>
+      </div>
+    </div>
 
+    <!-- Seasonal Summary -->
+    <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-5 mb-6">
+      <h3 class="text-sm font-semibold text-gray-900 mb-4">Seasonal Climate Summary · <span x-text="currentSeason || 'Kharif 2030'"></span></h3>
+      <div class="p-4 bg-gray-50 rounded-lg border border-gray-100">
+          <p class="text-sm text-gray-700 font-medium">Overall District Risk: <span class="text-primary-700 font-bold" x-text="data?.stress_assessment?.climate_stress || 'N/A'"></span></p>
+          <p class="text-sm text-gray-600 mt-2" x-text="`For this season, the drought stress hazard is projected to be ${data?.stress_assessment?.water_stress}, while the heat stress hazard is ${data?.stress_assessment?.heat_stress}.`"></p>
+          <p class="text-sm text-gray-500 mt-2" x-text="`The current estimated rainfall outlook compared to historical norms is ${data?.climate_indices?.rainfall_outlook_pct}%. Please check the map for spatial risk comparisons.`"></p>
+      </div>
+    </div>
+</div>
+</div>
 {% endblock %}
 
 {% block extra_scripts %}
 <script>
-const months = ['May 5','May 10','May 15','May 20','May 25','Jun 1','Jun 5'];
-new Chart(document.getElementById('rainfallChart'), {
-  type: 'bar',
-  data: { labels: months, datasets: [{ label: 'Rainfall mm', data: [18, 0, 32, 45, 12, 28, 19], backgroundColor: 'rgba(56,189,248,0.7)', borderRadius: 4 }] },
-  options: { responsive: true, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false } }, y: { grid: { color: '#f3f4f6' } } } }
-});
-new Chart(document.getElementById('tempChart'), {
-  type: 'line',
-  data: { labels: months, datasets: [{ label: 'Max °C', data: [36, 38, 35, 32, 33, 31, 30], borderColor: '#f97316', backgroundColor: 'rgba(249,115,22,0.08)', tension: 0.4, fill: true }, { label: 'Min °C', data: [24, 25, 23, 22, 22, 21, 21], borderColor: '#60a5fa', backgroundColor: 'transparent', tension: 0.4 }] },
-  options: { responsive: true, plugins: { legend: { position: 'top', labels: { font: { size: 11 } } } }, scales: { x: { grid: { display: false } }, y: { grid: { color: '#f3f4f6' } } } }
-});
+let wMap = null;
+let wLayer = null;
+let wChart = null;
+
+function weatherData() {
+    return {
+        data: null,
+        loading: true,
+        farmId: null,
+        async initData(farmId) {
+            if (!farmId) { this.loading = false; return; }
+            this.farmId = farmId;
+            this.$watch('currentSeason', () => { this.fetchData(); });
+            await this.fetchData();
+        },
+        async fetchData() {
+            this.loading = true;
+            try {
+                const parts = (this.currentSeason || 'Kharif 2030').split(' ');
+                const season = parts[0];
+                const year = parts[1] || '2030';
+                
+                const res = await fetch(`/api/v1/farms/${this.farmId}/dashboard/?season=${season}&year=${year}`);
+                if (res.ok) {
+                    const json = await res.json(); 
+                    this.data = json.results || json;
+                    window.dispatchEvent(new CustomEvent('update-global-temp', { detail: this.data?.latest_vegetation?.lst || '--' }));
+                    setTimeout(() => {
+                        this.loadMapLayer(year);
+                        this.drawChart();
+                    }, 100);
+                }
+            } catch (err) {
+                console.error(err);
+            } finally {
+                this.loading = false;
+            }
+        },
+        loadMapLayer(year) {
+            if (!document.getElementById('weather-map')) return;
+            if (!wMap) {
+                wMap = L.map('weather-map', { zoomControl: true, attributionControl: false }).setView([20.5, 78.9], 5);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(wMap);
+            }
+            if (wLayer) { wMap.removeLayer(wLayer); wLayer = null; }
+            fetch(`/api/map-data/risk/?scenario=ssp245&year=${year}`)
+                .then(r => r.json())
+                .then(geoJson => {
+                    if (!geoJson.features) return;
+                    wLayer = L.geoJSON(geoJson, {
+                        style: (f) => {
+                            const isDist = this.data?.farm?.district && f.properties.district && f.properties.district.toLowerCase() === this.data.farm.district.toLowerCase();
+                            const r = (f.properties.overall_risk_class || '').toLowerCase();
+                            let c = '#22c55e';
+                            if (r.includes('moderate')) c = '#fbbf24';
+                            else if (r.includes('high')) c = '#f97316';
+                            else if (r.includes('severe')) c = '#ef4444';
+                            return { color: isDist ? '#2563eb' : '#fff', weight: isDist ? 3 : 1, fillColor: c, fillOpacity: isDist ? 0.9 : 0.7 };
+                        }
+                    }).addTo(wMap);
+                    
+                    let bounds = wLayer.getBounds();
+                    if (this.data?.farm?.district) {
+                        const ud = this.data.farm.district.toLowerCase();
+                        wLayer.eachLayer(l => {
+                            if (l.feature.properties.district && l.feature.properties.district.toLowerCase() === ud) bounds = l.getBounds();
+                        });
+                    }
+                    wMap.fitBounds(bounds, { padding: [20, 20], maxZoom: 8 });
+                    setTimeout(() => wMap.invalidateSize(), 500);
+                }).catch(() => {});
+        },
+        drawChart() {
+            const ctx = document.getElementById('weatherWaterChart');
+            if (!ctx || !this.data || !this.data.water_balance) return;
+            if (wChart) wChart.destroy();
+            const labels = this.data.water_balance.map(i => i.month);
+            const req = this.data.water_balance.map(i => i.requirement_mm);
+            const avail = this.data.water_balance.map(i => i.availability_mm);
+            wChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        { label: 'Requirement (mm)', data: req, borderColor: '#f97316', backgroundColor: 'rgba(249,115,22,0.1)', tension: 0.4, fill: true },
+                        { label: 'Availability (mm)', data: avail, borderColor: '#3b82f6', backgroundColor: 'rgba(59,130,246,0.1)', tension: 0.4, fill: true }
+                    ]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } } }
+            });
+        }
+    }
+}
 </script>
 {% endblock %}

@@ -1,0 +1,643 @@
+district,scenario,year,key_insight_1,key_insight_2,key_insight_3
+ARARIA,ssp245,2030,Temperature projected to increase by 0.5C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+ARWAL,ssp245,2030,Agricultural stress remains Low.,Rainfall change indicates a increase of 1.9%.,Overall risk class is Low Risk.
+AURANGABAD,ssp245,2030,Temperature projected to increase by 0.3C by 2030.,Agricultural stress remains Low.,Rainfall change indicates a increase of 0.3%.
+BANKA,ssp245,2030,Agricultural stress remains Low.,Rainfall change indicates a increase of 3.0%.,Overall risk class is Low Risk.
+BEGUSARAI,ssp245,2030,Temperature projected to increase by 0.5C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+BHAGALPUR,ssp245,2030,Temperature projected to increase by 0.6C by 2030.,Agricultural stress remains Low.,Rainfall change indicates a increase of 4.1%.
+BHOJPUR,ssp245,2030,Temperature projected to increase by 0.3C by 2030.,Agricultural stress remains Low.,Rainfall change indicates a increase of 1.6%.
+BUXAR,ssp245,2030,Agricultural stress remains Low.,Rainfall change indicates a increase of 0.3%.,Overall risk class is Low Risk.
+DARBHANGA,ssp245,2030,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 6.1%.
+GAYA,ssp245,2030,Temperature projected to increase by 0.3C by 2030.,Agricultural stress remains Low.,Rainfall change indicates a increase of 1.9%.
+GOPALGANJ,ssp245,2030,Temperature projected to increase by 0.3C by 2030.,Agricultural stress remains Low.,Rainfall change indicates a increase of 1.6%.
+JAMUI,ssp245,2030,Temperature projected to increase by 0.5C by 2030.,Agricultural stress remains Low.,Rainfall change indicates a increase of 3.5%.
+JEHANABAD,ssp245,2030,Agricultural stress remains Low.,Rainfall change indicates a increase of 3.1%.,Overall risk class is Low Risk.
+KAIMUR (BHABUA),ssp245,2030,Agricultural stress remains Low.,Rainfall change indicates a decline of 0.6%.,Overall risk class is Low Risk.
+KATIHAR,ssp245,2030,Temperature projected to increase by 0.6C by 2030.,Agricultural stress remains Low.,Rainfall change indicates a increase of 3.0%.
+KHAGARIA,ssp245,2030,Temperature projected to increase by 0.5C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+KISHANGANJ,ssp245,2030,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 5.2%.
+LAKHISARAI,ssp245,2030,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 5.6%.
+MADHEPURA,ssp245,2030,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 5.1%.
+MADHUBANI,ssp245,2030,Temperature projected to increase by 0.4C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+MUNGER,ssp245,2030,Agricultural stress remains Low.,Rainfall change indicates a increase of 4.9%.,Overall risk class is Low Risk.
+MUZAFFARPUR,ssp245,2030,Agricultural stress remains Low.,Rainfall change indicates a increase of 4.7%.,Overall risk class is Low Risk.
+NALANDA,ssp245,2030,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 5.3%.
+NAWADA,ssp245,2030,Agricultural stress remains Low.,Rainfall change indicates a increase of 3.8%.,Overall risk class is Low Risk.
+PASHCHIM CHAMPARAN,ssp245,2030,Temperature projected to increase by 0.4C by 2030.,Agricultural stress remains Low.,Rainfall change indicates a increase of 3.3%.
+PATNA,ssp245,2030,Temperature projected to increase by 0.3C by 2030.,Agricultural stress remains Low.,Rainfall change indicates a increase of 4.8%.
+PURBA CHAMPARAN,ssp245,2030,Temperature projected to increase by 0.3C by 2030.,Agricultural stress remains Low.,Rainfall change indicates a increase of 3.1%.
+PURNIA,ssp245,2030,Temperature projected to increase by 0.6C by 2030.,Agricultural stress remains Low.,Rainfall change indicates a increase of 4.5%.
+ROHTAS,ssp245,2030,Agricultural stress remains Low.,Rainfall change indicates a decline of 0.1%.,Overall risk class is Low Risk.
+SAHARSA,ssp245,2030,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 5.7%.
+SAMASTIPUR,ssp245,2030,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 5.9%.
+SARAN,ssp245,2030,Agricultural stress remains Low.,Rainfall change indicates a increase of 2.6%.,Overall risk class is Low Risk.
+SHEIKHPURA,ssp245,2030,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 5.8%.
+SHEOHAR,ssp245,2030,Agricultural stress remains Low.,Rainfall change indicates a increase of 4.1%.,Overall risk class is Low Risk.
+SITAMARHI,ssp245,2030,Temperature projected to increase by 0.4C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+SIWAN,ssp245,2030,Agricultural stress remains Low.,Rainfall change indicates a increase of 1.4%.,Overall risk class is Moderate Risk.
+SUPAUL,ssp245,2030,Temperature projected to increase by 0.4C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+VAISHALI,ssp245,2030,Temperature projected to increase by 0.3C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+AHILYANAGAR,ssp245,2030,Temperature projected to increase by 0.2C by 2030.,Agricultural stress remains Low.,Rainfall change indicates a increase of 4.3%.
+AKOLA,ssp245,2030,Temperature projected to increase by 0.3C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+AMRAVATI,ssp245,2030,Temperature projected to increase by 0.3C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+BEED,ssp245,2030,Agricultural stress remains Low.,Rainfall change indicates a increase of 3.7%.,Overall risk class is Low Risk.
+BHANDARA,ssp245,2030,Temperature projected to increase by 0.3C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+BULDHANA,ssp245,2030,Temperature projected to increase by 0.3C by 2030.,Agricultural stress remains Low.,Rainfall change indicates a increase of 4.0%.
+CHANDRAPUR,ssp245,2030,Temperature projected to increase by 0.2C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+CHHATRAPATI SAMBHAJI NAGAR,ssp245,2030,Temperature projected to increase by 0.3C by 2030.,Agricultural stress remains Low.,Rainfall change indicates a increase of 3.0%.
+DHARASHIV,ssp245,2030,Temperature projected to increase by 0.2C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+DHULE,ssp245,2030,Temperature projected to increase by 0.2C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+GADCHIROLI,ssp245,2030,Temperature projected to increase by 0.3C by 2030.,Agricultural stress remains Low.,Rainfall change indicates a increase of 2.9%.
+GONDIA,ssp245,2030,Temperature projected to increase by 0.3C by 2030.,Agricultural stress remains Low.,Rainfall change indicates a increase of 4.5%.
+HINGOLI,ssp245,2030,Agricultural stress remains Low.,Rainfall change indicates a increase of 4.5%.,Overall risk class is Low Risk.
+JALGAON,ssp245,2030,Temperature projected to increase by 0.3C by 2030.,Agricultural stress remains Low.,Rainfall change indicates a increase of 4.7%.
+JALNA,ssp245,2030,Temperature projected to increase by 0.3C by 2030.,Agricultural stress remains Low.,Rainfall change indicates a increase of 2.5%.
+KOLHAPUR,ssp245,2030,Temperature projected to increase by 0.3C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+LATUR,ssp245,2030,Temperature projected to increase by 0.2C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+MUMBAI,ssp245,2030,Agricultural stress remains Low.,Rainfall change indicates a increase of 4.3%.,Overall risk class is Low Risk.
+MUMBAI SUBURBAN,ssp245,2030,Agricultural stress remains Low.,Rainfall change indicates a increase of 4.9%.,Overall risk class is Low Risk.
+NAGPUR,ssp245,2030,Temperature projected to increase by 0.2C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+NANDED,ssp245,2030,Temperature projected to increase by 0.2C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+NANDURBAR,ssp245,2030,Temperature projected to increase by 0.2C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+NASHIK,ssp245,2030,Temperature projected to increase by 0.3C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+PALGHAR,ssp245,2030,Temperature projected to increase by 0.3C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+PARBHANI,ssp245,2030,Temperature projected to increase by 0.3C by 2030.,Agricultural stress remains Low.,Rainfall change indicates a increase of 4.4%.
+PUNE,ssp245,2030,Temperature projected to increase by 0.3C by 2030.,Agricultural stress remains Low.,Rainfall change indicates a increase of 4.8%.
+RAIGAD,ssp245,2030,Temperature projected to increase by 0.3C by 2030.,Agricultural stress remains Low.,Rainfall change indicates a increase of 4.7%.
+RATNAGIRI,ssp245,2030,Temperature projected to increase by 0.3C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+SANGLI,ssp245,2030,Temperature projected to increase by 0.3C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+SATARA,ssp245,2030,Temperature projected to increase by 0.3C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+SINDHUDURG,ssp245,2030,Temperature projected to increase by 0.3C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+SOLAPUR,ssp245,2030,Temperature projected to increase by 0.2C by 2030.,Agricultural stress remains Low.,Rainfall change indicates a increase of 4.8%.
+THANE,ssp245,2030,Temperature projected to increase by 0.3C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+WARDHA,ssp245,2030,Temperature projected to increase by 0.2C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+WASHIM,ssp245,2030,Temperature projected to increase by 0.3C by 2030.,Agricultural stress remains Low.,Rainfall change indicates a increase of 4.8%.
+YAVATMAL,ssp245,2030,Temperature projected to increase by 0.2C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+ADILABAD,ssp245,2030,Temperature projected to increase by 0.2C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+BHADRADRI KOTHAGUDEM,ssp245,2030,Temperature projected to increase by 0.3C by 2030.,Agricultural stress remains Low.,Rainfall change indicates a increase of 2.9%.
+HANUMAKONDA,ssp245,2030,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 7.8%.
+HYDERABAD,ssp245,2030,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 5.5%.
+JAGTIAL,ssp245,2030,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 9.7%.
+JANGAON,ssp245,2030,Temperature projected to increase by 0.2C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+JAYASHANKAR BHUPALPALLI,ssp245,2030,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 5.1%.
+JOGULAMBA GADWAL,ssp245,2030,Agricultural stress remains Low.,Rainfall change indicates a decline of 0.3%.,Overall risk class is Low Risk.
+KAMAREDDY,ssp245,2030,Temperature projected to increase by 0.2C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+KARIMNAGAR,ssp245,2030,Temperature projected to increase by 0.2C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+KHAMMAM,ssp245,2030,Temperature projected to increase by 0.3C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+KUMURAM BHEEM,ssp245,2030,Temperature projected to increase by 0.2C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+MAHABUBABAD,ssp245,2030,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 6.2%.
+MAHBUBNAGAR,ssp245,2030,Agricultural stress remains Low.,Rainfall change indicates a increase of 1.9%.,Overall risk class is Low Risk.
+MANCHERIAL,ssp245,2030,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 6.1%.
+MEDAK,ssp245,2030,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 9.4%.
+MEDCHAL-MALKAJGIRI,ssp245,2030,Temperature projected to increase by 0.2C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+MULUGU,ssp245,2030,Temperature projected to increase by 0.2C by 2030.,Agricultural stress remains Low.,Rainfall change indicates a increase of 3.7%.
+NAGARKURNOOL,ssp245,2030,Temperature projected to increase by 0.2C by 2030.,Agricultural stress remains Low.,Rainfall change indicates a increase of 1.3%.
+NALGONDA,ssp245,2030,Temperature projected to increase by 0.2C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+NARAYANPET,ssp245,2030,Temperature projected to increase by 0.2C by 2030.,Agricultural stress remains Low.,Rainfall change indicates a increase of 2.1%.
+NIRMAL,ssp245,2030,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 11.1%.
+NIZAMABAD,ssp245,2030,Temperature projected to increase by 0.2C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+PEDDAPALLI,ssp245,2030,Temperature projected to increase by 0.2C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+RAJANNA SIRCILLA,ssp245,2030,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 11.2%.
+RANGA REDDY,ssp245,2030,Temperature projected to increase by 0.2C by 2030.,Agricultural stress remains Low.,Rainfall change indicates a increase of 4.2%.
+SANGAREDDY,ssp245,2030,Temperature projected to increase by 0.2C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+SIDDIPET,ssp245,2030,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 8.8%.
+SURYAPET,ssp245,2030,Temperature projected to increase by 0.2C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+VIKARABAD,ssp245,2030,Temperature projected to increase by 0.2C by 2030.,Agricultural stress remains Low.,Rainfall change indicates a increase of 4.3%.
+WANAPARTHY,ssp245,2030,Agricultural stress remains Low.,Rainfall change indicates a decline of 0.1%.,Overall risk class is Low Risk.
+WARANGAL,ssp245,2030,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 6.8%.
+YADADRI BHUVANAGIRI,ssp245,2030,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 7.4%.
+ARARIA,ssp245,2035,Temperature projected to increase by 0.8C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+ARWAL,ssp245,2035,Agricultural stress remains Low.,Rainfall change indicates a increase of 3.1%.,Overall risk class is Low Risk.
+AURANGABAD,ssp245,2035,Temperature projected to increase by 0.6C by 2035.,Agricultural stress remains Low.,Rainfall change indicates a increase of 1.6%.
+BANKA,ssp245,2035,Agricultural stress remains Low.,Rainfall change indicates a increase of 4.3%.,Overall risk class is Low Risk.
+BEGUSARAI,ssp245,2035,Temperature projected to increase by 0.7C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+BHAGALPUR,ssp245,2035,Temperature projected to increase by 0.8C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+BHOJPUR,ssp245,2035,Temperature projected to increase by 0.5C by 2035.,Agricultural stress remains Low.,Rainfall change indicates a increase of 2.8%.
+BUXAR,ssp245,2035,Agricultural stress remains Low.,Rainfall change indicates a increase of 1.6%.,Overall risk class is Low Risk.
+DARBHANGA,ssp245,2035,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 7.4%.
+GAYA,ssp245,2035,Temperature projected to increase by 0.6C by 2035.,Agricultural stress remains Low.,Rainfall change indicates a increase of 3.1%.
+GOPALGANJ,ssp245,2035,Temperature projected to increase by 0.6C by 2035.,Agricultural stress remains Low.,Rainfall change indicates a increase of 2.9%.
+JAMUI,ssp245,2035,Temperature projected to increase by 0.7C by 2035.,Agricultural stress remains Low.,Rainfall change indicates a increase of 4.7%.
+JEHANABAD,ssp245,2035,Agricultural stress remains Low.,Rainfall change indicates a increase of 4.4%.,Overall risk class is Low Risk.
+KAIMUR (BHABUA),ssp245,2035,Agricultural stress remains Low.,Rainfall change indicates a increase of 0.6%.,Overall risk class is Low Risk.
+KATIHAR,ssp245,2035,Temperature projected to increase by 0.8C by 2035.,Agricultural stress remains Low.,Rainfall change indicates a increase of 4.3%.
+KHAGARIA,ssp245,2035,Temperature projected to increase by 0.7C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+KISHANGANJ,ssp245,2035,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 6.5%.
+LAKHISARAI,ssp245,2035,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 6.9%.
+MADHEPURA,ssp245,2035,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 6.4%.
+MADHUBANI,ssp245,2035,Temperature projected to increase by 0.6C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+MUNGER,ssp245,2035,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 6.2%.
+MUZAFFARPUR,ssp245,2035,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 5.9%.
+NALANDA,ssp245,2035,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 6.6%.
+NAWADA,ssp245,2035,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 5.1%.
+PASHCHIM CHAMPARAN,ssp245,2035,Temperature projected to increase by 0.6C by 2035.,Agricultural stress remains Low.,Rainfall change indicates a increase of 4.6%.
+PATNA,ssp245,2035,Temperature projected to increase by 0.6C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+PURBA CHAMPARAN,ssp245,2035,Temperature projected to increase by 0.6C by 2035.,Agricultural stress remains Low.,Rainfall change indicates a increase of 4.3%.
+PURNIA,ssp245,2035,Temperature projected to increase by 0.8C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+ROHTAS,ssp245,2035,Agricultural stress remains Low.,Rainfall change indicates a increase of 1.1%.,Overall risk class is Low Risk.
+SAHARSA,ssp245,2035,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 7.0%.
+SAMASTIPUR,ssp245,2035,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 7.2%.
+SARAN,ssp245,2035,Agricultural stress remains Low.,Rainfall change indicates a increase of 3.9%.,Overall risk class is Low Risk.
+SHEIKHPURA,ssp245,2035,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 7.1%.
+SHEOHAR,ssp245,2035,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 5.4%.
+SITAMARHI,ssp245,2035,Temperature projected to increase by 0.7C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+SIWAN,ssp245,2035,Agricultural stress remains Low.,Rainfall change indicates a increase of 2.6%.,Overall risk class is Moderate Risk.
+SUPAUL,ssp245,2035,Temperature projected to increase by 0.6C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+VAISHALI,ssp245,2035,Temperature projected to increase by 0.6C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+AHILYANAGAR,ssp245,2035,Temperature projected to increase by 0.5C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+AKOLA,ssp245,2035,Temperature projected to increase by 0.5C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+AMRAVATI,ssp245,2035,Temperature projected to increase by 0.5C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+BEED,ssp245,2035,Agricultural stress remains Low.,Rainfall change indicates a increase of 4.9%.,Overall risk class is Low Risk.
+BHANDARA,ssp245,2035,Temperature projected to increase by 0.5C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+BULDHANA,ssp245,2035,Temperature projected to increase by 0.5C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+CHANDRAPUR,ssp245,2035,Temperature projected to increase by 0.5C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+CHHATRAPATI SAMBHAJI NAGAR,ssp245,2035,Temperature projected to increase by 0.5C by 2035.,Agricultural stress remains Low.,Rainfall change indicates a increase of 4.3%.
+DHARASHIV,ssp245,2035,Temperature projected to increase by 0.4C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+DHULE,ssp245,2035,Temperature projected to increase by 0.5C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+GADCHIROLI,ssp245,2035,Temperature projected to increase by 0.6C by 2035.,Agricultural stress remains Low.,Rainfall change indicates a increase of 4.2%.
+GONDIA,ssp245,2035,Temperature projected to increase by 0.5C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+HINGOLI,ssp245,2035,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 5.8%.
+JALGAON,ssp245,2035,Temperature projected to increase by 0.6C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+JALNA,ssp245,2035,Temperature projected to increase by 0.5C by 2035.,Agricultural stress remains Low.,Rainfall change indicates a increase of 3.7%.
+KOLHAPUR,ssp245,2035,Temperature projected to increase by 0.5C by 2035.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+LATUR,ssp245,2035,Temperature projected to increase by 0.4C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+MUMBAI,ssp245,2035,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 5.6%.
+MUMBAI SUBURBAN,ssp245,2035,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 6.2%.
+NAGPUR,ssp245,2035,Temperature projected to increase by 0.5C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+NANDED,ssp245,2035,Temperature projected to increase by 0.5C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+NANDURBAR,ssp245,2035,Temperature projected to increase by 0.5C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+NASHIK,ssp245,2035,Temperature projected to increase by 0.5C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+PALGHAR,ssp245,2035,Temperature projected to increase by 0.6C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+PARBHANI,ssp245,2035,Temperature projected to increase by 0.5C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+PUNE,ssp245,2035,Temperature projected to increase by 0.6C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+RAIGAD,ssp245,2035,Temperature projected to increase by 0.6C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+RATNAGIRI,ssp245,2035,Temperature projected to increase by 0.6C by 2035.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+SANGLI,ssp245,2035,Temperature projected to increase by 0.5C by 2035.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+SATARA,ssp245,2035,Temperature projected to increase by 0.6C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+SINDHUDURG,ssp245,2035,Temperature projected to increase by 0.6C by 2035.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+SOLAPUR,ssp245,2035,Temperature projected to increase by 0.5C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+THANE,ssp245,2035,Temperature projected to increase by 0.6C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+WARDHA,ssp245,2035,Temperature projected to increase by 0.5C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+WASHIM,ssp245,2035,Temperature projected to increase by 0.5C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+YAVATMAL,ssp245,2035,Temperature projected to increase by 0.5C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+ADILABAD,ssp245,2035,Temperature projected to increase by 0.4C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+BHADRADRI KOTHAGUDEM,ssp245,2035,Temperature projected to increase by 0.5C by 2035.,Agricultural stress is projected to rise sharply.,Rainfall change indicates a increase of 4.2%.
+HANUMAKONDA,ssp245,2035,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 9.2%.
+HYDERABAD,ssp245,2035,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 6.8%.
+JAGTIAL,ssp245,2035,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 11.1%.
+JANGAON,ssp245,2035,Temperature projected to increase by 0.5C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+JAYASHANKAR BHUPALPALLI,ssp245,2035,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 6.4%.
+JOGULAMBA GADWAL,ssp245,2035,Agricultural stress remains Low.,Rainfall change indicates a increase of 0.9%.,Overall risk class is Low Risk.
+KAMAREDDY,ssp245,2035,Temperature projected to increase by 0.5C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+KARIMNAGAR,ssp245,2035,Temperature projected to increase by 0.4C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+KHAMMAM,ssp245,2035,Temperature projected to increase by 0.5C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+KUMURAM BHEEM,ssp245,2035,Temperature projected to increase by 0.5C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+MAHABUBABAD,ssp245,2035,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 7.5%.
+MAHBUBNAGAR,ssp245,2035,Agricultural stress remains Low.,Rainfall change indicates a increase of 3.1%.,Overall risk class is Low Risk.
+MANCHERIAL,ssp245,2035,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 7.4%.
+MEDAK,ssp245,2035,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 10.7%.
+MEDCHAL-MALKAJGIRI,ssp245,2035,Temperature projected to increase by 0.5C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+MULUGU,ssp245,2035,Temperature projected to increase by 0.5C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+NAGARKURNOOL,ssp245,2035,Temperature projected to increase by 0.5C by 2035.,Agricultural stress remains Low.,Rainfall change indicates a increase of 2.5%.
+NALGONDA,ssp245,2035,Temperature projected to increase by 0.5C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+NARAYANPET,ssp245,2035,Temperature projected to increase by 0.5C by 2035.,Agricultural stress remains Low.,Rainfall change indicates a increase of 3.3%.
+NIRMAL,ssp245,2035,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 12.5%.
+NIZAMABAD,ssp245,2035,Temperature projected to increase by 0.5C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+PEDDAPALLI,ssp245,2035,Temperature projected to increase by 0.4C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+RAJANNA SIRCILLA,ssp245,2035,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 12.6%.
+RANGA REDDY,ssp245,2035,Temperature projected to increase by 0.5C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+SANGAREDDY,ssp245,2035,Temperature projected to increase by 0.5C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+SIDDIPET,ssp245,2035,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 10.2%.
+SURYAPET,ssp245,2035,Temperature projected to increase by 0.5C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+VIKARABAD,ssp245,2035,Temperature projected to increase by 0.5C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+WANAPARTHY,ssp245,2035,Agricultural stress remains Low.,Rainfall change indicates a increase of 1.1%.,Overall risk class is Low Risk.
+WARANGAL,ssp245,2035,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 8.1%.
+YADADRI BHUVANAGIRI,ssp245,2035,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 8.7%.
+ARARIA,ssp245,2040,Temperature projected to increase by 1.0C by 2040.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+ARWAL,ssp245,2040,Agricultural stress remains Low.,Rainfall change indicates a increase of 4.4%.,Overall risk class is Low Risk.
+AURANGABAD,ssp245,2040,Temperature projected to increase by 0.8C by 2040.,Agricultural stress remains Low.,Rainfall change indicates a increase of 2.8%.
+BANKA,ssp245,2040,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 5.5%.
+BEGUSARAI,ssp245,2040,Temperature projected to increase by 1.0C by 2040.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+BHAGALPUR,ssp245,2040,Temperature projected to increase by 1.1C by 2040.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+BHOJPUR,ssp245,2040,Temperature projected to increase by 0.8C by 2040.,Agricultural stress remains Low.,Rainfall change indicates a increase of 4.1%.
+BUXAR,ssp245,2040,Agricultural stress remains Low.,Rainfall change indicates a increase of 2.8%.,Overall risk class is Low Risk.
+DARBHANGA,ssp245,2040,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 8.7%.
+GAYA,ssp245,2040,Temperature projected to increase by 0.8C by 2040.,Agricultural stress remains Low.,Rainfall change indicates a increase of 4.4%.
+GOPALGANJ,ssp245,2040,Temperature projected to increase by 0.8C by 2040.,Agricultural stress remains Low.,Rainfall change indicates a increase of 4.1%.
+JAMUI,ssp245,2040,Temperature projected to increase by 1.0C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+JEHANABAD,ssp245,2040,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 5.7%.
+KAIMUR (BHABUA),ssp245,2040,Agricultural stress remains Low.,Rainfall change indicates a increase of 1.9%.,Overall risk class is Low Risk.
+KATIHAR,ssp245,2040,Temperature projected to increase by 1.1C by 2040.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+KHAGARIA,ssp245,2040,Temperature projected to increase by 1.0C by 2040.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+KISHANGANJ,ssp245,2040,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 7.8%.
+LAKHISARAI,ssp245,2040,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 8.2%.
+MADHEPURA,ssp245,2040,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 7.7%.
+MADHUBANI,ssp245,2040,Temperature projected to increase by 0.9C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+MUNGER,ssp245,2040,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 7.5%.
+MUZAFFARPUR,ssp245,2040,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 7.2%.
+NALANDA,ssp245,2040,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 7.9%.
+NAWADA,ssp245,2040,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 6.3%.
+PASHCHIM CHAMPARAN,ssp245,2040,Temperature projected to increase by 0.9C by 2040.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+PATNA,ssp245,2040,Temperature projected to increase by 0.8C by 2040.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+PURBA CHAMPARAN,ssp245,2040,Temperature projected to increase by 0.8C by 2040.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+PURNIA,ssp245,2040,Temperature projected to increase by 1.1C by 2040.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+ROHTAS,ssp245,2040,Agricultural stress remains Low.,Rainfall change indicates a increase of 2.3%.,Overall risk class is Low Risk.
+SAHARSA,ssp245,2040,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 8.3%.
+SAMASTIPUR,ssp245,2040,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 8.5%.
+SARAN,ssp245,2040,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 5.2%.
+SHEIKHPURA,ssp245,2040,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 8.4%.
+SHEOHAR,ssp245,2040,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 6.7%.
+SITAMARHI,ssp245,2040,Temperature projected to increase by 0.9C by 2040.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+SIWAN,ssp245,2040,Agricultural stress remains Low.,Rainfall change indicates a increase of 3.9%.,Overall risk class is Moderate Risk.
+SUPAUL,ssp245,2040,Temperature projected to increase by 0.9C by 2040.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+VAISHALI,ssp245,2040,Temperature projected to increase by 0.8C by 2040.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+AHILYANAGAR,ssp245,2040,Temperature projected to increase by 0.7C by 2040.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+AKOLA,ssp245,2040,Temperature projected to increase by 0.8C by 2040.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+AMRAVATI,ssp245,2040,Temperature projected to increase by 0.8C by 2040.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+BEED,ssp245,2040,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 6.2%.
+BHANDARA,ssp245,2040,Temperature projected to increase by 0.8C by 2040.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+BULDHANA,ssp245,2040,Temperature projected to increase by 0.8C by 2040.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+CHANDRAPUR,ssp245,2040,Temperature projected to increase by 0.7C by 2040.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+CHHATRAPATI SAMBHAJI NAGAR,ssp245,2040,Temperature projected to increase by 0.8C by 2040.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+DHARASHIV,ssp245,2040,Temperature projected to increase by 0.7C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+DHULE,ssp245,2040,Temperature projected to increase by 0.7C by 2040.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+GADCHIROLI,ssp245,2040,Temperature projected to increase by 0.8C by 2040.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+GONDIA,ssp245,2040,Temperature projected to increase by 0.8C by 2040.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+HINGOLI,ssp245,2040,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 7.1%.
+JALGAON,ssp245,2040,Temperature projected to increase by 0.8C by 2040.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+JALNA,ssp245,2040,Temperature projected to increase by 0.8C by 2040.,Agricultural stress remains Low.,Rainfall change indicates a increase of 5.0%.
+KOLHAPUR,ssp245,2040,Temperature projected to increase by 0.8C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+LATUR,ssp245,2040,Temperature projected to increase by 0.7C by 2040.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+MUMBAI,ssp245,2040,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 6.9%.
+MUMBAI SUBURBAN,ssp245,2040,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 7.5%.
+NAGPUR,ssp245,2040,Temperature projected to increase by 0.7C by 2040.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+NANDED,ssp245,2040,Temperature projected to increase by 0.7C by 2040.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+NANDURBAR,ssp245,2040,Temperature projected to increase by 0.7C by 2040.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+NASHIK,ssp245,2040,Temperature projected to increase by 0.8C by 2040.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+PALGHAR,ssp245,2040,Temperature projected to increase by 0.8C by 2040.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+PARBHANI,ssp245,2040,Temperature projected to increase by 0.8C by 2040.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+PUNE,ssp245,2040,Temperature projected to increase by 0.8C by 2040.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+RAIGAD,ssp245,2040,Temperature projected to increase by 0.8C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+RATNAGIRI,ssp245,2040,Temperature projected to increase by 0.8C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+SANGLI,ssp245,2040,Temperature projected to increase by 0.8C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+SATARA,ssp245,2040,Temperature projected to increase by 0.8C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+SINDHUDURG,ssp245,2040,Temperature projected to increase by 0.8C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+SOLAPUR,ssp245,2040,Temperature projected to increase by 0.7C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+THANE,ssp245,2040,Temperature projected to increase by 0.8C by 2040.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+WARDHA,ssp245,2040,Temperature projected to increase by 0.7C by 2040.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+WASHIM,ssp245,2040,Temperature projected to increase by 0.8C by 2040.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+YAVATMAL,ssp245,2040,Temperature projected to increase by 0.7C by 2040.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+ADILABAD,ssp245,2040,Temperature projected to increase by 0.7C by 2040.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+BHADRADRI KOTHAGUDEM,ssp245,2040,Temperature projected to increase by 0.8C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+HANUMAKONDA,ssp245,2040,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 10.5%.
+HYDERABAD,ssp245,2040,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 8.2%.
+JAGTIAL,ssp245,2040,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 12.4%.
+JANGAON,ssp245,2040,Temperature projected to increase by 0.7C by 2040.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+JAYASHANKAR BHUPALPALLI,ssp245,2040,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 7.7%.
+JOGULAMBA GADWAL,ssp245,2040,Agricultural stress is projected to rise sharply.,Rainfall change indicates a increase of 2.2%.,Overall risk class is Low Risk.
+KAMAREDDY,ssp245,2040,Temperature projected to increase by 0.7C by 2040.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+KARIMNAGAR,ssp245,2040,Temperature projected to increase by 0.7C by 2040.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+KHAMMAM,ssp245,2040,Temperature projected to increase by 0.8C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+KUMURAM BHEEM,ssp245,2040,Temperature projected to increase by 0.7C by 2040.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+MAHABUBABAD,ssp245,2040,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 8.8%.
+MAHBUBNAGAR,ssp245,2040,Agricultural stress remains Low.,Rainfall change indicates a increase of 4.4%.,Overall risk class is Low Risk.
+MANCHERIAL,ssp245,2040,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 8.7%.
+MEDAK,ssp245,2040,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 12.1%.
+MEDCHAL-MALKAJGIRI,ssp245,2040,Temperature projected to increase by 0.7C by 2040.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+MULUGU,ssp245,2040,Temperature projected to increase by 0.7C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+NAGARKURNOOL,ssp245,2040,Temperature projected to increase by 0.7C by 2040.,Agricultural stress is projected to rise sharply.,Rainfall change indicates a increase of 3.8%.
+NALGONDA,ssp245,2040,Temperature projected to increase by 0.7C by 2040.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+NARAYANPET,ssp245,2040,Temperature projected to increase by 0.7C by 2040.,Agricultural stress is projected to rise sharply.,Rainfall change indicates a increase of 4.6%.
+NIRMAL,ssp245,2040,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 13.8%.
+NIZAMABAD,ssp245,2040,Temperature projected to increase by 0.7C by 2040.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+PEDDAPALLI,ssp245,2040,Temperature projected to increase by 0.7C by 2040.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+RAJANNA SIRCILLA,ssp245,2040,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 14.0%.
+RANGA REDDY,ssp245,2040,Temperature projected to increase by 0.7C by 2040.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+SANGAREDDY,ssp245,2040,Temperature projected to increase by 0.7C by 2040.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+SIDDIPET,ssp245,2040,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 11.5%.
+SURYAPET,ssp245,2040,Temperature projected to increase by 0.7C by 2040.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+VIKARABAD,ssp245,2040,Temperature projected to increase by 0.7C by 2040.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+WANAPARTHY,ssp245,2040,Agricultural stress remains Low.,Rainfall change indicates a increase of 2.3%.,Overall risk class is Low Risk.
+WARANGAL,ssp245,2040,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 9.4%.
+YADADRI BHUVANAGIRI,ssp245,2040,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 10.0%.
+ARARIA,ssp585,2030,Temperature projected to increase by 0.8C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+ARWAL,ssp585,2030,Agricultural stress remains Low.,Rainfall change indicates a increase of 1.9%.,Overall risk class is Low Risk.
+AURANGABAD,ssp585,2030,Temperature projected to increase by 0.6C by 2030.,Agricultural stress remains Low.,Rainfall change indicates a increase of 0.3%.
+BANKA,ssp585,2030,Agricultural stress remains Moderate.,Rainfall change indicates a increase of 3.0%.,Overall risk class is Moderate Risk.
+BEGUSARAI,ssp585,2030,Temperature projected to increase by 0.8C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+BHAGALPUR,ssp585,2030,Temperature projected to increase by 0.9C by 2030.,Agricultural stress remains Low.,Rainfall change indicates a increase of 4.1%.
+BHOJPUR,ssp585,2030,Temperature projected to increase by 0.6C by 2030.,Agricultural stress remains Low.,Rainfall change indicates a increase of 1.6%.
+BUXAR,ssp585,2030,Agricultural stress remains Low.,Rainfall change indicates a increase of 0.3%.,Overall risk class is Low Risk.
+DARBHANGA,ssp585,2030,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 6.1%.
+GAYA,ssp585,2030,Temperature projected to increase by 0.6C by 2030.,Agricultural stress remains Low.,Rainfall change indicates a increase of 1.9%.
+GOPALGANJ,ssp585,2030,Temperature projected to increase by 0.6C by 2030.,Agricultural stress remains Low.,Rainfall change indicates a increase of 1.6%.
+JAMUI,ssp585,2030,Temperature projected to increase by 0.8C by 2030.,Agricultural stress remains Moderate.,Rainfall change indicates a increase of 3.5%.
+JEHANABAD,ssp585,2030,Agricultural stress remains Low.,Rainfall change indicates a increase of 3.1%.,Overall risk class is Low Risk.
+KAIMUR (BHABUA),ssp585,2030,Agricultural stress remains Low.,Rainfall change indicates a decline of 0.6%.,Overall risk class is Low Risk.
+KATIHAR,ssp585,2030,Temperature projected to increase by 0.9C by 2030.,Agricultural stress remains Low.,Rainfall change indicates a increase of 3.0%.
+KHAGARIA,ssp585,2030,Temperature projected to increase by 0.8C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+KISHANGANJ,ssp585,2030,Agricultural stress remains Moderate.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 5.2%.
+LAKHISARAI,ssp585,2030,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 5.6%.
+MADHEPURA,ssp585,2030,Agricultural stress remains Moderate.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 5.1%.
+MADHUBANI,ssp585,2030,Temperature projected to increase by 0.7C by 2030.,Agricultural stress remains Moderate.,Extreme rainfall events are projected to increase.
+MUNGER,ssp585,2030,Agricultural stress remains Low.,Rainfall change indicates a increase of 4.9%.,Overall risk class is Low Risk.
+MUZAFFARPUR,ssp585,2030,Agricultural stress remains Low.,Rainfall change indicates a increase of 4.7%.,Overall risk class is Low Risk.
+NALANDA,ssp585,2030,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 5.3%.
+NAWADA,ssp585,2030,Agricultural stress remains Low.,Rainfall change indicates a increase of 3.8%.,Overall risk class is Low Risk.
+PASHCHIM CHAMPARAN,ssp585,2030,Temperature projected to increase by 0.7C by 2030.,Agricultural stress remains Low.,Rainfall change indicates a increase of 3.3%.
+PATNA,ssp585,2030,Temperature projected to increase by 0.6C by 2030.,Agricultural stress remains Low.,Rainfall change indicates a increase of 4.8%.
+PURBA CHAMPARAN,ssp585,2030,Temperature projected to increase by 0.6C by 2030.,Agricultural stress remains Low.,Rainfall change indicates a increase of 3.1%.
+PURNIA,ssp585,2030,Temperature projected to increase by 0.9C by 2030.,Agricultural stress remains Low.,Rainfall change indicates a increase of 4.5%.
+ROHTAS,ssp585,2030,Agricultural stress remains Low.,Rainfall change indicates a decline of 0.1%.,Overall risk class is Low Risk.
+SAHARSA,ssp585,2030,Agricultural stress remains Moderate.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 5.7%.
+SAMASTIPUR,ssp585,2030,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 5.9%.
+SARAN,ssp585,2030,Agricultural stress remains Low.,Rainfall change indicates a increase of 2.6%.,Overall risk class is Low Risk.
+SHEIKHPURA,ssp585,2030,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 5.8%.
+SHEOHAR,ssp585,2030,Agricultural stress remains Low.,Rainfall change indicates a increase of 4.1%.,Overall risk class is Low Risk.
+SITAMARHI,ssp585,2030,Temperature projected to increase by 0.7C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+SIWAN,ssp585,2030,Agricultural stress remains Low.,Rainfall change indicates a increase of 1.4%.,Overall risk class is Moderate Risk.
+SUPAUL,ssp585,2030,Temperature projected to increase by 0.7C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+VAISHALI,ssp585,2030,Temperature projected to increase by 0.6C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+AHILYANAGAR,ssp585,2030,Temperature projected to increase by 0.5C by 2030.,Agricultural stress remains Low.,Rainfall change indicates a increase of 4.3%.
+AKOLA,ssp585,2030,Temperature projected to increase by 0.6C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+AMRAVATI,ssp585,2030,Temperature projected to increase by 0.6C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+BEED,ssp585,2030,Agricultural stress remains Low.,Rainfall change indicates a increase of 3.7%.,Overall risk class is Low Risk.
+BHANDARA,ssp585,2030,Temperature projected to increase by 0.6C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+BULDHANA,ssp585,2030,Temperature projected to increase by 0.6C by 2030.,Agricultural stress remains Low.,Rainfall change indicates a increase of 4.0%.
+CHANDRAPUR,ssp585,2030,Temperature projected to increase by 0.5C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+CHHATRAPATI SAMBHAJI NAGAR,ssp585,2030,Temperature projected to increase by 0.6C by 2030.,Agricultural stress remains Low.,Rainfall change indicates a increase of 3.0%.
+DHARASHIV,ssp585,2030,Temperature projected to increase by 0.5C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+DHULE,ssp585,2030,Temperature projected to increase by 0.5C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+GADCHIROLI,ssp585,2030,Temperature projected to increase by 0.6C by 2030.,Agricultural stress remains Low.,Rainfall change indicates a increase of 2.9%.
+GONDIA,ssp585,2030,Temperature projected to increase by 0.6C by 2030.,Agricultural stress remains Low.,Rainfall change indicates a increase of 4.5%.
+HINGOLI,ssp585,2030,Agricultural stress remains Low.,Rainfall change indicates a increase of 4.5%.,Overall risk class is Low Risk.
+JALGAON,ssp585,2030,Temperature projected to increase by 0.6C by 2030.,Agricultural stress remains Low.,Rainfall change indicates a increase of 4.7%.
+JALNA,ssp585,2030,Temperature projected to increase by 0.6C by 2030.,Agricultural stress remains Low.,Rainfall change indicates a increase of 2.5%.
+KOLHAPUR,ssp585,2030,Temperature projected to increase by 0.6C by 2030.,Agricultural stress remains Moderate.,Extreme rainfall events are projected to increase.
+LATUR,ssp585,2030,Temperature projected to increase by 0.5C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+MUMBAI,ssp585,2030,Agricultural stress remains Low.,Rainfall change indicates a increase of 4.3%.,Overall risk class is Low Risk.
+MUMBAI SUBURBAN,ssp585,2030,Agricultural stress remains Low.,Rainfall change indicates a increase of 4.9%.,Overall risk class is Low Risk.
+NAGPUR,ssp585,2030,Temperature projected to increase by 0.5C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+NANDED,ssp585,2030,Temperature projected to increase by 0.5C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+NANDURBAR,ssp585,2030,Temperature projected to increase by 0.5C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+NASHIK,ssp585,2030,Temperature projected to increase by 0.6C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+PALGHAR,ssp585,2030,Temperature projected to increase by 0.6C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+PARBHANI,ssp585,2030,Temperature projected to increase by 0.6C by 2030.,Agricultural stress remains Low.,Rainfall change indicates a increase of 4.4%.
+PUNE,ssp585,2030,Temperature projected to increase by 0.6C by 2030.,Agricultural stress remains Low.,Rainfall change indicates a increase of 4.8%.
+RAIGAD,ssp585,2030,Temperature projected to increase by 0.6C by 2030.,Agricultural stress remains Low.,Rainfall change indicates a increase of 4.7%.
+RATNAGIRI,ssp585,2030,Temperature projected to increase by 0.6C by 2030.,Agricultural stress remains High.,Extreme rainfall events are projected to increase.
+SANGLI,ssp585,2030,Temperature projected to increase by 0.6C by 2030.,Agricultural stress remains Moderate.,Extreme rainfall events are projected to increase.
+SATARA,ssp585,2030,Temperature projected to increase by 0.6C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+SINDHUDURG,ssp585,2030,Temperature projected to increase by 0.6C by 2030.,Agricultural stress remains High.,Extreme rainfall events are projected to increase.
+SOLAPUR,ssp585,2030,Temperature projected to increase by 0.5C by 2030.,Agricultural stress remains Low.,Rainfall change indicates a increase of 4.8%.
+THANE,ssp585,2030,Temperature projected to increase by 0.6C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+WARDHA,ssp585,2030,Temperature projected to increase by 0.5C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+WASHIM,ssp585,2030,Temperature projected to increase by 0.6C by 2030.,Agricultural stress remains Low.,Rainfall change indicates a increase of 4.8%.
+YAVATMAL,ssp585,2030,Temperature projected to increase by 0.5C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+ADILABAD,ssp585,2030,Temperature projected to increase by 0.5C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+BHADRADRI KOTHAGUDEM,ssp585,2030,Temperature projected to increase by 0.6C by 2030.,Agricultural stress remains Moderate.,Rainfall change indicates a increase of 2.9%.
+HANUMAKONDA,ssp585,2030,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 7.8%.
+HYDERABAD,ssp585,2030,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 5.5%.
+JAGTIAL,ssp585,2030,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 9.7%.
+JANGAON,ssp585,2030,Temperature projected to increase by 0.5C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+JAYASHANKAR BHUPALPALLI,ssp585,2030,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 5.1%.
+JOGULAMBA GADWAL,ssp585,2030,Agricultural stress remains High.,Rainfall change indicates a decline of 0.3%.,Overall risk class is Moderate Risk.
+KAMAREDDY,ssp585,2030,Temperature projected to increase by 0.5C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+KARIMNAGAR,ssp585,2030,Temperature projected to increase by 0.5C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+KHAMMAM,ssp585,2030,Temperature projected to increase by 0.6C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+KUMURAM BHEEM,ssp585,2030,Temperature projected to increase by 0.5C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+MAHABUBABAD,ssp585,2030,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 6.2%.
+MAHBUBNAGAR,ssp585,2030,Agricultural stress remains Low.,Rainfall change indicates a increase of 1.9%.,Overall risk class is Low Risk.
+MANCHERIAL,ssp585,2030,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 6.1%.
+MEDAK,ssp585,2030,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 9.4%.
+MEDCHAL-MALKAJGIRI,ssp585,2030,Temperature projected to increase by 0.5C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+MULUGU,ssp585,2030,Temperature projected to increase by 0.5C by 2030.,Agricultural stress remains Low.,Rainfall change indicates a increase of 3.7%.
+NAGARKURNOOL,ssp585,2030,Temperature projected to increase by 0.5C by 2030.,Agricultural stress remains Moderate.,Rainfall change indicates a increase of 1.3%.
+NALGONDA,ssp585,2030,Temperature projected to increase by 0.5C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+NARAYANPET,ssp585,2030,Temperature projected to increase by 0.5C by 2030.,Agricultural stress remains Low.,Rainfall change indicates a increase of 2.1%.
+NIRMAL,ssp585,2030,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 11.1%.
+NIZAMABAD,ssp585,2030,Temperature projected to increase by 0.5C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+PEDDAPALLI,ssp585,2030,Temperature projected to increase by 0.5C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+RAJANNA SIRCILLA,ssp585,2030,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 11.2%.
+RANGA REDDY,ssp585,2030,Temperature projected to increase by 0.5C by 2030.,Agricultural stress remains Low.,Rainfall change indicates a increase of 4.2%.
+SANGAREDDY,ssp585,2030,Temperature projected to increase by 0.5C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+SIDDIPET,ssp585,2030,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 8.8%.
+SURYAPET,ssp585,2030,Temperature projected to increase by 0.5C by 2030.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+VIKARABAD,ssp585,2030,Temperature projected to increase by 0.5C by 2030.,Agricultural stress remains Low.,Rainfall change indicates a increase of 4.3%.
+WANAPARTHY,ssp585,2030,Agricultural stress remains Low.,Rainfall change indicates a decline of 0.1%.,Overall risk class is Low Risk.
+WARANGAL,ssp585,2030,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 6.8%.
+YADADRI BHUVANAGIRI,ssp585,2030,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 7.4%.
+ARARIA,ssp585,2035,Temperature projected to increase by 1.3C by 2035.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+ARWAL,ssp585,2035,Agricultural stress is projected to rise sharply.,Rainfall change indicates a increase of 3.1%.,Overall risk class is Moderate Risk.
+AURANGABAD,ssp585,2035,Temperature projected to increase by 1.1C by 2035.,Agricultural stress is projected to rise sharply.,Rainfall change indicates a increase of 1.6%.
+BANKA,ssp585,2035,Agricultural stress is projected to rise sharply.,Rainfall change indicates a increase of 4.3%.,Overall risk class is Moderate Risk.
+BEGUSARAI,ssp585,2035,Temperature projected to increase by 1.2C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+BHAGALPUR,ssp585,2035,Temperature projected to increase by 1.3C by 2035.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+BHOJPUR,ssp585,2035,Temperature projected to increase by 1.0C by 2035.,Agricultural stress is projected to rise sharply.,Rainfall change indicates a increase of 2.8%.
+BUXAR,ssp585,2035,Agricultural stress is projected to rise sharply.,Rainfall change indicates a increase of 1.6%.,Overall risk class is Moderate Risk.
+DARBHANGA,ssp585,2035,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 7.4%.
+GAYA,ssp585,2035,Temperature projected to increase by 1.1C by 2035.,Agricultural stress is projected to rise sharply.,Rainfall change indicates a increase of 3.1%.
+GOPALGANJ,ssp585,2035,Temperature projected to increase by 1.1C by 2035.,Agricultural stress is projected to rise sharply.,Rainfall change indicates a increase of 2.9%.
+JAMUI,ssp585,2035,Temperature projected to increase by 1.2C by 2035.,Agricultural stress is projected to rise sharply.,Rainfall change indicates a increase of 4.7%.
+JEHANABAD,ssp585,2035,Agricultural stress is projected to rise sharply.,Rainfall change indicates a increase of 4.4%.,Overall risk class is Moderate Risk.
+KAIMUR (BHABUA),ssp585,2035,Agricultural stress is projected to rise sharply.,Rainfall change indicates a increase of 0.6%.,Overall risk class is Moderate Risk.
+KATIHAR,ssp585,2035,Temperature projected to increase by 1.3C by 2035.,Agricultural stress is projected to rise sharply.,Rainfall change indicates a increase of 4.3%.
+KHAGARIA,ssp585,2035,Temperature projected to increase by 1.2C by 2035.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+KISHANGANJ,ssp585,2035,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 6.5%.
+LAKHISARAI,ssp585,2035,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 6.9%.
+MADHEPURA,ssp585,2035,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 6.4%.
+MADHUBANI,ssp585,2035,Temperature projected to increase by 1.1C by 2035.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+MUNGER,ssp585,2035,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 6.2%.
+MUZAFFARPUR,ssp585,2035,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 5.9%.
+NALANDA,ssp585,2035,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 6.6%.
+NAWADA,ssp585,2035,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 5.1%.
+PASHCHIM CHAMPARAN,ssp585,2035,Temperature projected to increase by 1.1C by 2035.,Agricultural stress is projected to rise sharply.,Rainfall change indicates a increase of 4.6%.
+PATNA,ssp585,2035,Temperature projected to increase by 1.1C by 2035.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+PURBA CHAMPARAN,ssp585,2035,Temperature projected to increase by 1.1C by 2035.,Agricultural stress is projected to rise sharply.,Rainfall change indicates a increase of 4.3%.
+PURNIA,ssp585,2035,Temperature projected to increase by 1.3C by 2035.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+ROHTAS,ssp585,2035,Agricultural stress is projected to rise sharply.,Rainfall change indicates a increase of 1.1%.,Overall risk class is Moderate Risk.
+SAHARSA,ssp585,2035,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 7.0%.
+SAMASTIPUR,ssp585,2035,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 7.2%.
+SARAN,ssp585,2035,Agricultural stress remains Low.,Rainfall change indicates a increase of 3.9%.,Overall risk class is Moderate Risk.
+SHEIKHPURA,ssp585,2035,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 7.1%.
+SHEOHAR,ssp585,2035,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 5.4%.
+SITAMARHI,ssp585,2035,Temperature projected to increase by 1.2C by 2035.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+SIWAN,ssp585,2035,Agricultural stress is projected to rise sharply.,Rainfall change indicates a increase of 2.6%.,Overall risk class is Moderate Risk.
+SUPAUL,ssp585,2035,Temperature projected to increase by 1.1C by 2035.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+VAISHALI,ssp585,2035,Temperature projected to increase by 1.1C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+AHILYANAGAR,ssp585,2035,Temperature projected to increase by 1.0C by 2035.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+AKOLA,ssp585,2035,Temperature projected to increase by 1.0C by 2035.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+AMRAVATI,ssp585,2035,Temperature projected to increase by 1.0C by 2035.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+BEED,ssp585,2035,Agricultural stress is projected to rise sharply.,Rainfall change indicates a increase of 4.9%.,Overall risk class is Moderate Risk.
+BHANDARA,ssp585,2035,Temperature projected to increase by 1.0C by 2035.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+BULDHANA,ssp585,2035,Temperature projected to increase by 1.0C by 2035.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+CHANDRAPUR,ssp585,2035,Temperature projected to increase by 1.0C by 2035.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+CHHATRAPATI SAMBHAJI NAGAR,ssp585,2035,Temperature projected to increase by 1.0C by 2035.,Agricultural stress is projected to rise sharply.,Rainfall change indicates a increase of 4.3%.
+DHARASHIV,ssp585,2035,Temperature projected to increase by 0.9C by 2035.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+DHULE,ssp585,2035,Temperature projected to increase by 1.0C by 2035.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+GADCHIROLI,ssp585,2035,Temperature projected to increase by 1.1C by 2035.,Agricultural stress is projected to rise sharply.,Rainfall change indicates a increase of 4.2%.
+GONDIA,ssp585,2035,Temperature projected to increase by 1.0C by 2035.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+HINGOLI,ssp585,2035,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 5.8%.
+JALGAON,ssp585,2035,Temperature projected to increase by 1.1C by 2035.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+JALNA,ssp585,2035,Temperature projected to increase by 1.0C by 2035.,Agricultural stress is projected to rise sharply.,Rainfall change indicates a increase of 3.7%.
+KOLHAPUR,ssp585,2035,Temperature projected to increase by 1.0C by 2035.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+LATUR,ssp585,2035,Temperature projected to increase by 0.9C by 2035.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+MUMBAI,ssp585,2035,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 5.6%.
+MUMBAI SUBURBAN,ssp585,2035,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 6.2%.
+NAGPUR,ssp585,2035,Temperature projected to increase by 1.0C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+NANDED,ssp585,2035,Temperature projected to increase by 1.0C by 2035.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+NANDURBAR,ssp585,2035,Temperature projected to increase by 1.0C by 2035.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+NASHIK,ssp585,2035,Temperature projected to increase by 1.0C by 2035.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+PALGHAR,ssp585,2035,Temperature projected to increase by 1.1C by 2035.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+PARBHANI,ssp585,2035,Temperature projected to increase by 1.0C by 2035.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+PUNE,ssp585,2035,Temperature projected to increase by 1.1C by 2035.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+RAIGAD,ssp585,2035,Temperature projected to increase by 1.1C by 2035.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+RATNAGIRI,ssp585,2035,Temperature projected to increase by 1.1C by 2035.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+SANGLI,ssp585,2035,Temperature projected to increase by 1.0C by 2035.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+SATARA,ssp585,2035,Temperature projected to increase by 1.1C by 2035.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+SINDHUDURG,ssp585,2035,Temperature projected to increase by 1.1C by 2035.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+SOLAPUR,ssp585,2035,Temperature projected to increase by 1.0C by 2035.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+THANE,ssp585,2035,Temperature projected to increase by 1.1C by 2035.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+WARDHA,ssp585,2035,Temperature projected to increase by 1.0C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+WASHIM,ssp585,2035,Temperature projected to increase by 1.0C by 2035.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+YAVATMAL,ssp585,2035,Temperature projected to increase by 1.0C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+ADILABAD,ssp585,2035,Temperature projected to increase by 0.9C by 2035.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+BHADRADRI KOTHAGUDEM,ssp585,2035,Temperature projected to increase by 1.0C by 2035.,Agricultural stress is projected to rise sharply.,Rainfall change indicates a increase of 4.2%.
+HANUMAKONDA,ssp585,2035,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 9.2%.
+HYDERABAD,ssp585,2035,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 6.8%.
+JAGTIAL,ssp585,2035,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 11.1%.
+JANGAON,ssp585,2035,Temperature projected to increase by 1.0C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+JAYASHANKAR BHUPALPALLI,ssp585,2035,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 6.4%.
+JOGULAMBA GADWAL,ssp585,2035,Agricultural stress is projected to rise sharply.,Rainfall change indicates a increase of 0.9%.,Overall risk class is Moderate Risk.
+KAMAREDDY,ssp585,2035,Temperature projected to increase by 1.0C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+KARIMNAGAR,ssp585,2035,Temperature projected to increase by 0.9C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+KHAMMAM,ssp585,2035,Temperature projected to increase by 1.0C by 2035.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+KUMURAM BHEEM,ssp585,2035,Temperature projected to increase by 1.0C by 2035.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+MAHABUBABAD,ssp585,2035,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 7.5%.
+MAHBUBNAGAR,ssp585,2035,Agricultural stress remains Low.,Rainfall change indicates a increase of 3.1%.,Overall risk class is Low Risk.
+MANCHERIAL,ssp585,2035,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 7.4%.
+MEDAK,ssp585,2035,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 10.7%.
+MEDCHAL-MALKAJGIRI,ssp585,2035,Temperature projected to increase by 1.0C by 2035.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+MULUGU,ssp585,2035,Temperature projected to increase by 1.0C by 2035.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+NAGARKURNOOL,ssp585,2035,Temperature projected to increase by 1.0C by 2035.,Agricultural stress is projected to rise sharply.,Rainfall change indicates a increase of 2.5%.
+NALGONDA,ssp585,2035,Temperature projected to increase by 1.0C by 2035.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+NARAYANPET,ssp585,2035,Temperature projected to increase by 1.0C by 2035.,Agricultural stress is projected to rise sharply.,Rainfall change indicates a increase of 3.3%.
+NIRMAL,ssp585,2035,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 12.5%.
+NIZAMABAD,ssp585,2035,Temperature projected to increase by 1.0C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+PEDDAPALLI,ssp585,2035,Temperature projected to increase by 0.9C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+RAJANNA SIRCILLA,ssp585,2035,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 12.6%.
+RANGA REDDY,ssp585,2035,Temperature projected to increase by 1.0C by 2035.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+SANGAREDDY,ssp585,2035,Temperature projected to increase by 1.0C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+SIDDIPET,ssp585,2035,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 10.2%.
+SURYAPET,ssp585,2035,Temperature projected to increase by 1.0C by 2035.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+VIKARABAD,ssp585,2035,Temperature projected to increase by 1.0C by 2035.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+WANAPARTHY,ssp585,2035,Agricultural stress is projected to rise sharply.,Rainfall change indicates a increase of 1.1%.,Overall risk class is Moderate Risk.
+WARANGAL,ssp585,2035,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 8.1%.
+YADADRI BHUVANAGIRI,ssp585,2035,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 8.7%.
+ARARIA,ssp585,2040,Temperature projected to increase by 1.7C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+ARWAL,ssp585,2040,Agricultural stress is projected to rise sharply.,Rainfall change indicates a increase of 4.4%.,Overall risk class is Moderate Risk.
+AURANGABAD,ssp585,2040,Temperature projected to increase by 1.5C by 2040.,Agricultural stress is projected to rise sharply.,Rainfall change indicates a increase of 2.8%.
+BANKA,ssp585,2040,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 5.5%.
+BEGUSARAI,ssp585,2040,Temperature projected to increase by 1.7C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+BHAGALPUR,ssp585,2040,Temperature projected to increase by 1.8C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+BHOJPUR,ssp585,2040,Temperature projected to increase by 1.5C by 2040.,Agricultural stress is projected to rise sharply.,Rainfall change indicates a increase of 4.1%.
+BUXAR,ssp585,2040,Agricultural stress is projected to rise sharply.,Rainfall change indicates a increase of 2.8%.,Overall risk class is High Risk.
+DARBHANGA,ssp585,2040,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 8.7%.
+GAYA,ssp585,2040,Temperature projected to increase by 1.5C by 2040.,Agricultural stress is projected to rise sharply.,Rainfall change indicates a increase of 4.4%.
+GOPALGANJ,ssp585,2040,Temperature projected to increase by 1.5C by 2040.,Agricultural stress is projected to rise sharply.,Rainfall change indicates a increase of 4.1%.
+JAMUI,ssp585,2040,Temperature projected to increase by 1.7C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+JEHANABAD,ssp585,2040,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 5.7%.
+KAIMUR (BHABUA),ssp585,2040,Agricultural stress is projected to rise sharply.,Rainfall change indicates a increase of 1.9%.,Overall risk class is Moderate Risk.
+KATIHAR,ssp585,2040,Temperature projected to increase by 1.8C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+KHAGARIA,ssp585,2040,Temperature projected to increase by 1.7C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+KISHANGANJ,ssp585,2040,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 7.8%.
+LAKHISARAI,ssp585,2040,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 8.2%.
+MADHEPURA,ssp585,2040,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 7.7%.
+MADHUBANI,ssp585,2040,Temperature projected to increase by 1.6C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+MUNGER,ssp585,2040,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 7.5%.
+MUZAFFARPUR,ssp585,2040,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 7.2%.
+NALANDA,ssp585,2040,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 7.9%.
+NAWADA,ssp585,2040,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 6.3%.
+PASHCHIM CHAMPARAN,ssp585,2040,Temperature projected to increase by 1.6C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+PATNA,ssp585,2040,Temperature projected to increase by 1.5C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+PURBA CHAMPARAN,ssp585,2040,Temperature projected to increase by 1.5C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+PURNIA,ssp585,2040,Temperature projected to increase by 1.8C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+ROHTAS,ssp585,2040,Agricultural stress is projected to rise sharply.,Rainfall change indicates a increase of 2.3%.,Overall risk class is Moderate Risk.
+SAHARSA,ssp585,2040,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 8.3%.
+SAMASTIPUR,ssp585,2040,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 8.5%.
+SARAN,ssp585,2040,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 5.2%.
+SHEIKHPURA,ssp585,2040,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 8.4%.
+SHEOHAR,ssp585,2040,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 6.7%.
+SITAMARHI,ssp585,2040,Temperature projected to increase by 1.6C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+SIWAN,ssp585,2040,Agricultural stress is projected to rise sharply.,Rainfall change indicates a increase of 3.9%.,Overall risk class is High Risk.
+SUPAUL,ssp585,2040,Temperature projected to increase by 1.6C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+VAISHALI,ssp585,2040,Temperature projected to increase by 1.5C by 2040.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+AHILYANAGAR,ssp585,2040,Temperature projected to increase by 1.4C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+AKOLA,ssp585,2040,Temperature projected to increase by 1.5C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+AMRAVATI,ssp585,2040,Temperature projected to increase by 1.5C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+BEED,ssp585,2040,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 6.2%.
+BHANDARA,ssp585,2040,Temperature projected to increase by 1.5C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+BULDHANA,ssp585,2040,Temperature projected to increase by 1.5C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+CHANDRAPUR,ssp585,2040,Temperature projected to increase by 1.4C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+CHHATRAPATI SAMBHAJI NAGAR,ssp585,2040,Temperature projected to increase by 1.5C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+DHARASHIV,ssp585,2040,Temperature projected to increase by 1.4C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+DHULE,ssp585,2040,Temperature projected to increase by 1.4C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+GADCHIROLI,ssp585,2040,Temperature projected to increase by 1.5C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+GONDIA,ssp585,2040,Temperature projected to increase by 1.5C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+HINGOLI,ssp585,2040,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 7.1%.
+JALGAON,ssp585,2040,Temperature projected to increase by 1.5C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+JALNA,ssp585,2040,Temperature projected to increase by 1.5C by 2040.,Agricultural stress is projected to rise sharply.,Rainfall change indicates a increase of 5.0%.
+KOLHAPUR,ssp585,2040,Temperature projected to increase by 1.5C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+LATUR,ssp585,2040,Temperature projected to increase by 1.4C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+MUMBAI,ssp585,2040,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 6.9%.
+MUMBAI SUBURBAN,ssp585,2040,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 7.5%.
+NAGPUR,ssp585,2040,Temperature projected to increase by 1.4C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+NANDED,ssp585,2040,Temperature projected to increase by 1.4C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+NANDURBAR,ssp585,2040,Temperature projected to increase by 1.4C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+NASHIK,ssp585,2040,Temperature projected to increase by 1.5C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+PALGHAR,ssp585,2040,Temperature projected to increase by 1.5C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+PARBHANI,ssp585,2040,Temperature projected to increase by 1.5C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+PUNE,ssp585,2040,Temperature projected to increase by 1.5C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+RAIGAD,ssp585,2040,Temperature projected to increase by 1.5C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+RATNAGIRI,ssp585,2040,Temperature projected to increase by 1.5C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+SANGLI,ssp585,2040,Temperature projected to increase by 1.5C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+SATARA,ssp585,2040,Temperature projected to increase by 1.5C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+SINDHUDURG,ssp585,2040,Temperature projected to increase by 1.5C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+SOLAPUR,ssp585,2040,Temperature projected to increase by 1.4C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+THANE,ssp585,2040,Temperature projected to increase by 1.5C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+WARDHA,ssp585,2040,Temperature projected to increase by 1.4C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+WASHIM,ssp585,2040,Temperature projected to increase by 1.5C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+YAVATMAL,ssp585,2040,Temperature projected to increase by 1.4C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+ADILABAD,ssp585,2040,Temperature projected to increase by 1.4C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+BHADRADRI KOTHAGUDEM,ssp585,2040,Temperature projected to increase by 1.5C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+HANUMAKONDA,ssp585,2040,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 10.5%.
+HYDERABAD,ssp585,2040,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 8.2%.
+JAGTIAL,ssp585,2040,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 12.4%.
+JANGAON,ssp585,2040,Temperature projected to increase by 1.4C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+JAYASHANKAR BHUPALPALLI,ssp585,2040,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 7.7%.
+JOGULAMBA GADWAL,ssp585,2040,Agricultural stress is projected to rise sharply.,Rainfall change indicates a increase of 2.2%.,Overall risk class is Moderate Risk.
+KAMAREDDY,ssp585,2040,Temperature projected to increase by 1.4C by 2040.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+KARIMNAGAR,ssp585,2040,Temperature projected to increase by 1.4C by 2040.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+KHAMMAM,ssp585,2040,Temperature projected to increase by 1.5C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+KUMURAM BHEEM,ssp585,2040,Temperature projected to increase by 1.4C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+MAHABUBABAD,ssp585,2040,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 8.8%.
+MAHBUBNAGAR,ssp585,2040,Agricultural stress is projected to rise sharply.,Rainfall change indicates a increase of 4.4%.,Overall risk class is Moderate Risk.
+MANCHERIAL,ssp585,2040,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 8.7%.
+MEDAK,ssp585,2040,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 12.1%.
+MEDCHAL-MALKAJGIRI,ssp585,2040,Temperature projected to increase by 1.4C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+MULUGU,ssp585,2040,Temperature projected to increase by 1.4C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+NAGARKURNOOL,ssp585,2040,Temperature projected to increase by 1.4C by 2040.,Agricultural stress is projected to rise sharply.,Rainfall change indicates a increase of 3.8%.
+NALGONDA,ssp585,2040,Temperature projected to increase by 1.4C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+NARAYANPET,ssp585,2040,Temperature projected to increase by 1.4C by 2040.,Agricultural stress is projected to rise sharply.,Rainfall change indicates a increase of 4.6%.
+NIRMAL,ssp585,2040,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 13.8%.
+NIZAMABAD,ssp585,2040,Temperature projected to increase by 1.4C by 2040.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+PEDDAPALLI,ssp585,2040,Temperature projected to increase by 1.4C by 2040.,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.
+RAJANNA SIRCILLA,ssp585,2040,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 14.0%.
+RANGA REDDY,ssp585,2040,Temperature projected to increase by 1.4C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+SANGAREDDY,ssp585,2040,Temperature projected to increase by 1.4C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+SIDDIPET,ssp585,2040,Agricultural stress remains Low.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 11.5%.
+SURYAPET,ssp585,2040,Temperature projected to increase by 1.4C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+VIKARABAD,ssp585,2040,Temperature projected to increase by 1.4C by 2040.,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.
+WANAPARTHY,ssp585,2040,Agricultural stress is projected to rise sharply.,Rainfall change indicates a increase of 2.3%.,Overall risk class is Moderate Risk.
+WARANGAL,ssp585,2040,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 9.4%.
+YADADRI BHUVANAGIRI,ssp585,2040,Agricultural stress is projected to rise sharply.,Extreme rainfall events are projected to increase.,Rainfall change indicates a increase of 10.0%.

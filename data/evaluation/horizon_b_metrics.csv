@@ -1,0 +1,10 @@
+target,model,split,feature_set,composite_score,r2,rmse,mae,corr,n
+sm_anomaly,hgb,train,FULL,,0.996,0.00181,0.00104,0.998,642
+sm_anomaly,hgb,val,FULL,0.8645,0.8782,0.00773,0.00521,0.9392,214
+sm_anomaly,hgb,test,FULL,,0.4047,0.01461,0.01023,0.6967,321
+sm_anomaly,rf,train,FULL,,0.9784,0.00422,0.00301,0.9906,642
+sm_anomaly,rf,val,FULL,0.7908,0.7689,0.01064,0.00763,0.9271,214
+sm_anomaly,rf,test,FULL,,0.2838,0.01603,0.01312,0.6423,321
+sm_anomaly,xgb,train,FULL,,0.9977,0.00137,0.00105,0.9989,642
+sm_anomaly,xgb,val,FULL,0.9165,0.938,0.00551,0.00422,0.9694,214
+sm_anomaly,xgb,test,FULL,,0.3999,0.01467,0.01075,0.6574,321

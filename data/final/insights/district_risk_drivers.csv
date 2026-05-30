@@ -1,0 +1,643 @@
+district,scenario,year,primary_driver,secondary_driver,third_driver
+ARARIA,ssp245,2030,Increasing Wet Days,Extreme Rainfall Increase,Flood Hazard
+ARWAL,ssp245,2030,Increasing Wet Days,Flood Hazard,Increasing Dry Days
+AURANGABAD,ssp245,2030,Increasing Wet Days,Flood Hazard,Temperature Increase
+BANKA,ssp245,2030,Flood Hazard,Extreme Rainfall Increase,Increasing Dry Days
+BEGUSARAI,ssp245,2030,Extreme Rainfall Increase,Temperature Increase,Increasing Wet Days
+BHAGALPUR,ssp245,2030,Temperature Increase,Extreme Rainfall Increase,Flood Hazard
+BHOJPUR,ssp245,2030,Increasing Dry Days,Drought Hazard,Increasing Wet Days
+BUXAR,ssp245,2030,Increasing Wet Days,Drought Hazard,Increasing Dry Days
+DARBHANGA,ssp245,2030,Extreme Rainfall Increase,Flood Hazard,Increasing Dry Days
+GAYA,ssp245,2030,Increasing Wet Days,Flood Hazard,Temperature Increase
+GOPALGANJ,ssp245,2030,Drought Hazard,Increasing Dry Days,Flood Hazard
+JAMUI,ssp245,2030,Extreme Rainfall Increase,Temperature Increase,Flood Hazard
+JEHANABAD,ssp245,2030,Extreme Rainfall Increase,Flood Hazard,Increasing Dry Days
+KAIMUR (BHABUA),ssp245,2030,Rainfall Decline,Increasing Wet Days,Flood Hazard
+KATIHAR,ssp245,2030,Temperature Increase,Flood Hazard,Increasing Wet Days
+KHAGARIA,ssp245,2030,Extreme Rainfall Increase,Flood Hazard,Temperature Increase
+KISHANGANJ,ssp245,2030,Flood Hazard,Increasing Wet Days,Drought Hazard
+LAKHISARAI,ssp245,2030,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+MADHEPURA,ssp245,2030,Extreme Rainfall Increase,Drought Hazard,Flood Hazard
+MADHUBANI,ssp245,2030,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+MUNGER,ssp245,2030,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+MUZAFFARPUR,ssp245,2030,Extreme Rainfall Increase,Drought Hazard,Flood Hazard
+NALANDA,ssp245,2030,Extreme Rainfall Increase,Increasing Wet Days,Increasing Dry Days
+NAWADA,ssp245,2030,Extreme Rainfall Increase,Flood Hazard,Increasing Dry Days
+PASHCHIM CHAMPARAN,ssp245,2030,Flood Hazard,Extreme Rainfall Increase,Increasing Wet Days
+PATNA,ssp245,2030,Extreme Rainfall Increase,Increasing Dry Days,Increasing Wet Days
+PURBA CHAMPARAN,ssp245,2030,Drought Hazard,Flood Hazard,Extreme Rainfall Increase
+PURNIA,ssp245,2030,Increasing Wet Days,Flood Hazard,Extreme Rainfall Increase
+ROHTAS,ssp245,2030,Increasing Wet Days,Flood Hazard,Rainfall Decline
+SAHARSA,ssp245,2030,Extreme Rainfall Increase,Flood Hazard,Drought Hazard
+SAMASTIPUR,ssp245,2030,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+SARAN,ssp245,2030,Drought Hazard,Increasing Dry Days,Extreme Rainfall Increase
+SHEIKHPURA,ssp245,2030,Extreme Rainfall Increase,Increasing Wet Days,Flood Hazard
+SHEOHAR,ssp245,2030,Extreme Rainfall Increase,Increasing Dry Days,Flood Hazard
+SITAMARHI,ssp245,2030,Extreme Rainfall Increase,Flood Hazard,Temperature Increase
+SIWAN,ssp245,2030,Drought Hazard,Increasing Dry Days,Flood Hazard
+SUPAUL,ssp245,2030,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+VAISHALI,ssp245,2030,Drought Hazard,Extreme Rainfall Increase,Temperature Increase
+AHILYANAGAR,ssp245,2030,Increasing Dry Days,Extreme Rainfall Increase,Flood Hazard
+AKOLA,ssp245,2030,Extreme Rainfall Increase,Flood Hazard,Increasing Dry Days
+AMRAVATI,ssp245,2030,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+BEED,ssp245,2030,Extreme Rainfall Increase,Increasing Dry Days,Increasing Wet Days
+BHANDARA,ssp245,2030,Flood Hazard,Extreme Rainfall Increase,Temperature Increase
+BULDHANA,ssp245,2030,Increasing Dry Days,Flood Hazard,Extreme Rainfall Increase
+CHANDRAPUR,ssp245,2030,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+CHHATRAPATI SAMBHAJI NAGAR,ssp245,2030,Increasing Dry Days,Extreme Rainfall Increase,Flood Hazard
+DHARASHIV,ssp245,2030,Extreme Rainfall Increase,Increasing Dry Days,Increasing Wet Days
+DHULE,ssp245,2030,Extreme Rainfall Increase,Increasing Dry Days,Flood Hazard
+GADCHIROLI,ssp245,2030,Flood Hazard,Increasing Wet Days,Extreme Rainfall Increase
+GONDIA,ssp245,2030,Flood Hazard,Extreme Rainfall Increase,Temperature Increase
+HINGOLI,ssp245,2030,Increasing Dry Days,Extreme Rainfall Increase,Flood Hazard
+JALGAON,ssp245,2030,Extreme Rainfall Increase,Increasing Dry Days,Flood Hazard
+JALNA,ssp245,2030,Increasing Dry Days,Flood Hazard,Increasing Wet Days
+KOLHAPUR,ssp245,2030,Flood Hazard,Increasing Wet Days,Extreme Rainfall Increase
+LATUR,ssp245,2030,Extreme Rainfall Increase,Increasing Dry Days,Increasing Wet Days
+MUMBAI,ssp245,2030,Increasing Dry Days,Flood Hazard,Increasing Wet Days
+MUMBAI SUBURBAN,ssp245,2030,Flood Hazard,Increasing Dry Days,Increasing Wet Days
+NAGPUR,ssp245,2030,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+NANDED,ssp245,2030,Extreme Rainfall Increase,Increasing Wet Days,Increasing Dry Days
+NANDURBAR,ssp245,2030,Extreme Rainfall Increase,Increasing Dry Days,Flood Hazard
+NASHIK,ssp245,2030,Increasing Dry Days,Extreme Rainfall Increase,Flood Hazard
+PALGHAR,ssp245,2030,Flood Hazard,Increasing Dry Days,Increasing Wet Days
+PARBHANI,ssp245,2030,Extreme Rainfall Increase,Increasing Wet Days,Increasing Dry Days
+PUNE,ssp245,2030,Increasing Dry Days,Flood Hazard,Extreme Rainfall Increase
+RAIGAD,ssp245,2030,Flood Hazard,Increasing Dry Days,Increasing Wet Days
+RATNAGIRI,ssp245,2030,Flood Hazard,Increasing Wet Days,Drought Hazard
+SANGLI,ssp245,2030,Extreme Rainfall Increase,Increasing Dry Days,Increasing Wet Days
+SATARA,ssp245,2030,Flood Hazard,Increasing Dry Days,Extreme Rainfall Increase
+SINDHUDURG,ssp245,2030,Flood Hazard,Increasing Wet Days,Drought Hazard
+SOLAPUR,ssp245,2030,Extreme Rainfall Increase,Increasing Dry Days,Increasing Wet Days
+THANE,ssp245,2030,Flood Hazard,Increasing Wet Days,Increasing Dry Days
+WARDHA,ssp245,2030,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+WASHIM,ssp245,2030,Extreme Rainfall Increase,Flood Hazard,Increasing Dry Days
+YAVATMAL,ssp245,2030,Extreme Rainfall Increase,Flood Hazard,Increasing Dry Days
+ADILABAD,ssp245,2030,Extreme Rainfall Increase,Flood Hazard,Increasing Dry Days
+BHADRADRI KOTHAGUDEM,ssp245,2030,Extreme Rainfall Increase,Increasing Wet Days,Flood Hazard
+HANUMAKONDA,ssp245,2030,Extreme Rainfall Increase,Flood Hazard,Increasing Dry Days
+HYDERABAD,ssp245,2030,Extreme Rainfall Increase,Flood Hazard,Increasing Dry Days
+JAGTIAL,ssp245,2030,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+JANGAON,ssp245,2030,Extreme Rainfall Increase,Flood Hazard,Temperature Increase
+JAYASHANKAR BHUPALPALLI,ssp245,2030,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+JOGULAMBA GADWAL,ssp245,2030,Rainfall Decline,Increasing Dry Days,Agricultural Stress
+KAMAREDDY,ssp245,2030,Extreme Rainfall Increase,Increasing Wet Days,Flood Hazard
+KARIMNAGAR,ssp245,2030,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+KHAMMAM,ssp245,2030,Extreme Rainfall Increase,Temperature Increase,Increasing Wet Days
+KUMURAM BHEEM,ssp245,2030,Flood Hazard,Extreme Rainfall Increase,Increasing Wet Days
+MAHABUBABAD,ssp245,2030,Extreme Rainfall Increase,Flood Hazard,Increasing Dry Days
+MAHBUBNAGAR,ssp245,2030,Increasing Dry Days,Extreme Rainfall Increase,Increasing Wet Days
+MANCHERIAL,ssp245,2030,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+MEDAK,ssp245,2030,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+MEDCHAL-MALKAJGIRI,ssp245,2030,Extreme Rainfall Increase,Flood Hazard,Temperature Increase
+MULUGU,ssp245,2030,Flood Hazard,Extreme Rainfall Increase,Increasing Wet Days
+NAGARKURNOOL,ssp245,2030,Increasing Dry Days,Temperature Increase,Increasing Wet Days
+NALGONDA,ssp245,2030,Extreme Rainfall Increase,Increasing Dry Days,Increasing Wet Days
+NARAYANPET,ssp245,2030,Increasing Dry Days,Extreme Rainfall Increase,Temperature Increase
+NIRMAL,ssp245,2030,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+NIZAMABAD,ssp245,2030,Extreme Rainfall Increase,Increasing Wet Days,Flood Hazard
+PEDDAPALLI,ssp245,2030,Extreme Rainfall Increase,Flood Hazard,Temperature Increase
+RAJANNA SIRCILLA,ssp245,2030,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+RANGA REDDY,ssp245,2030,Extreme Rainfall Increase,Increasing Dry Days,Increasing Wet Days
+SANGAREDDY,ssp245,2030,Extreme Rainfall Increase,Increasing Wet Days,Flood Hazard
+SIDDIPET,ssp245,2030,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+SURYAPET,ssp245,2030,Extreme Rainfall Increase,Increasing Dry Days,Increasing Wet Days
+VIKARABAD,ssp245,2030,Extreme Rainfall Increase,Increasing Dry Days,Temperature Increase
+WANAPARTHY,ssp245,2030,Rainfall Decline,Increasing Dry Days,Increasing Wet Days
+WARANGAL,ssp245,2030,Extreme Rainfall Increase,Flood Hazard,Increasing Dry Days
+YADADRI BHUVANAGIRI,ssp245,2030,Extreme Rainfall Increase,Increasing Dry Days,Flood Hazard
+ARARIA,ssp245,2035,Extreme Rainfall Increase,Increasing Wet Days,Flood Hazard
+ARWAL,ssp245,2035,Increasing Wet Days,Flood Hazard,Extreme Rainfall Increase
+AURANGABAD,ssp245,2035,Increasing Wet Days,Temperature Increase,Flood Hazard
+BANKA,ssp245,2035,Extreme Rainfall Increase,Flood Hazard,Increasing Dry Days
+BEGUSARAI,ssp245,2035,Extreme Rainfall Increase,Temperature Increase,Increasing Wet Days
+BHAGALPUR,ssp245,2035,Temperature Increase,Extreme Rainfall Increase,Flood Hazard
+BHOJPUR,ssp245,2035,Temperature Increase,Increasing Dry Days,Extreme Rainfall Increase
+BUXAR,ssp245,2035,Increasing Wet Days,Drought Hazard,Increasing Dry Days
+DARBHANGA,ssp245,2035,Extreme Rainfall Increase,Flood Hazard,Increasing Dry Days
+GAYA,ssp245,2035,Temperature Increase,Increasing Wet Days,Extreme Rainfall Increase
+GOPALGANJ,ssp245,2035,Drought Hazard,Temperature Increase,Increasing Dry Days
+JAMUI,ssp245,2035,Temperature Increase,Extreme Rainfall Increase,Flood Hazard
+JEHANABAD,ssp245,2035,Extreme Rainfall Increase,Flood Hazard,Increasing Dry Days
+KAIMUR (BHABUA),ssp245,2035,Increasing Wet Days,Flood Hazard,Increasing Dry Days
+KATIHAR,ssp245,2035,Temperature Increase,Extreme Rainfall Increase,Flood Hazard
+KHAGARIA,ssp245,2035,Extreme Rainfall Increase,Temperature Increase,Flood Hazard
+KISHANGANJ,ssp245,2035,Drought Hazard,Flood Hazard,Increasing Wet Days
+LAKHISARAI,ssp245,2035,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+MADHEPURA,ssp245,2035,Extreme Rainfall Increase,Flood Hazard,Drought Hazard
+MADHUBANI,ssp245,2035,Extreme Rainfall Increase,Temperature Increase,Flood Hazard
+MUNGER,ssp245,2035,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+MUZAFFARPUR,ssp245,2035,Extreme Rainfall Increase,Drought Hazard,Flood Hazard
+NALANDA,ssp245,2035,Extreme Rainfall Increase,Increasing Wet Days,Increasing Dry Days
+NAWADA,ssp245,2035,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+PASHCHIM CHAMPARAN,ssp245,2035,Flood Hazard,Temperature Increase,Extreme Rainfall Increase
+PATNA,ssp245,2035,Extreme Rainfall Increase,Temperature Increase,Increasing Dry Days
+PURBA CHAMPARAN,ssp245,2035,Drought Hazard,Temperature Increase,Extreme Rainfall Increase
+PURNIA,ssp245,2035,Temperature Increase,Increasing Wet Days,Extreme Rainfall Increase
+ROHTAS,ssp245,2035,Increasing Wet Days,Flood Hazard,Increasing Dry Days
+SAHARSA,ssp245,2035,Extreme Rainfall Increase,Flood Hazard,Drought Hazard
+SAMASTIPUR,ssp245,2035,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+SARAN,ssp245,2035,Drought Hazard,Extreme Rainfall Increase,Increasing Dry Days
+SHEIKHPURA,ssp245,2035,Extreme Rainfall Increase,Increasing Wet Days,Flood Hazard
+SHEOHAR,ssp245,2035,Extreme Rainfall Increase,Increasing Dry Days,Flood Hazard
+SITAMARHI,ssp245,2035,Extreme Rainfall Increase,Temperature Increase,Flood Hazard
+SIWAN,ssp245,2035,Drought Hazard,Increasing Dry Days,Extreme Rainfall Increase
+SUPAUL,ssp245,2035,Extreme Rainfall Increase,Increasing Wet Days,Flood Hazard
+VAISHALI,ssp245,2035,Extreme Rainfall Increase,Drought Hazard,Temperature Increase
+AHILYANAGAR,ssp245,2035,Extreme Rainfall Increase,Increasing Dry Days,Temperature Increase
+AKOLA,ssp245,2035,Extreme Rainfall Increase,Flood Hazard,Increasing Dry Days
+AMRAVATI,ssp245,2035,Extreme Rainfall Increase,Flood Hazard,Temperature Increase
+BEED,ssp245,2035,Extreme Rainfall Increase,Increasing Dry Days,Increasing Wet Days
+BHANDARA,ssp245,2035,Extreme Rainfall Increase,Flood Hazard,Temperature Increase
+BULDHANA,ssp245,2035,Extreme Rainfall Increase,Increasing Dry Days,Temperature Increase
+CHANDRAPUR,ssp245,2035,Extreme Rainfall Increase,Flood Hazard,Temperature Increase
+CHHATRAPATI SAMBHAJI NAGAR,ssp245,2035,Increasing Dry Days,Extreme Rainfall Increase,Temperature Increase
+DHARASHIV,ssp245,2035,Extreme Rainfall Increase,Temperature Increase,Increasing Dry Days
+DHULE,ssp245,2035,Extreme Rainfall Increase,Increasing Dry Days,Temperature Increase
+GADCHIROLI,ssp245,2035,Flood Hazard,Temperature Increase,Extreme Rainfall Increase
+GONDIA,ssp245,2035,Extreme Rainfall Increase,Flood Hazard,Temperature Increase
+HINGOLI,ssp245,2035,Extreme Rainfall Increase,Increasing Dry Days,Flood Hazard
+JALGAON,ssp245,2035,Extreme Rainfall Increase,Temperature Increase,Increasing Dry Days
+JALNA,ssp245,2035,Increasing Dry Days,Temperature Increase,Extreme Rainfall Increase
+KOLHAPUR,ssp245,2035,Flood Hazard,Increasing Wet Days,Extreme Rainfall Increase
+LATUR,ssp245,2035,Extreme Rainfall Increase,Temperature Increase,Increasing Dry Days
+MUMBAI,ssp245,2035,Increasing Dry Days,Flood Hazard,Increasing Wet Days
+MUMBAI SUBURBAN,ssp245,2035,Flood Hazard,Increasing Dry Days,Increasing Wet Days
+NAGPUR,ssp245,2035,Extreme Rainfall Increase,Flood Hazard,Temperature Increase
+NANDED,ssp245,2035,Extreme Rainfall Increase,Temperature Increase,Increasing Wet Days
+NANDURBAR,ssp245,2035,Extreme Rainfall Increase,Increasing Dry Days,Flood Hazard
+NASHIK,ssp245,2035,Extreme Rainfall Increase,Increasing Dry Days,Flood Hazard
+PALGHAR,ssp245,2035,Flood Hazard,Increasing Dry Days,Increasing Wet Days
+PARBHANI,ssp245,2035,Extreme Rainfall Increase,Temperature Increase,Increasing Wet Days
+PUNE,ssp245,2035,Extreme Rainfall Increase,Increasing Dry Days,Flood Hazard
+RAIGAD,ssp245,2035,Flood Hazard,Increasing Dry Days,Increasing Wet Days
+RATNAGIRI,ssp245,2035,Flood Hazard,Increasing Wet Days,Drought Hazard
+SANGLI,ssp245,2035,Extreme Rainfall Increase,Temperature Increase,Increasing Dry Days
+SATARA,ssp245,2035,Extreme Rainfall Increase,Flood Hazard,Increasing Dry Days
+SINDHUDURG,ssp245,2035,Flood Hazard,Increasing Wet Days,Drought Hazard
+SOLAPUR,ssp245,2035,Extreme Rainfall Increase,Temperature Increase,Increasing Dry Days
+THANE,ssp245,2035,Flood Hazard,Extreme Rainfall Increase,Increasing Dry Days
+WARDHA,ssp245,2035,Extreme Rainfall Increase,Flood Hazard,Temperature Increase
+WASHIM,ssp245,2035,Extreme Rainfall Increase,Flood Hazard,Temperature Increase
+YAVATMAL,ssp245,2035,Extreme Rainfall Increase,Flood Hazard,Temperature Increase
+ADILABAD,ssp245,2035,Extreme Rainfall Increase,Flood Hazard,Temperature Increase
+BHADRADRI KOTHAGUDEM,ssp245,2035,Extreme Rainfall Increase,Temperature Increase,Agricultural Stress
+HANUMAKONDA,ssp245,2035,Extreme Rainfall Increase,Flood Hazard,Increasing Dry Days
+HYDERABAD,ssp245,2035,Extreme Rainfall Increase,Flood Hazard,Increasing Dry Days
+JAGTIAL,ssp245,2035,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+JANGAON,ssp245,2035,Extreme Rainfall Increase,Temperature Increase,Flood Hazard
+JAYASHANKAR BHUPALPALLI,ssp245,2035,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+JOGULAMBA GADWAL,ssp245,2035,Increasing Dry Days,Agricultural Stress,Soil Moisture Deficit
+KAMAREDDY,ssp245,2035,Extreme Rainfall Increase,Temperature Increase,Increasing Wet Days
+KARIMNAGAR,ssp245,2035,Extreme Rainfall Increase,Flood Hazard,Temperature Increase
+KHAMMAM,ssp245,2035,Extreme Rainfall Increase,Temperature Increase,Flood Hazard
+KUMURAM BHEEM,ssp245,2035,Extreme Rainfall Increase,Flood Hazard,Temperature Increase
+MAHABUBABAD,ssp245,2035,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+MAHBUBNAGAR,ssp245,2035,Extreme Rainfall Increase,Increasing Dry Days,Increasing Wet Days
+MANCHERIAL,ssp245,2035,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+MEDAK,ssp245,2035,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+MEDCHAL-MALKAJGIRI,ssp245,2035,Extreme Rainfall Increase,Temperature Increase,Flood Hazard
+MULUGU,ssp245,2035,Extreme Rainfall Increase,Flood Hazard,Temperature Increase
+NAGARKURNOOL,ssp245,2035,Temperature Increase,Extreme Rainfall Increase,Increasing Dry Days
+NALGONDA,ssp245,2035,Extreme Rainfall Increase,Temperature Increase,Increasing Wet Days
+NARAYANPET,ssp245,2035,Temperature Increase,Extreme Rainfall Increase,Increasing Dry Days
+NIRMAL,ssp245,2035,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+NIZAMABAD,ssp245,2035,Extreme Rainfall Increase,Temperature Increase,Increasing Wet Days
+PEDDAPALLI,ssp245,2035,Extreme Rainfall Increase,Flood Hazard,Temperature Increase
+RAJANNA SIRCILLA,ssp245,2035,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+RANGA REDDY,ssp245,2035,Extreme Rainfall Increase,Temperature Increase,Increasing Dry Days
+SANGAREDDY,ssp245,2035,Extreme Rainfall Increase,Temperature Increase,Increasing Wet Days
+SIDDIPET,ssp245,2035,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+SURYAPET,ssp245,2035,Extreme Rainfall Increase,Temperature Increase,Increasing Dry Days
+VIKARABAD,ssp245,2035,Extreme Rainfall Increase,Temperature Increase,Increasing Dry Days
+WANAPARTHY,ssp245,2035,Increasing Dry Days,Extreme Rainfall Increase,Increasing Wet Days
+WARANGAL,ssp245,2035,Extreme Rainfall Increase,Flood Hazard,Increasing Dry Days
+YADADRI BHUVANAGIRI,ssp245,2035,Extreme Rainfall Increase,Increasing Dry Days,Flood Hazard
+ARARIA,ssp245,2040,Extreme Rainfall Increase,Temperature Increase,Increasing Wet Days
+ARWAL,ssp245,2040,Increasing Wet Days,Extreme Rainfall Increase,Flood Hazard
+AURANGABAD,ssp245,2040,Increasing Wet Days,Temperature Increase,Flood Hazard
+BANKA,ssp245,2040,Extreme Rainfall Increase,Agricultural Stress,Soil Moisture Deficit
+BEGUSARAI,ssp245,2040,Extreme Rainfall Increase,Temperature Increase,Increasing Wet Days
+BHAGALPUR,ssp245,2040,Temperature Increase,Extreme Rainfall Increase,Flood Hazard
+BHOJPUR,ssp245,2040,Temperature Increase,Extreme Rainfall Increase,Increasing Dry Days
+BUXAR,ssp245,2040,Increasing Wet Days,Drought Hazard,Extreme Rainfall Increase
+DARBHANGA,ssp245,2040,Extreme Rainfall Increase,Agricultural Stress,Flood Hazard
+GAYA,ssp245,2040,Temperature Increase,Extreme Rainfall Increase,Increasing Wet Days
+GOPALGANJ,ssp245,2040,Temperature Increase,Drought Hazard,Extreme Rainfall Increase
+JAMUI,ssp245,2040,Temperature Increase,Extreme Rainfall Increase,Agricultural Stress
+JEHANABAD,ssp245,2040,Extreme Rainfall Increase,Flood Hazard,Increasing Dry Days
+KAIMUR (BHABUA),ssp245,2040,Increasing Wet Days,Flood Hazard,Increasing Dry Days
+KATIHAR,ssp245,2040,Temperature Increase,Extreme Rainfall Increase,Flood Hazard
+KHAGARIA,ssp245,2040,Extreme Rainfall Increase,Temperature Increase,Flood Hazard
+KISHANGANJ,ssp245,2040,Drought Hazard,Flood Hazard,Increasing Wet Days
+LAKHISARAI,ssp245,2040,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+MADHEPURA,ssp245,2040,Extreme Rainfall Increase,Drought Hazard,Agricultural Stress
+MADHUBANI,ssp245,2040,Extreme Rainfall Increase,Temperature Increase,Flood Hazard
+MUNGER,ssp245,2040,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+MUZAFFARPUR,ssp245,2040,Extreme Rainfall Increase,Drought Hazard,Flood Hazard
+NALANDA,ssp245,2040,Extreme Rainfall Increase,Increasing Wet Days,Increasing Dry Days
+NAWADA,ssp245,2040,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+PASHCHIM CHAMPARAN,ssp245,2040,Temperature Increase,Extreme Rainfall Increase,Flood Hazard
+PATNA,ssp245,2040,Extreme Rainfall Increase,Temperature Increase,Increasing Dry Days
+PURBA CHAMPARAN,ssp245,2040,Temperature Increase,Extreme Rainfall Increase,Drought Hazard
+PURNIA,ssp245,2040,Temperature Increase,Extreme Rainfall Increase,Increasing Wet Days
+ROHTAS,ssp245,2040,Increasing Wet Days,Flood Hazard,Extreme Rainfall Increase
+SAHARSA,ssp245,2040,Extreme Rainfall Increase,Agricultural Stress,Drought Hazard
+SAMASTIPUR,ssp245,2040,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+SARAN,ssp245,2040,Drought Hazard,Extreme Rainfall Increase,Increasing Dry Days
+SHEIKHPURA,ssp245,2040,Extreme Rainfall Increase,Increasing Wet Days,Flood Hazard
+SHEOHAR,ssp245,2040,Extreme Rainfall Increase,Increasing Dry Days,Flood Hazard
+SITAMARHI,ssp245,2040,Extreme Rainfall Increase,Temperature Increase,Flood Hazard
+SIWAN,ssp245,2040,Drought Hazard,Extreme Rainfall Increase,Increasing Dry Days
+SUPAUL,ssp245,2040,Extreme Rainfall Increase,Temperature Increase,Increasing Wet Days
+VAISHALI,ssp245,2040,Extreme Rainfall Increase,Temperature Increase,Drought Hazard
+AHILYANAGAR,ssp245,2040,Extreme Rainfall Increase,Temperature Increase,Increasing Dry Days
+AKOLA,ssp245,2040,Extreme Rainfall Increase,Temperature Increase,Flood Hazard
+AMRAVATI,ssp245,2040,Extreme Rainfall Increase,Temperature Increase,Flood Hazard
+BEED,ssp245,2040,Extreme Rainfall Increase,Agricultural Stress,Increasing Dry Days
+BHANDARA,ssp245,2040,Extreme Rainfall Increase,Flood Hazard,Temperature Increase
+BULDHANA,ssp245,2040,Extreme Rainfall Increase,Temperature Increase,Increasing Dry Days
+CHANDRAPUR,ssp245,2040,Extreme Rainfall Increase,Temperature Increase,Flood Hazard
+CHHATRAPATI SAMBHAJI NAGAR,ssp245,2040,Temperature Increase,Increasing Dry Days,Extreme Rainfall Increase
+DHARASHIV,ssp245,2040,Extreme Rainfall Increase,Temperature Increase,Agricultural Stress
+DHULE,ssp245,2040,Extreme Rainfall Increase,Temperature Increase,Increasing Dry Days
+GADCHIROLI,ssp245,2040,Temperature Increase,Flood Hazard,Extreme Rainfall Increase
+GONDIA,ssp245,2040,Extreme Rainfall Increase,Temperature Increase,Flood Hazard
+HINGOLI,ssp245,2040,Extreme Rainfall Increase,Increasing Dry Days,Flood Hazard
+JALGAON,ssp245,2040,Extreme Rainfall Increase,Temperature Increase,Flood Hazard
+JALNA,ssp245,2040,Temperature Increase,Extreme Rainfall Increase,Increasing Dry Days
+KOLHAPUR,ssp245,2040,Flood Hazard,Increasing Wet Days,Extreme Rainfall Increase
+LATUR,ssp245,2040,Extreme Rainfall Increase,Temperature Increase,Increasing Dry Days
+MUMBAI,ssp245,2040,Increasing Dry Days,Flood Hazard,Increasing Wet Days
+MUMBAI SUBURBAN,ssp245,2040,Flood Hazard,Increasing Dry Days,Increasing Wet Days
+NAGPUR,ssp245,2040,Extreme Rainfall Increase,Temperature Increase,Flood Hazard
+NANDED,ssp245,2040,Extreme Rainfall Increase,Temperature Increase,Increasing Wet Days
+NANDURBAR,ssp245,2040,Extreme Rainfall Increase,Increasing Dry Days,Temperature Increase
+NASHIK,ssp245,2040,Extreme Rainfall Increase,Increasing Dry Days,Flood Hazard
+PALGHAR,ssp245,2040,Flood Hazard,Increasing Dry Days,Extreme Rainfall Increase
+PARBHANI,ssp245,2040,Extreme Rainfall Increase,Temperature Increase,Increasing Wet Days
+PUNE,ssp245,2040,Extreme Rainfall Increase,Temperature Increase,Increasing Dry Days
+RAIGAD,ssp245,2040,Flood Hazard,Drought Hazard,Increasing Dry Days
+RATNAGIRI,ssp245,2040,Flood Hazard,Drought Hazard,Increasing Wet Days
+SANGLI,ssp245,2040,Extreme Rainfall Increase,Agricultural Stress,Temperature Increase
+SATARA,ssp245,2040,Extreme Rainfall Increase,Temperature Increase,Flood Hazard
+SINDHUDURG,ssp245,2040,Increasing Wet Days,Flood Hazard,Drought Hazard
+SOLAPUR,ssp245,2040,Extreme Rainfall Increase,Agricultural Stress,Temperature Increase
+THANE,ssp245,2040,Flood Hazard,Extreme Rainfall Increase,Increasing Dry Days
+WARDHA,ssp245,2040,Extreme Rainfall Increase,Temperature Increase,Flood Hazard
+WASHIM,ssp245,2040,Extreme Rainfall Increase,Temperature Increase,Flood Hazard
+YAVATMAL,ssp245,2040,Extreme Rainfall Increase,Temperature Increase,Flood Hazard
+ADILABAD,ssp245,2040,Extreme Rainfall Increase,Temperature Increase,Flood Hazard
+BHADRADRI KOTHAGUDEM,ssp245,2040,Temperature Increase,Agricultural Stress,Extreme Rainfall Increase
+HANUMAKONDA,ssp245,2040,Extreme Rainfall Increase,Flood Hazard,Increasing Dry Days
+HYDERABAD,ssp245,2040,Extreme Rainfall Increase,Flood Hazard,Increasing Dry Days
+JAGTIAL,ssp245,2040,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+JANGAON,ssp245,2040,Extreme Rainfall Increase,Temperature Increase,Flood Hazard
+JAYASHANKAR BHUPALPALLI,ssp245,2040,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+JOGULAMBA GADWAL,ssp245,2040,Agricultural Stress,Soil Moisture Deficit,Drought Hazard
+KAMAREDDY,ssp245,2040,Extreme Rainfall Increase,Temperature Increase,Increasing Wet Days
+KARIMNAGAR,ssp245,2040,Extreme Rainfall Increase,Temperature Increase,Flood Hazard
+KHAMMAM,ssp245,2040,Extreme Rainfall Increase,Temperature Increase,Agricultural Stress
+KUMURAM BHEEM,ssp245,2040,Extreme Rainfall Increase,Flood Hazard,Temperature Increase
+MAHABUBABAD,ssp245,2040,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+MAHBUBNAGAR,ssp245,2040,Extreme Rainfall Increase,Increasing Dry Days,Increasing Wet Days
+MANCHERIAL,ssp245,2040,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+MEDAK,ssp245,2040,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+MEDCHAL-MALKAJGIRI,ssp245,2040,Extreme Rainfall Increase,Temperature Increase,Flood Hazard
+MULUGU,ssp245,2040,Extreme Rainfall Increase,Temperature Increase,Flood Hazard
+NAGARKURNOOL,ssp245,2040,Temperature Increase,Extreme Rainfall Increase,Increasing Dry Days
+NALGONDA,ssp245,2040,Extreme Rainfall Increase,Temperature Increase,Increasing Wet Days
+NARAYANPET,ssp245,2040,Temperature Increase,Extreme Rainfall Increase,Increasing Dry Days
+NIRMAL,ssp245,2040,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+NIZAMABAD,ssp245,2040,Extreme Rainfall Increase,Temperature Increase,Increasing Wet Days
+PEDDAPALLI,ssp245,2040,Extreme Rainfall Increase,Temperature Increase,Flood Hazard
+RAJANNA SIRCILLA,ssp245,2040,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+RANGA REDDY,ssp245,2040,Extreme Rainfall Increase,Temperature Increase,Increasing Dry Days
+SANGAREDDY,ssp245,2040,Extreme Rainfall Increase,Temperature Increase,Increasing Wet Days
+SIDDIPET,ssp245,2040,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+SURYAPET,ssp245,2040,Extreme Rainfall Increase,Temperature Increase,Increasing Dry Days
+VIKARABAD,ssp245,2040,Extreme Rainfall Increase,Temperature Increase,Increasing Dry Days
+WANAPARTHY,ssp245,2040,Extreme Rainfall Increase,Increasing Dry Days,Increasing Wet Days
+WARANGAL,ssp245,2040,Extreme Rainfall Increase,Flood Hazard,Increasing Dry Days
+YADADRI BHUVANAGIRI,ssp245,2040,Extreme Rainfall Increase,Flood Hazard,Increasing Dry Days
+ARARIA,ssp585,2030,Increasing Wet Days,Extreme Rainfall Increase,Flood Hazard
+ARWAL,ssp585,2030,Increasing Wet Days,Flood Hazard,Increasing Dry Days
+AURANGABAD,ssp585,2030,Increasing Wet Days,Temperature Increase,Flood Hazard
+BANKA,ssp585,2030,Agricultural Stress,Soil Moisture Deficit,Flood Hazard
+BEGUSARAI,ssp585,2030,Temperature Increase,Extreme Rainfall Increase,Increasing Wet Days
+BHAGALPUR,ssp585,2030,Temperature Increase,Extreme Rainfall Increase,Flood Hazard
+BHOJPUR,ssp585,2030,Temperature Increase,Increasing Dry Days,Drought Hazard
+BUXAR,ssp585,2030,Drought Hazard,Increasing Wet Days,Increasing Dry Days
+DARBHANGA,ssp585,2030,Extreme Rainfall Increase,Flood Hazard,Increasing Dry Days
+GAYA,ssp585,2030,Temperature Increase,Increasing Wet Days,Flood Hazard
+GOPALGANJ,ssp585,2030,Drought Hazard,Temperature Increase,Increasing Dry Days
+JAMUI,ssp585,2030,Temperature Increase,Agricultural Stress,Extreme Rainfall Increase
+JEHANABAD,ssp585,2030,Extreme Rainfall Increase,Flood Hazard,Increasing Dry Days
+KAIMUR (BHABUA),ssp585,2030,Rainfall Decline,Increasing Wet Days,Flood Hazard
+KATIHAR,ssp585,2030,Temperature Increase,Flood Hazard,Increasing Wet Days
+KHAGARIA,ssp585,2030,Temperature Increase,Extreme Rainfall Increase,Flood Hazard
+KISHANGANJ,ssp585,2030,Drought Hazard,Flood Hazard,Increasing Wet Days
+LAKHISARAI,ssp585,2030,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+MADHEPURA,ssp585,2030,Drought Hazard,Extreme Rainfall Increase,Agricultural Stress
+MADHUBANI,ssp585,2030,Extreme Rainfall Increase,Agricultural Stress,Temperature Increase
+MUNGER,ssp585,2030,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+MUZAFFARPUR,ssp585,2030,Extreme Rainfall Increase,Drought Hazard,Flood Hazard
+NALANDA,ssp585,2030,Extreme Rainfall Increase,Increasing Wet Days,Increasing Dry Days
+NAWADA,ssp585,2030,Extreme Rainfall Increase,Flood Hazard,Increasing Dry Days
+PASHCHIM CHAMPARAN,ssp585,2030,Temperature Increase,Flood Hazard,Extreme Rainfall Increase
+PATNA,ssp585,2030,Temperature Increase,Extreme Rainfall Increase,Increasing Dry Days
+PURBA CHAMPARAN,ssp585,2030,Drought Hazard,Temperature Increase,Flood Hazard
+PURNIA,ssp585,2030,Temperature Increase,Increasing Wet Days,Flood Hazard
+ROHTAS,ssp585,2030,Increasing Wet Days,Flood Hazard,Rainfall Decline
+SAHARSA,ssp585,2030,Agricultural Stress,Drought Hazard,Extreme Rainfall Increase
+SAMASTIPUR,ssp585,2030,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+SARAN,ssp585,2030,Drought Hazard,Increasing Dry Days,Extreme Rainfall Increase
+SHEIKHPURA,ssp585,2030,Extreme Rainfall Increase,Increasing Wet Days,Flood Hazard
+SHEOHAR,ssp585,2030,Extreme Rainfall Increase,Increasing Dry Days,Flood Hazard
+SITAMARHI,ssp585,2030,Temperature Increase,Extreme Rainfall Increase,Flood Hazard
+SIWAN,ssp585,2030,Drought Hazard,Increasing Dry Days,Flood Hazard
+SUPAUL,ssp585,2030,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+VAISHALI,ssp585,2030,Drought Hazard,Extreme Rainfall Increase,Temperature Increase
+AHILYANAGAR,ssp585,2030,Increasing Dry Days,Extreme Rainfall Increase,Temperature Increase
+AKOLA,ssp585,2030,Extreme Rainfall Increase,Flood Hazard,Temperature Increase
+AMRAVATI,ssp585,2030,Extreme Rainfall Increase,Flood Hazard,Temperature Increase
+BEED,ssp585,2030,Extreme Rainfall Increase,Increasing Dry Days,Agricultural Stress
+BHANDARA,ssp585,2030,Flood Hazard,Extreme Rainfall Increase,Temperature Increase
+BULDHANA,ssp585,2030,Increasing Dry Days,Temperature Increase,Flood Hazard
+CHANDRAPUR,ssp585,2030,Extreme Rainfall Increase,Flood Hazard,Temperature Increase
+CHHATRAPATI SAMBHAJI NAGAR,ssp585,2030,Increasing Dry Days,Temperature Increase,Extreme Rainfall Increase
+DHARASHIV,ssp585,2030,Extreme Rainfall Increase,Temperature Increase,Agricultural Stress
+DHULE,ssp585,2030,Extreme Rainfall Increase,Increasing Dry Days,Temperature Increase
+GADCHIROLI,ssp585,2030,Flood Hazard,Temperature Increase,Increasing Wet Days
+GONDIA,ssp585,2030,Flood Hazard,Temperature Increase,Extreme Rainfall Increase
+HINGOLI,ssp585,2030,Increasing Dry Days,Extreme Rainfall Increase,Flood Hazard
+JALGAON,ssp585,2030,Extreme Rainfall Increase,Temperature Increase,Increasing Dry Days
+JALNA,ssp585,2030,Increasing Dry Days,Temperature Increase,Flood Hazard
+KOLHAPUR,ssp585,2030,Flood Hazard,Increasing Wet Days,Agricultural Stress
+LATUR,ssp585,2030,Extreme Rainfall Increase,Temperature Increase,Increasing Dry Days
+MUMBAI,ssp585,2030,Increasing Dry Days,Flood Hazard,Increasing Wet Days
+MUMBAI SUBURBAN,ssp585,2030,Flood Hazard,Increasing Dry Days,Increasing Wet Days
+NAGPUR,ssp585,2030,Extreme Rainfall Increase,Flood Hazard,Temperature Increase
+NANDED,ssp585,2030,Extreme Rainfall Increase,Temperature Increase,Increasing Wet Days
+NANDURBAR,ssp585,2030,Extreme Rainfall Increase,Increasing Dry Days,Flood Hazard
+NASHIK,ssp585,2030,Increasing Dry Days,Extreme Rainfall Increase,Flood Hazard
+PALGHAR,ssp585,2030,Flood Hazard,Increasing Dry Days,Increasing Wet Days
+PARBHANI,ssp585,2030,Temperature Increase,Extreme Rainfall Increase,Increasing Wet Days
+PUNE,ssp585,2030,Increasing Dry Days,Flood Hazard,Extreme Rainfall Increase
+RAIGAD,ssp585,2030,Flood Hazard,Drought Hazard,Increasing Dry Days
+RATNAGIRI,ssp585,2030,Flood Hazard,Drought Hazard,Increasing Wet Days
+SANGLI,ssp585,2030,Agricultural Stress,Extreme Rainfall Increase,Temperature Increase
+SATARA,ssp585,2030,Flood Hazard,Increasing Dry Days,Extreme Rainfall Increase
+SINDHUDURG,ssp585,2030,Flood Hazard,Increasing Wet Days,Drought Hazard
+SOLAPUR,ssp585,2030,Extreme Rainfall Increase,Temperature Increase,Agricultural Stress
+THANE,ssp585,2030,Flood Hazard,Increasing Wet Days,Increasing Dry Days
+WARDHA,ssp585,2030,Extreme Rainfall Increase,Flood Hazard,Temperature Increase
+WASHIM,ssp585,2030,Extreme Rainfall Increase,Flood Hazard,Temperature Increase
+YAVATMAL,ssp585,2030,Extreme Rainfall Increase,Flood Hazard,Temperature Increase
+ADILABAD,ssp585,2030,Extreme Rainfall Increase,Flood Hazard,Temperature Increase
+BHADRADRI KOTHAGUDEM,ssp585,2030,Agricultural Stress,Temperature Increase,Soil Moisture Deficit
+HANUMAKONDA,ssp585,2030,Extreme Rainfall Increase,Flood Hazard,Increasing Dry Days
+HYDERABAD,ssp585,2030,Extreme Rainfall Increase,Flood Hazard,Increasing Dry Days
+JAGTIAL,ssp585,2030,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+JANGAON,ssp585,2030,Extreme Rainfall Increase,Temperature Increase,Flood Hazard
+JAYASHANKAR BHUPALPALLI,ssp585,2030,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+JOGULAMBA GADWAL,ssp585,2030,Agricultural Stress,Rainfall Decline,Soil Moisture Deficit
+KAMAREDDY,ssp585,2030,Extreme Rainfall Increase,Temperature Increase,Increasing Wet Days
+KARIMNAGAR,ssp585,2030,Extreme Rainfall Increase,Temperature Increase,Flood Hazard
+KHAMMAM,ssp585,2030,Extreme Rainfall Increase,Temperature Increase,Agricultural Stress
+KUMURAM BHEEM,ssp585,2030,Flood Hazard,Extreme Rainfall Increase,Temperature Increase
+MAHABUBABAD,ssp585,2030,Extreme Rainfall Increase,Flood Hazard,Increasing Dry Days
+MAHBUBNAGAR,ssp585,2030,Increasing Dry Days,Extreme Rainfall Increase,Increasing Wet Days
+MANCHERIAL,ssp585,2030,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+MEDAK,ssp585,2030,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+MEDCHAL-MALKAJGIRI,ssp585,2030,Extreme Rainfall Increase,Temperature Increase,Flood Hazard
+MULUGU,ssp585,2030,Flood Hazard,Temperature Increase,Extreme Rainfall Increase
+NAGARKURNOOL,ssp585,2030,Temperature Increase,Agricultural Stress,Soil Moisture Deficit
+NALGONDA,ssp585,2030,Extreme Rainfall Increase,Temperature Increase,Increasing Dry Days
+NARAYANPET,ssp585,2030,Temperature Increase,Increasing Dry Days,Extreme Rainfall Increase
+NIRMAL,ssp585,2030,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+NIZAMABAD,ssp585,2030,Extreme Rainfall Increase,Temperature Increase,Increasing Wet Days
+PEDDAPALLI,ssp585,2030,Extreme Rainfall Increase,Flood Hazard,Temperature Increase
+RAJANNA SIRCILLA,ssp585,2030,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+RANGA REDDY,ssp585,2030,Extreme Rainfall Increase,Temperature Increase,Increasing Dry Days
+SANGAREDDY,ssp585,2030,Extreme Rainfall Increase,Temperature Increase,Increasing Wet Days
+SIDDIPET,ssp585,2030,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+SURYAPET,ssp585,2030,Extreme Rainfall Increase,Temperature Increase,Increasing Dry Days
+VIKARABAD,ssp585,2030,Extreme Rainfall Increase,Temperature Increase,Increasing Dry Days
+WANAPARTHY,ssp585,2030,Rainfall Decline,Increasing Dry Days,Agricultural Stress
+WARANGAL,ssp585,2030,Extreme Rainfall Increase,Flood Hazard,Increasing Dry Days
+YADADRI BHUVANAGIRI,ssp585,2030,Extreme Rainfall Increase,Increasing Dry Days,Flood Hazard
+ARARIA,ssp585,2035,Temperature Increase,Extreme Rainfall Increase,Increasing Wet Days
+ARWAL,ssp585,2035,Agricultural Stress,Soil Moisture Deficit,Increasing Wet Days
+AURANGABAD,ssp585,2035,Temperature Increase,Increasing Wet Days,Agricultural Stress
+BANKA,ssp585,2035,Agricultural Stress,Soil Moisture Deficit,Extreme Rainfall Increase
+BEGUSARAI,ssp585,2035,Temperature Increase,Extreme Rainfall Increase,Increasing Wet Days
+BHAGALPUR,ssp585,2035,Temperature Increase,Agricultural Stress,Drought Hazard
+BHOJPUR,ssp585,2035,Temperature Increase,Agricultural Stress,Drought Hazard
+BUXAR,ssp585,2035,Agricultural Stress,Drought Hazard,Soil Moisture Deficit
+DARBHANGA,ssp585,2035,Agricultural Stress,Extreme Rainfall Increase,Soil Moisture Deficit
+GAYA,ssp585,2035,Agricultural Stress,Temperature Increase,Soil Moisture Deficit
+GOPALGANJ,ssp585,2035,Drought Hazard,Temperature Increase,Agricultural Stress
+JAMUI,ssp585,2035,Temperature Increase,Agricultural Stress,Soil Moisture Deficit
+JEHANABAD,ssp585,2035,Agricultural Stress,Soil Moisture Deficit,Extreme Rainfall Increase
+KAIMUR (BHABUA),ssp585,2035,Increasing Wet Days,Agricultural Stress,Soil Moisture Deficit
+KATIHAR,ssp585,2035,Temperature Increase,Agricultural Stress,Soil Moisture Deficit
+KHAGARIA,ssp585,2035,Temperature Increase,Agricultural Stress,Extreme Rainfall Increase
+KISHANGANJ,ssp585,2035,Drought Hazard,Agricultural Stress,Flood Hazard
+LAKHISARAI,ssp585,2035,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+MADHEPURA,ssp585,2035,Agricultural Stress,Drought Hazard,Extreme Rainfall Increase
+MADHUBANI,ssp585,2035,Temperature Increase,Agricultural Stress,Extreme Rainfall Increase
+MUNGER,ssp585,2035,Agricultural Stress,Extreme Rainfall Increase,Soil Moisture Deficit
+MUZAFFARPUR,ssp585,2035,Extreme Rainfall Increase,Drought Hazard,Flood Hazard
+NALANDA,ssp585,2035,Agricultural Stress,Extreme Rainfall Increase,Soil Moisture Deficit
+NAWADA,ssp585,2035,Agricultural Stress,Soil Moisture Deficit,Extreme Rainfall Increase
+PASHCHIM CHAMPARAN,ssp585,2035,Temperature Increase,Flood Hazard,Agricultural Stress
+PATNA,ssp585,2035,Temperature Increase,Extreme Rainfall Increase,Increasing Dry Days
+PURBA CHAMPARAN,ssp585,2035,Drought Hazard,Temperature Increase,Agricultural Stress
+PURNIA,ssp585,2035,Temperature Increase,Increasing Wet Days,Extreme Rainfall Increase
+ROHTAS,ssp585,2035,Increasing Wet Days,Agricultural Stress,Soil Moisture Deficit
+SAHARSA,ssp585,2035,Agricultural Stress,Soil Moisture Deficit,Drought Hazard
+SAMASTIPUR,ssp585,2035,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+SARAN,ssp585,2035,Drought Hazard,Extreme Rainfall Increase,Increasing Dry Days
+SHEIKHPURA,ssp585,2035,Agricultural Stress,Extreme Rainfall Increase,Soil Moisture Deficit
+SHEOHAR,ssp585,2035,Agricultural Stress,Extreme Rainfall Increase,Soil Moisture Deficit
+SITAMARHI,ssp585,2035,Temperature Increase,Agricultural Stress,Extreme Rainfall Increase
+SIWAN,ssp585,2035,Drought Hazard,Agricultural Stress,Soil Moisture Deficit
+SUPAUL,ssp585,2035,Temperature Increase,Extreme Rainfall Increase,Increasing Wet Days
+VAISHALI,ssp585,2035,Temperature Increase,Extreme Rainfall Increase,Drought Hazard
+AHILYANAGAR,ssp585,2035,Temperature Increase,Extreme Rainfall Increase,Increasing Dry Days
+AKOLA,ssp585,2035,Temperature Increase,Extreme Rainfall Increase,Flood Hazard
+AMRAVATI,ssp585,2035,Temperature Increase,Extreme Rainfall Increase,Flood Hazard
+BEED,ssp585,2035,Agricultural Stress,Soil Moisture Deficit,Extreme Rainfall Increase
+BHANDARA,ssp585,2035,Temperature Increase,Extreme Rainfall Increase,Flood Hazard
+BULDHANA,ssp585,2035,Temperature Increase,Extreme Rainfall Increase,Increasing Dry Days
+CHANDRAPUR,ssp585,2035,Temperature Increase,Extreme Rainfall Increase,Flood Hazard
+CHHATRAPATI SAMBHAJI NAGAR,ssp585,2035,Temperature Increase,Increasing Dry Days,Agricultural Stress
+DHARASHIV,ssp585,2035,Agricultural Stress,Temperature Increase,Extreme Rainfall Increase
+DHULE,ssp585,2035,Extreme Rainfall Increase,Temperature Increase,Agricultural Stress
+GADCHIROLI,ssp585,2035,Temperature Increase,Agricultural Stress,Soil Moisture Deficit
+GONDIA,ssp585,2035,Temperature Increase,Extreme Rainfall Increase,Flood Hazard
+HINGOLI,ssp585,2035,Extreme Rainfall Increase,Increasing Dry Days,Flood Hazard
+JALGAON,ssp585,2035,Temperature Increase,Extreme Rainfall Increase,Agricultural Stress
+JALNA,ssp585,2035,Temperature Increase,Increasing Dry Days,Extreme Rainfall Increase
+KOLHAPUR,ssp585,2035,Agricultural Stress,Flood Hazard,Increasing Wet Days
+LATUR,ssp585,2035,Extreme Rainfall Increase,Temperature Increase,Agricultural Stress
+MUMBAI,ssp585,2035,Increasing Dry Days,Flood Hazard,Increasing Wet Days
+MUMBAI SUBURBAN,ssp585,2035,Flood Hazard,Increasing Dry Days,Increasing Wet Days
+NAGPUR,ssp585,2035,Extreme Rainfall Increase,Temperature Increase,Flood Hazard
+NANDED,ssp585,2035,Extreme Rainfall Increase,Temperature Increase,Increasing Wet Days
+NANDURBAR,ssp585,2035,Extreme Rainfall Increase,Temperature Increase,Increasing Dry Days
+NASHIK,ssp585,2035,Temperature Increase,Extreme Rainfall Increase,Increasing Dry Days
+PALGHAR,ssp585,2035,Flood Hazard,Increasing Dry Days,Increasing Wet Days
+PARBHANI,ssp585,2035,Temperature Increase,Extreme Rainfall Increase,Increasing Wet Days
+PUNE,ssp585,2035,Temperature Increase,Agricultural Stress,Extreme Rainfall Increase
+RAIGAD,ssp585,2035,Flood Hazard,Drought Hazard,Increasing Dry Days
+RATNAGIRI,ssp585,2035,Flood Hazard,Drought Hazard,Increasing Wet Days
+SANGLI,ssp585,2035,Agricultural Stress,Temperature Increase,Soil Moisture Deficit
+SATARA,ssp585,2035,Temperature Increase,Agricultural Stress,Soil Moisture Deficit
+SINDHUDURG,ssp585,2035,Flood Hazard,Increasing Wet Days,Drought Hazard
+SOLAPUR,ssp585,2035,Agricultural Stress,Soil Moisture Deficit,Temperature Increase
+THANE,ssp585,2035,Flood Hazard,Temperature Increase,Extreme Rainfall Increase
+WARDHA,ssp585,2035,Extreme Rainfall Increase,Temperature Increase,Flood Hazard
+WASHIM,ssp585,2035,Temperature Increase,Extreme Rainfall Increase,Flood Hazard
+YAVATMAL,ssp585,2035,Extreme Rainfall Increase,Temperature Increase,Flood Hazard
+ADILABAD,ssp585,2035,Extreme Rainfall Increase,Temperature Increase,Flood Hazard
+BHADRADRI KOTHAGUDEM,ssp585,2035,Agricultural Stress,Soil Moisture Deficit,Temperature Increase
+HANUMAKONDA,ssp585,2035,Extreme Rainfall Increase,Flood Hazard,Increasing Dry Days
+HYDERABAD,ssp585,2035,Extreme Rainfall Increase,Agricultural Stress,Soil Moisture Deficit
+JAGTIAL,ssp585,2035,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+JANGAON,ssp585,2035,Extreme Rainfall Increase,Temperature Increase,Flood Hazard
+JAYASHANKAR BHUPALPALLI,ssp585,2035,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+JOGULAMBA GADWAL,ssp585,2035,Agricultural Stress,Soil Moisture Deficit,Drought Hazard
+KAMAREDDY,ssp585,2035,Extreme Rainfall Increase,Temperature Increase,Increasing Wet Days
+KARIMNAGAR,ssp585,2035,Extreme Rainfall Increase,Temperature Increase,Flood Hazard
+KHAMMAM,ssp585,2035,Temperature Increase,Agricultural Stress,Extreme Rainfall Increase
+KUMURAM BHEEM,ssp585,2035,Temperature Increase,Extreme Rainfall Increase,Flood Hazard
+MAHABUBABAD,ssp585,2035,Extreme Rainfall Increase,Agricultural Stress,Soil Moisture Deficit
+MAHBUBNAGAR,ssp585,2035,Extreme Rainfall Increase,Increasing Dry Days,Agricultural Stress
+MANCHERIAL,ssp585,2035,Extreme Rainfall Increase,Flood Hazard,Agricultural Stress
+MEDAK,ssp585,2035,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+MEDCHAL-MALKAJGIRI,ssp585,2035,Extreme Rainfall Increase,Temperature Increase,Agricultural Stress
+MULUGU,ssp585,2035,Agricultural Stress,Soil Moisture Deficit,Temperature Increase
+NAGARKURNOOL,ssp585,2035,Agricultural Stress,Temperature Increase,Soil Moisture Deficit
+NALGONDA,ssp585,2035,Temperature Increase,Extreme Rainfall Increase,Agricultural Stress
+NARAYANPET,ssp585,2035,Agricultural Stress,Temperature Increase,Soil Moisture Deficit
+NIRMAL,ssp585,2035,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+NIZAMABAD,ssp585,2035,Extreme Rainfall Increase,Temperature Increase,Increasing Wet Days
+PEDDAPALLI,ssp585,2035,Extreme Rainfall Increase,Temperature Increase,Flood Hazard
+RAJANNA SIRCILLA,ssp585,2035,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+RANGA REDDY,ssp585,2035,Temperature Increase,Extreme Rainfall Increase,Agricultural Stress
+SANGAREDDY,ssp585,2035,Extreme Rainfall Increase,Temperature Increase,Increasing Wet Days
+SIDDIPET,ssp585,2035,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+SURYAPET,ssp585,2035,Extreme Rainfall Increase,Temperature Increase,Increasing Dry Days
+VIKARABAD,ssp585,2035,Temperature Increase,Extreme Rainfall Increase,Agricultural Stress
+WANAPARTHY,ssp585,2035,Agricultural Stress,Soil Moisture Deficit,Drought Hazard
+WARANGAL,ssp585,2035,Extreme Rainfall Increase,Flood Hazard,Increasing Dry Days
+YADADRI BHUVANAGIRI,ssp585,2035,Extreme Rainfall Increase,Increasing Dry Days,Flood Hazard
+ARARIA,ssp585,2040,Temperature Increase,Agricultural Stress,Soil Moisture Deficit
+ARWAL,ssp585,2040,Agricultural Stress,Soil Moisture Deficit,Drought Hazard
+AURANGABAD,ssp585,2040,Temperature Increase,Agricultural Stress,Soil Moisture Deficit
+BANKA,ssp585,2040,Agricultural Stress,Soil Moisture Deficit,Drought Hazard
+BEGUSARAI,ssp585,2040,Temperature Increase,Extreme Rainfall Increase,Agricultural Stress
+BHAGALPUR,ssp585,2040,Temperature Increase,Agricultural Stress,Soil Moisture Deficit
+BHOJPUR,ssp585,2040,Temperature Increase,Agricultural Stress,Soil Moisture Deficit
+BUXAR,ssp585,2040,Agricultural Stress,Soil Moisture Deficit,Drought Hazard
+DARBHANGA,ssp585,2040,Agricultural Stress,Soil Moisture Deficit,Extreme Rainfall Increase
+GAYA,ssp585,2040,Temperature Increase,Agricultural Stress,Soil Moisture Deficit
+GOPALGANJ,ssp585,2040,Temperature Increase,Drought Hazard,Agricultural Stress
+JAMUI,ssp585,2040,Agricultural Stress,Temperature Increase,Soil Moisture Deficit
+JEHANABAD,ssp585,2040,Agricultural Stress,Soil Moisture Deficit,Extreme Rainfall Increase
+KAIMUR (BHABUA),ssp585,2040,Agricultural Stress,Soil Moisture Deficit,Increasing Wet Days
+KATIHAR,ssp585,2040,Temperature Increase,Agricultural Stress,Soil Moisture Deficit
+KHAGARIA,ssp585,2040,Temperature Increase,Agricultural Stress,Soil Moisture Deficit
+KISHANGANJ,ssp585,2040,Agricultural Stress,Soil Moisture Deficit,Drought Hazard
+LAKHISARAI,ssp585,2040,Extreme Rainfall Increase,Agricultural Stress,Soil Moisture Deficit
+MADHEPURA,ssp585,2040,Agricultural Stress,Soil Moisture Deficit,Drought Hazard
+MADHUBANI,ssp585,2040,Temperature Increase,Agricultural Stress,Soil Moisture Deficit
+MUNGER,ssp585,2040,Agricultural Stress,Soil Moisture Deficit,Extreme Rainfall Increase
+MUZAFFARPUR,ssp585,2040,Agricultural Stress,Drought Hazard,Extreme Rainfall Increase
+NALANDA,ssp585,2040,Agricultural Stress,Soil Moisture Deficit,Extreme Rainfall Increase
+NAWADA,ssp585,2040,Agricultural Stress,Soil Moisture Deficit,Extreme Rainfall Increase
+PASHCHIM CHAMPARAN,ssp585,2040,Temperature Increase,Agricultural Stress,Soil Moisture Deficit
+PATNA,ssp585,2040,Temperature Increase,Agricultural Stress,Soil Moisture Deficit
+PURBA CHAMPARAN,ssp585,2040,Temperature Increase,Agricultural Stress,Drought Hazard
+PURNIA,ssp585,2040,Temperature Increase,Agricultural Stress,Soil Moisture Deficit
+ROHTAS,ssp585,2040,Agricultural Stress,Soil Moisture Deficit,Increasing Wet Days
+SAHARSA,ssp585,2040,Agricultural Stress,Soil Moisture Deficit,Extreme Rainfall Increase
+SAMASTIPUR,ssp585,2040,Extreme Rainfall Increase,Agricultural Stress,Soil Moisture Deficit
+SARAN,ssp585,2040,Drought Hazard,Agricultural Stress,Soil Moisture Deficit
+SHEIKHPURA,ssp585,2040,Agricultural Stress,Soil Moisture Deficit,Extreme Rainfall Increase
+SHEOHAR,ssp585,2040,Agricultural Stress,Soil Moisture Deficit,Extreme Rainfall Increase
+SITAMARHI,ssp585,2040,Temperature Increase,Agricultural Stress,Soil Moisture Deficit
+SIWAN,ssp585,2040,Drought Hazard,Agricultural Stress,Soil Moisture Deficit
+SUPAUL,ssp585,2040,Temperature Increase,Agricultural Stress,Extreme Rainfall Increase
+VAISHALI,ssp585,2040,Temperature Increase,Extreme Rainfall Increase,Drought Hazard
+AHILYANAGAR,ssp585,2040,Temperature Increase,Agricultural Stress,Soil Moisture Deficit
+AKOLA,ssp585,2040,Temperature Increase,Extreme Rainfall Increase,Agricultural Stress
+AMRAVATI,ssp585,2040,Temperature Increase,Extreme Rainfall Increase,Agricultural Stress
+BEED,ssp585,2040,Agricultural Stress,Soil Moisture Deficit,Extreme Rainfall Increase
+BHANDARA,ssp585,2040,Temperature Increase,Agricultural Stress,Extreme Rainfall Increase
+BULDHANA,ssp585,2040,Temperature Increase,Agricultural Stress,Soil Moisture Deficit
+CHANDRAPUR,ssp585,2040,Temperature Increase,Agricultural Stress,Soil Moisture Deficit
+CHHATRAPATI SAMBHAJI NAGAR,ssp585,2040,Temperature Increase,Agricultural Stress,Soil Moisture Deficit
+DHARASHIV,ssp585,2040,Agricultural Stress,Temperature Increase,Soil Moisture Deficit
+DHULE,ssp585,2040,Agricultural Stress,Temperature Increase,Soil Moisture Deficit
+GADCHIROLI,ssp585,2040,Agricultural Stress,Soil Moisture Deficit,Temperature Increase
+GONDIA,ssp585,2040,Temperature Increase,Agricultural Stress,Soil Moisture Deficit
+HINGOLI,ssp585,2040,Extreme Rainfall Increase,Increasing Dry Days,Agricultural Stress
+JALGAON,ssp585,2040,Temperature Increase,Agricultural Stress,Soil Moisture Deficit
+JALNA,ssp585,2040,Temperature Increase,Agricultural Stress,Soil Moisture Deficit
+KOLHAPUR,ssp585,2040,Agricultural Stress,Soil Moisture Deficit,Temperature Increase
+LATUR,ssp585,2040,Temperature Increase,Agricultural Stress,Extreme Rainfall Increase
+MUMBAI,ssp585,2040,Increasing Dry Days,Flood Hazard,Agricultural Stress
+MUMBAI SUBURBAN,ssp585,2040,Flood Hazard,Increasing Dry Days,Agricultural Stress
+NAGPUR,ssp585,2040,Temperature Increase,Extreme Rainfall Increase,Flood Hazard
+NANDED,ssp585,2040,Temperature Increase,Extreme Rainfall Increase,Increasing Wet Days
+NANDURBAR,ssp585,2040,Temperature Increase,Extreme Rainfall Increase,Agricultural Stress
+NASHIK,ssp585,2040,Temperature Increase,Extreme Rainfall Increase,Increasing Dry Days
+PALGHAR,ssp585,2040,Flood Hazard,Agricultural Stress,Increasing Dry Days
+PARBHANI,ssp585,2040,Temperature Increase,Agricultural Stress,Extreme Rainfall Increase
+PUNE,ssp585,2040,Agricultural Stress,Temperature Increase,Soil Moisture Deficit
+RAIGAD,ssp585,2040,Drought Hazard,Flood Hazard,Agricultural Stress
+RATNAGIRI,ssp585,2040,Agricultural Stress,Flood Hazard,Drought Hazard
+SANGLI,ssp585,2040,Agricultural Stress,Temperature Increase,Soil Moisture Deficit
+SATARA,ssp585,2040,Agricultural Stress,Temperature Increase,Soil Moisture Deficit
+SINDHUDURG,ssp585,2040,Agricultural Stress,Increasing Wet Days,Soil Moisture Deficit
+SOLAPUR,ssp585,2040,Agricultural Stress,Temperature Increase,Soil Moisture Deficit
+THANE,ssp585,2040,Flood Hazard,Temperature Increase,Agricultural Stress
+WARDHA,ssp585,2040,Temperature Increase,Extreme Rainfall Increase,Agricultural Stress
+WASHIM,ssp585,2040,Temperature Increase,Extreme Rainfall Increase,Flood Hazard
+YAVATMAL,ssp585,2040,Temperature Increase,Extreme Rainfall Increase,Agricultural Stress
+ADILABAD,ssp585,2040,Extreme Rainfall Increase,Temperature Increase,Agricultural Stress
+BHADRADRI KOTHAGUDEM,ssp585,2040,Agricultural Stress,Soil Moisture Deficit,Temperature Increase
+HANUMAKONDA,ssp585,2040,Extreme Rainfall Increase,Agricultural Stress,Soil Moisture Deficit
+HYDERABAD,ssp585,2040,Agricultural Stress,Soil Moisture Deficit,Extreme Rainfall Increase
+JAGTIAL,ssp585,2040,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+JANGAON,ssp585,2040,Temperature Increase,Extreme Rainfall Increase,Agricultural Stress
+JAYASHANKAR BHUPALPALLI,ssp585,2040,Agricultural Stress,Soil Moisture Deficit,Extreme Rainfall Increase
+JOGULAMBA GADWAL,ssp585,2040,Agricultural Stress,Soil Moisture Deficit,Drought Hazard
+KAMAREDDY,ssp585,2040,Extreme Rainfall Increase,Temperature Increase,Increasing Wet Days
+KARIMNAGAR,ssp585,2040,Temperature Increase,Extreme Rainfall Increase,Flood Hazard
+KHAMMAM,ssp585,2040,Agricultural Stress,Temperature Increase,Soil Moisture Deficit
+KUMURAM BHEEM,ssp585,2040,Agricultural Stress,Soil Moisture Deficit,Temperature Increase
+MAHABUBABAD,ssp585,2040,Extreme Rainfall Increase,Agricultural Stress,Soil Moisture Deficit
+MAHBUBNAGAR,ssp585,2040,Agricultural Stress,Soil Moisture Deficit,Extreme Rainfall Increase
+MANCHERIAL,ssp585,2040,Agricultural Stress,Extreme Rainfall Increase,Soil Moisture Deficit
+MEDAK,ssp585,2040,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+MEDCHAL-MALKAJGIRI,ssp585,2040,Agricultural Stress,Temperature Increase,Soil Moisture Deficit
+MULUGU,ssp585,2040,Agricultural Stress,Soil Moisture Deficit,Temperature Increase
+NAGARKURNOOL,ssp585,2040,Agricultural Stress,Soil Moisture Deficit,Temperature Increase
+NALGONDA,ssp585,2040,Agricultural Stress,Temperature Increase,Soil Moisture Deficit
+NARAYANPET,ssp585,2040,Agricultural Stress,Soil Moisture Deficit,Temperature Increase
+NIRMAL,ssp585,2040,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+NIZAMABAD,ssp585,2040,Extreme Rainfall Increase,Temperature Increase,Increasing Wet Days
+PEDDAPALLI,ssp585,2040,Temperature Increase,Extreme Rainfall Increase,Flood Hazard
+RAJANNA SIRCILLA,ssp585,2040,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+RANGA REDDY,ssp585,2040,Agricultural Stress,Temperature Increase,Soil Moisture Deficit
+SANGAREDDY,ssp585,2040,Temperature Increase,Extreme Rainfall Increase,Agricultural Stress
+SIDDIPET,ssp585,2040,Extreme Rainfall Increase,Flood Hazard,Increasing Wet Days
+SURYAPET,ssp585,2040,Temperature Increase,Extreme Rainfall Increase,Agricultural Stress
+VIKARABAD,ssp585,2040,Agricultural Stress,Temperature Increase,Soil Moisture Deficit
+WANAPARTHY,ssp585,2040,Agricultural Stress,Soil Moisture Deficit,Drought Hazard
+WARANGAL,ssp585,2040,Extreme Rainfall Increase,Agricultural Stress,Soil Moisture Deficit
+YADADRI BHUVANAGIRI,ssp585,2040,Extreme Rainfall Increase,Agricultural Stress,Soil Moisture Deficit

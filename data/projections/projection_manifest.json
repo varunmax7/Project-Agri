@@ -1,0 +1,63 @@
+{
+  "impact_features": [
+    "annual_rainfall",
+    "rainfall_anomaly",
+    "rx1day",
+    "rx3day",
+    "rain_p95",
+    "rain_p99",
+    "cdd",
+    "cwd",
+    "spi3",
+    "spi6",
+    "mean_temperature",
+    "temperature_anomaly",
+    "mean_humidity",
+    "humidity_anomaly",
+    "mean_soil_moisture",
+    "soil_moisture_anomaly",
+    "year",
+    "state_code",
+    "district_code",
+    "mean_pet",
+    "pet_anomaly",
+    "mean_et",
+    "et_anomaly",
+    "mean_solar",
+    "solar_anomaly",
+    "mean_lai",
+    "lai_anomaly"
+  ],
+  "proxy_targets": [
+    "mean_pet",
+    "mean_et",
+    "mean_solar",
+    "mean_lai"
+  ],
+  "primary_target": "sm_anomaly",
+  "optional_targets": [
+    "ndvi_anomaly",
+    "ndwi_anomaly"
+  ],
+  "prediction_columns": [
+    "predicted_sm_anomaly",
+    "predicted_ndvi_anomaly",
+    "predicted_ndwi_anomaly"
+  ],
+  "horizon_years": [
+    2030,
+    2035,
+    2040
+  ],
+  "scenarios": [
+    "ssp245",
+    "ssp585"
+  ],
+  "rs_extras_method": {
+    "mean_solar": "Hargreaves\u2013Samani physical estimation",
+    "mean_pet": "Hargreaves\u2013Samani physical estimation",
+    "mean_et": "Physical (min(PET, available_water)) + ML proxy fallback",
+    "mean_lai": "ML proxy model (mean_lai_model.pkl)"
+  },
+  "spi_baseline": "60-year IMD 1950\u20132014"
+}

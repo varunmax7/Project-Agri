@@ -55,8 +55,10 @@
         profileOpen: false,
         notifOpen: false,
         seasonOpen: false,
-        currentSeason: 'Kharif 2025'
-      }">
+        currentSeason: 'Kharif 2030',
+        globalTemp: '--'
+      }"
+      @update-global-temp.window="globalTemp = $event.detail">
 
   <div class="flex h-full overflow-hidden">
 

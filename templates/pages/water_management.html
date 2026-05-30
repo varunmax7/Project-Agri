@@ -31,34 +31,50 @@
     </div>
   </div>
 
-  <!-- Irrigation Advisory -->
-  <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
-    <h3 class="text-sm font-semibold text-gray-900 mb-4">Irrigation Scheduling Advisory</h3>
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
+    
+    <!-- Irrigation Advisory -->
+    <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-5 h-80 overflow-y-auto">
+      <h3 class="text-sm font-semibold text-gray-900 mb-4">Irrigation Advisory</h3>
 
-    <div x-show="data?.irrigation_advisory">
-      <!-- Advisory card -->
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-        <div class="bg-primary-50 border border-primary-100 rounded-xl p-4">
-          <p class="text-xs text-primary-500 font-medium mb-1">Recommended Cycles</p>
-          <p class="text-2xl font-bold text-primary-800" x-text="data?.irrigation_advisory?.recommended_cycles"></p>
-          <p class="text-xs text-primary-600 mt-1">This season</p>
+      <div x-show="data?.irrigation_advisory">
+        <div class="grid grid-cols-1 gap-4 mb-2">
+          <div class="bg-primary-50 border border-primary-100 rounded-xl p-4">
+            <p class="text-xs text-primary-500 font-medium mb-1">Recommended Cycles</p>
+            <p class="text-2xl font-bold text-primary-800" x-text="data?.irrigation_advisory?.recommended_cycles"></p>
+            <p class="text-xs text-primary-600 mt-1">This season</p>
+          </div>
+          <div class="bg-sky-50 border border-sky-100 rounded-xl p-4">
+            <p class="text-xs text-sky-500 font-medium mb-1">Next Window</p>
+            <p class="text-sm font-bold text-sky-800" x-text="data?.irrigation_advisory?.window"></p>
+            <p class="text-xs text-sky-600 mt-1" x-text="data?.irrigation_advisory?.next_activity || 'Start pre-sowing irrigation'"></p>
+          </div>
+          <div class="bg-amber-50 border border-amber-100 rounded-xl p-4">
+            <p class="text-xs text-amber-500 font-medium mb-1">Method / Notes</p>
+            <p class="text-sm font-bold text-amber-800" x-text="data?.irrigation_advisory?.note || 'Flood Irrigation'"></p>
+            <p class="text-xs text-amber-600 mt-1">Monitor at 40% soil moisture</p>
+          </div>
         </div>
-        <div class="bg-sky-50 border border-sky-100 rounded-xl p-4">
-          <p class="text-xs text-sky-500 font-medium mb-1">Next Window</p>
-          <p class="text-sm font-bold text-sky-800" x-text="data?.irrigation_advisory?.window"></p>
-          <p class="text-xs text-sky-600 mt-1" x-text="data?.irrigation_advisory?.next_activity || 'Start pre-sowing irrigation'"></p>
-        </div>
-        <div class="bg-amber-50 border border-amber-100 rounded-xl p-4">
-          <p class="text-xs text-amber-500 font-medium mb-1">Method / Notes</p>
-          <p class="text-sm font-bold text-amber-800" x-text="data?.irrigation_advisory?.note || 'Flood Irrigation'"></p>
-          <p class="text-xs text-amber-600 mt-1">Monitor at 40% soil moisture</p>
+      </div>
+      
+      <div x-show="!data?.irrigation_advisory">
+        <p class="text-sm text-gray-500">No irrigation data.</p>
+      </div>
+    </div>
+
+    <!-- Drought Hazard Map -->
+    <div class="lg:col-span-2 bg-white rounded-xl border border-gray-100 shadow-sm flex flex-col h-80">
+      <div class="flex items-center justify-between px-5 py-3.5 border-b border-gray-100 shrink-0">
+        <h3 class="text-sm font-semibold text-gray-900">Regional Drought Hazard Map</h3>
+      </div>
+      <div class="flex-1 relative" style="min-height:260px;">
+        <div id="water-map" style="position:absolute;inset:0;min-height:260px;z-index: 0;"></div>
+        <div x-show="mapLoading" class="absolute inset-0 z-10 bg-white/70 flex items-center justify-center" style="pointer-events:none;">
+          <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-primary-600"></div>
         </div>
       </div>
     </div>
     
-    <div x-show="!data?.irrigation_advisory">
-      {% include 'components/empty_state.html' with title="Full schedule loads with seed data" description="Run seed_demo_data to populate WaterBalance and IrrigationAdvisory records." icon_path="M12 2c0 0-8 7.58-8 13a8 8 0 0016 0C20 9.58 12 2 12 2z" %}
-    </div>
   </div>
 
 </div>
@@ -69,27 +85,47 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 function waterData() {
+    let wMap = null;
+    let geoJsonLayer = null;
+
     return {
         data: null,
         loading: true,
+        mapLoading: false,
         seasonalDeficit: 0,
         wsChartInstance: null,
         raChartInstance: null,
         
         async initData(farmId) {
+            this.farmId = farmId;
             if (!farmId) {
                 this.loading = false;
                 return;
             }
+            this.$watch('currentSeason', () => { this.fetchData(); });
+            await this.fetchData();
+        },
+        
+        async fetchData() {
+            this.loading = true;
             try {
-                const res = await fetch(`/api/v1/farms/${farmId}/dashboard/`);
+                const parts = (this.currentSeason || 'Kharif 2030').split(' ');
+                const season = parts[0];
+                const year = parts[1] || '2030';
+                
+                const res = await fetch(`/api/v1/farms/${this.farmId}/dashboard/?season=${season}&year=${year}`);
                 if (res.ok) {
-                    const json = await res.json(); this.data = json.results || json;
+                    const json = await res.json(); 
+                    this.data = json.results || json;
+                    
+                    window.dispatchEvent(new CustomEvent('update-global-temp', { detail: this.data?.latest_vegetation?.lst || '--' }));
+                    
                     this.calculateDeficit();
                     
                     // Render charts after DOM updates
                     this.$nextTick(() => {
                         this.renderCharts();
+                        setTimeout(() => this.loadMapLayer(year), 100);
                     });
                 } else {
                     console.error("API error", await res.text());
@@ -98,6 +134,64 @@ function waterData() {
                 console.error("Failed to load water data", err);
             } finally {
                 this.loading = false;
+            }
+        },
+        
+        async loadMapLayer(year) {
+            const mapEl = document.getElementById('water-map');
+            if (!mapEl) return;
+            
+            if (!wMap) {
+                wMap = L.map('water-map', { zoomControl: true, attributionControl: false }).setView([18.67, 78.10], 9);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(wMap);
+            }
+            
+            this.mapLoading = true;
+            try {
+                const res = await fetch(`/api/map-data/risk/?scenario=ssp245&year=${year}`);
+                if (!res.ok) throw new Error("Failed to load map polygons");
+                const geoData = await res.json();
+                
+                if (geoJsonLayer) {
+                    wMap.removeLayer(geoJsonLayer);
+                }
+                
+                geoJsonLayer = L.geoJSON(geoData, {
+                    style: (feature) => {
+                        // Color by drought_hazard_score
+                        const risk = feature.properties.drought_hazard_score || 0;
+                        let color = '#22c55e'; // green (low drought risk)
+                        if (risk > 60) color = '#ef4444'; // red
+                        else if (risk > 45) color = '#f97316'; // orange
+                        else if (risk > 30) color = '#eab308'; // yellow
+                        
+                        return {
+                            fillColor: color,
+                            weight: 1,
+                            opacity: 1,
+                            color: 'white',
+                            fillOpacity: 0.6
+                        };
+                    },
+                    onEachFeature: (feature, layer) => {
+                        const props = feature.properties;
+                        layer.bindTooltip(`
+                            <div class="text-xs">
+                                <b>${props.district}</b><br/>
+                                Drought Score: ${props.drought_hazard_score || 'N/A'}<br/>
+                                Water Class: ${props.drought_hazard_class || 'N/A'}
+                            </div>
+                        `);
+                    }
+                }).addTo(wMap);
+                
+                wMap.fitBounds(geoJsonLayer.getBounds(), { padding: [10, 10] });
+                setTimeout(() => wMap.invalidateSize(), 300);
+                
+            } catch (err) {
+                console.error("Map layer failed:", err);
+            } finally {
+                this.mapLoading = false;
             }
         },
         
@@ -126,7 +220,15 @@ function waterData() {
             
             // Dummy stress trend data for the line chart (would normally come from backend timeseries)
             const stressLabels = ['Week 1','Week 2','Week 3','Week 4','Week 5','Week 6'];
-            const stressData = [45, 52, 61, 72, 68, this.data.stress_assessment?.water_stress || 75];
+            const finalScore = this.data.stress_assessment?.drought_score || 45;
+            const stressData = [
+                Math.max(0, finalScore - 20),
+                Math.max(0, finalScore - 12),
+                Math.max(0, finalScore - 5),
+                Math.min(100, finalScore + 8),
+                Math.min(100, finalScore + 4),
+                finalScore
+            ];
             
             if (this.wsChartInstance) this.wsChartInstance.destroy();
             this.wsChartInstance = new Chart(document.getElementById('waterStressChart'), {

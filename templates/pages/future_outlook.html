@@ -129,6 +129,22 @@
   </div>
 </div>
 
+<!-- Future Outlook Map -->
+<div x-show="!loading" x-cloak class="bg-white rounded-xl border border-gray-100 shadow-sm flex flex-col mt-6" style="min-height: 400px;">
+  <div class="flex items-center justify-between px-5 py-4 border-b border-gray-100 shrink-0">
+    <div>
+      <h3 class="text-sm font-semibold text-gray-900">Regional Climate Risk Map</h3>
+      <p class="text-xs text-gray-500">Projected risk based on selected scenario</p>
+    </div>
+  </div>
+  <div class="flex-1 relative" style="min-height: 300px;">
+    <div id="outlook-map" style="position:absolute;inset:0;min-height:300px;z-index:0;"></div>
+    <div x-show="mapLoading" class="absolute inset-0 z-10 bg-white/70 flex items-center justify-center" style="pointer-events:none;">
+      <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
+    </div>
+  </div>
+</div>
+
 </div>
 {% endblock %}
 
@@ -143,9 +159,13 @@ const chartOpts = {
 };
 
 function outlookData() {
+    let oMap = null;
+    let oGeoJsonLayer = null;
+
     return {
         data: null,
         loading: true,
+        mapLoading: false,
         farmId: null,
         scenario: 'ssp245',
         cChartInstance: null,
@@ -166,15 +186,77 @@ function outlookData() {
             await this.fetchData();
         },
         
+        async loadMapLayer() {
+            const mapEl = document.getElementById('outlook-map');
+            if (!mapEl) return;
+            
+            if (!oMap) {
+                oMap = L.map('outlook-map', { zoomControl: true, attributionControl: false }).setView([18.67, 78.10], 9);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(oMap);
+            }
+            
+            this.mapLoading = true;
+            try {
+                // Future Outlook usually looks at the furthest decade (2040) for extreme projections
+                const res = await fetch(`/api/map-data/risk/?scenario=${this.scenario}&year=2040`);
+                if (!res.ok) throw new Error("Failed to load map polygons");
+                const geoData = await res.json();
+                
+                if (oGeoJsonLayer) {
+                    oMap.removeLayer(oGeoJsonLayer);
+                }
+                
+                oGeoJsonLayer = L.geoJSON(geoData, {
+                    style: (feature) => {
+                        const risk = feature.properties.overall_risk_score || 0;
+                        let color = '#22c55e'; 
+                        if (risk > 60) color = '#ef4444'; 
+                        else if (risk > 45) color = '#f97316'; 
+                        else if (risk > 30) color = '#eab308'; 
+                        
+                        return {
+                            fillColor: color,
+                            weight: 1,
+                            opacity: 1,
+                            color: 'white',
+                            fillOpacity: 0.6
+                        };
+                    },
+                    onEachFeature: (feature, layer) => {
+                        const props = feature.properties;
+                        layer.bindTooltip(`
+                            <div class="text-xs">
+                                <b>${props.district} (2040)</b><br/>
+                                Overall Risk: ${props.overall_risk_score || 'N/A'}<br/>
+                                Risk Class: ${props.overall_risk_class || 'N/A'}
+                            </div>
+                        `);
+                    }
+                }).addTo(oMap);
+                
+                oMap.fitBounds(oGeoJsonLayer.getBounds(), { padding: [10, 10] });
+                setTimeout(() => oMap.invalidateSize(), 300);
+                
+            } catch (err) {
+                console.error("Map layer failed:", err);
+            } finally {
+                this.mapLoading = false;
+            }
+        },
+        
         async fetchData() {
             this.loading = true;
             try {
                 const res = await fetch(`/api/v1/farms/${this.farmId}/dashboard/?scenario=${this.scenario}`);
                 if (res.ok) {
-                    const json = await res.json(); this.data = json.results || json;
+                    const json = await res.json(); 
+                    this.data = json.results || json;
+                    
+                    window.dispatchEvent(new CustomEvent('update-global-temp', { detail: this.data?.latest_vegetation?.lst || '--' }));
                     
                     this.$nextTick(() => {
                         this.renderCharts();
+                        setTimeout(() => this.loadMapLayer(), 100);
                     });
                 }
             } catch (err) {

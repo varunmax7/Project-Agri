@@ -1,0 +1,363 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="relative w-full rounded-2xl overflow-hidden shadow-2xl border border-white/20 bg-white" style="height: calc(100vh - 12rem);" x-data="mapController()">
+    <!-- Map Container -->
+    <div id="map" class="absolute inset-0 z-0"></div>
+
+    <!-- Glassmorphism Control Panel -->
+    <div class="absolute top-4 left-4 z-[400] w-80 bg-white/70 backdrop-blur-md border border-white/50 rounded-2xl shadow-xl p-5 flex flex-col gap-4">
+        <h2 class="text-xl font-bold text-gray-800">Data Explorer</h2>
+        
+        <!-- Layer Selection -->
+        <div class="flex flex-col gap-2">
+            <label class="text-sm font-semibold text-gray-600">Active Layer</label>
+            <div class="flex bg-gray-100 rounded-lg p-1">
+                <button @click="setLayer('risk')" :class="layer === 'risk' ? 'bg-white shadow text-primary-700' : 'text-gray-500 hover:text-gray-700'" class="flex-1 py-1.5 text-sm font-medium rounded-md transition-all">Climate Risk</button>
+                <button @click="setLayer('suitability')" :class="layer === 'suitability' ? 'bg-white shadow text-primary-700' : 'text-gray-500 hover:text-gray-700'" class="flex-1 py-1.5 text-sm font-medium rounded-md transition-all">Crop Suitability</button>
+            </div>
+        </div>
+
+        <!-- Risk Controls -->
+        <div x-show="layer === 'risk'" x-collapse class="flex flex-col gap-4">
+            <div class="flex flex-col gap-2">
+                <label class="text-sm font-semibold text-gray-600">Scenario</label>
+                <select x-model="scenario" @change="fetchRiskData()" class="w-full bg-white/50 border border-gray-200 text-gray-700 rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-primary-500">
+                    <option value="ssp245">SSP2-4.5 (Moderate)</option>
+                    <option value="ssp585">SSP5-8.5 (Extreme)</option>
+                </select>
+            </div>
+            
+            <div class="flex flex-col gap-2">
+                <label class="text-sm font-semibold text-gray-600">Year</label>
+                <div class="flex gap-2">
+                    <template x-for="y in [2030, 2035, 2040]">
+                        <button @click="year = y; fetchRiskData()" :class="year === y ? 'bg-primary-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'" class="flex-1 py-1.5 rounded-lg text-sm font-medium transition-colors" x-text="y"></button>
+                    </template>
+                </div>
+            </div>
+        </div>
+
+        <!-- Suitability Controls -->
+        <div x-show="layer === 'suitability'" x-collapse class="flex flex-col gap-4">
+            <div class="flex flex-col gap-2">
+                <label class="text-sm font-semibold text-gray-600">Crop</label>
+                <select x-model="crop" @change="fetchSuitabilityData()" class="w-full bg-white/50 border border-gray-200 text-gray-700 rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-primary-500">
+                    <option value="Maize">Maize</option>
+                    <option value="Paddy">Paddy</option>
+                    <option value="Cotton">Cotton</option>
+                    <option value="Millets">Millets</option>
+                </select>
+            </div>
+        </div>
+
+        <div x-show="loading" class="flex justify-center items-center py-2">
+            <svg class="animate-spin h-5 w-5 text-primary-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <span class="ml-2 text-sm text-gray-500">Loading data...</span>
+        </div>
+    </div>
+
+    <!-- Info Panel (Shows on click/hover) -->
+    <div x-show="selectedDistrict" x-transition class="absolute bottom-4 left-4 z-[400] w-80 bg-white/80 backdrop-blur-md border border-white/50 rounded-2xl shadow-xl p-5 flex flex-col gap-3">
+        <div class="flex justify-between items-start">
+            <div>
+                <h3 class="text-lg font-bold text-gray-800" x-text="selectedDistrict"></h3>
+                <p class="text-xs text-gray-500 uppercase tracking-wider" x-text="selectedState"></p>
+            </div>
+            <button @click="selectedDistrict = null" class="text-gray-400 hover:text-gray-600">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+
+        <div x-show="layer === 'risk'" class="mt-2 space-y-3">
+            <div class="flex justify-between items-center border-b border-gray-100 pb-2">
+                <span class="text-sm text-gray-600">Risk Level</span>
+                <span class="text-sm font-bold px-2 py-1 rounded-md" :class="getRiskColorClass(selectedRiskLevel)" x-text="selectedRiskLevel"></span>
+            </div>
+            
+            <!-- Insights -->
+            <div x-show="insights.key_insight_1" class="text-sm text-gray-700 bg-blue-50/50 p-2 rounded-lg border border-blue-100/50">
+                <p x-text="insights.key_insight_1"></p>
+            </div>
+            <div x-show="insights.key_insight_2" class="text-sm text-gray-700 bg-amber-50/50 p-2 rounded-lg border border-amber-100/50">
+                <p x-text="insights.key_insight_2"></p>
+            </div>
+            <div x-show="insights.key_insight_3" class="text-sm text-gray-700 bg-rose-50/50 p-2 rounded-lg border border-rose-100/50">
+                <p x-text="insights.key_insight_3"></p>
+            </div>
+        </div>
+
+        <div x-show="layer === 'suitability'" class="mt-2 space-y-3">
+            <div class="flex justify-between items-center border-b border-gray-100 pb-2">
+                <span class="text-sm text-gray-600">Current Suitability</span>
+                <span class="text-sm font-semibold" x-text="selectedSuitability.current"></span>
+            </div>
+            <div class="flex justify-between items-center border-b border-gray-100 pb-2">
+                <span class="text-sm text-gray-600">Projected Suitability</span>
+                <span class="text-sm font-semibold" x-text="selectedSuitability.projected"></span>
+            </div>
+            <div class="flex justify-between items-center border-b border-gray-100 pb-2">
+                <span class="text-sm text-gray-600">Class Change</span>
+                <span class="text-sm font-bold" :class="selectedSuitability.change < 0 ? 'text-red-500' : (selectedSuitability.change > 0 ? 'text-green-500' : 'text-gray-500')" x-text="selectedSuitability.change"></span>
+            </div>
+            <div x-show="selectedSuitability.recommendation" class="text-sm text-gray-700 bg-gray-50 p-3 rounded-lg border border-gray-100 mt-2">
+                <strong class="block mb-1 text-xs text-gray-500 uppercase">Recommendation</strong>
+                <span x-text="selectedSuitability.recommendation"></span>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<style>
+    /* Custom Map Tooltip */
+    .custom-tooltip {
+        background: rgba(255, 255, 255, 0.95);
+        border: none;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        font-family: 'Inter', sans-serif;
+        font-weight: 500;
+        padding: 8px 12px;
+        color: #1f2937;
+    }
+    .custom-tooltip::before { border-top-color: rgba(255, 255, 255, 0.95); }
+</style>
+
+<script>
+function mapController() {
+    return {
+        map: null,
+        geoJsonLayer: null,
+        layer: 'risk', // 'risk' or 'suitability'
+        scenario: 'ssp245',
+        year: 2030,
+        crop: 'Maize',
+        loading: false,
+        
+        // Base GeoJSON data to map everything onto
+        baseGeoData: null,
+        suitabilityDataMap: {}, // district -> data
+
+        // Selection State
+        selectedDistrict: null,
+        selectedState: null,
+        selectedRiskLevel: null,
+        insights: {},
+        selectedSuitability: {},
+
+        init() {
+            // Initialize Leaflet
+            this.map = L.map('map', {
+                zoomControl: false // We will move it
+            }).setView([20.5937, 78.9629], 5); // Center on India
+
+            L.control.zoom({ position: 'topright' }).addTo(this.map);
+
+            // Add clean CartoDB Positron basemap
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
+                attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
+                subdomains: 'abcd',
+                maxZoom: 20
+            }).addTo(this.map);
+            
+            // Add labels on top
+            this.map.createPane('labels');
+            this.map.getPane('labels').style.zIndex = 650;
+            this.map.getPane('labels').style.pointerEvents = 'none';
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}{r}.png', {
+                pane: 'labels'
+            }).addTo(this.map);
+
+            this.fetchRiskData();
+        },
+
+        setLayer(l) {
+            this.layer = l;
+            this.selectedDistrict = null;
+            if (l === 'risk') {
+                this.fetchRiskData();
+            } else {
+                this.fetchSuitabilityData();
+            }
+        },
+
+        async fetchRiskData() {
+            this.loading = true;
+            try {
+                const res = await fetch(`/api/map-data/risk/?scenario=${this.scenario}&year=${this.year}`);
+                const data = await res.json();
+                this.baseGeoData = data;
+                this.renderMap();
+            } catch (err) {
+                console.error(err);
+            } finally {
+                this.loading = false;
+            }
+        },
+
+        async fetchSuitabilityData() {
+            this.loading = true;
+            try {
+                // We need base polygons (just re-use risk geometries if available, or fetch them if null)
+                if (!this.baseGeoData) {
+                    const resRisk = await fetch(`/api/map-data/risk/?scenario=ssp245&year=2030`);
+                    this.baseGeoData = await resRisk.json();
+                }
+
+                const res = await fetch(`/api/map-data/suitability/?crop=${this.crop}`);
+                const data = await res.json();
+                
+                this.suitabilityDataMap = {};
+                data.data.forEach(item => {
+                    this.suitabilityDataMap[item.district.toUpperCase()] = item;
+                });
+
+                this.renderMap();
+            } catch (err) {
+                console.error(err);
+            } finally {
+                this.loading = false;
+            }
+        },
+
+        async fetchInsights(district) {
+            try {
+                const res = await fetch(`/api/map-data/insights/?district=${district}&scenario=${this.scenario}&year=${this.year}`);
+                if (res.ok) {
+                    this.insights = await res.json();
+                } else {
+                    this.insights = {};
+                }
+            } catch (e) {
+                this.insights = {};
+            }
+        },
+
+        getRiskColor(riskClass) {
+            const risk = (riskClass || '').toLowerCase();
+            if (risk.includes('extreme') || risk.includes('severe')) return '#b91c1c'; // red-700
+            if (risk.includes('high')) return '#ef4444'; // red-500
+            if (risk.includes('moderate')) return '#f59e0b'; // amber-500
+            if (risk.includes('low')) return '#10b981'; // emerald-500
+            return '#e5e7eb'; // gray-200
+        },
+
+        getRiskColorClass(riskClass) {
+            const risk = (riskClass || '').toLowerCase();
+            if (risk.includes('extreme') || risk.includes('severe')) return 'bg-red-100 text-red-800';
+            if (risk.includes('high')) return 'bg-orange-100 text-orange-800';
+            if (risk.includes('moderate')) return 'bg-amber-100 text-amber-800';
+            if (risk.includes('low')) return 'bg-emerald-100 text-emerald-800';
+            return 'bg-gray-100 text-gray-800';
+        },
+
+        getSuitabilityColor(suitClass) {
+            const suit = (suitClass || '').toLowerCase();
+            if (suit.includes('highly')) return '#059669'; // emerald-600
+            if (suit.includes('suitable')) return '#34d399'; // emerald-400
+            if (suit.includes('moderate')) return '#fbbf24'; // amber-400
+            if (suit.includes('marginal')) return '#fb923c'; // orange-400
+            if (suit.includes('unsuitable')) return '#ef4444'; // red-500
+            return '#e5e7eb';
+        },
+
+        renderMap() {
+            if (this.geoJsonLayer) {
+                this.map.removeLayer(this.geoJsonLayer);
+            }
+
+            if (!this.baseGeoData || !this.baseGeoData.features) return;
+
+            this.geoJsonLayer = L.geoJSON(this.baseGeoData, {
+                style: (feature) => {
+                    let fillColor = '#e5e7eb';
+                    const distName = (feature.properties.district || '').toUpperCase();
+
+                    if (this.layer === 'risk') {
+                        fillColor = this.getRiskColor(feature.properties.overall_risk_class);
+                    } else {
+                        const suitData = this.suitabilityDataMap[distName];
+                        if (suitData) {
+                            fillColor = this.getSuitabilityColor(suitData.suitability_projected || suitData.suitability_current);
+                        }
+                    }
+
+                    return {
+                        fillColor: fillColor,
+                        weight: 1,
+                        opacity: 1,
+                        color: 'white',
+                        dashArray: '3',
+                        fillOpacity: 0.7
+                    };
+                },
+                onEachFeature: (feature, layer) => {
+                    const props = feature.properties;
+                    const distName = (props.district || '').toUpperCase();
+
+                    // Tooltip
+                    let tooltipContent = `<b>${distName}</b>`;
+                    if (this.layer === 'risk') {
+                        tooltipContent += `<br/>Risk: ${props.overall_risk_class || 'N/A'}`;
+                    } else {
+                        const suitData = this.suitabilityDataMap[distName];
+                        if (suitData) {
+                            tooltipContent += `<br/>Suitability: ${suitData.suitability_projected || suitData.suitability_current}`;
+                        }
+                    }
+                    layer.bindTooltip(tooltipContent, { className: 'custom-tooltip', sticky: true });
+
+                    // Interactions
+                    layer.on({
+                        mouseover: (e) => {
+                            const l = e.target;
+                            l.setStyle({ weight: 2, color: '#4ade80', dashArray: '', fillOpacity: 0.9 });
+                            if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+                                l.bringToFront();
+                            }
+                        },
+                        mouseout: (e) => {
+                            this.geoJsonLayer.resetStyle(e.target);
+                        },
+                        click: (e) => {
+                            this.selectedDistrict = distName;
+                            this.selectedState = props.state || '';
+                            
+                            if (this.layer === 'risk') {
+                                this.selectedRiskLevel = props.overall_risk_class || 'Unknown';
+                                this.fetchInsights(distName);
+                            } else {
+                                const suitData = this.suitabilityDataMap[distName];
+                                if (suitData) {
+                                    this.selectedSuitability = {
+                                        current: suitData.suitability_current,
+                                        projected: suitData.suitability_projected,
+                                        change: suitData.change_class,
+                                        recommendation: suitData.recommendation
+                                    };
+                                } else {
+                                    this.selectedSuitability = { current: 'N/A', projected: 'N/A', change: 0, recommendation: '' };
+                                }
+                            }
+                            // Pan to district
+                            this.map.fitBounds(e.target.getBounds(), { padding: [50, 50], maxZoom: 8 });
+                        }
+                    });
+                }
+            }).addTo(this.map);
+
+            // Fit bounds to all features if not already zoomed to one
+            if (!this.selectedDistrict) {
+                this.map.fitBounds(this.geoJsonLayer.getBounds());
+            }
+        }
+    }
+}
+</script>
+{% endblock %}

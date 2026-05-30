@@ -29,7 +29,7 @@
               <p class="text-sm font-medium text-gray-800" x-text="item.crop_detail?.name"></p>
               <div class="flex items-center gap-2 mt-1">
                 <div class="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
-                  <div class="h-full bg-primary-500 rounded-full" :style="`width: ${item.suitability_pct}%`"></div>
+                  <div class="h-full bg-green-500 rounded-full" :style="'width: ' + item.suitability_pct + '%'"></div>
                 </div>
                 <span class="text-xs font-semibold text-gray-700" x-text="`${item.suitability_pct}%`"></span>
               </div>
@@ -135,7 +135,7 @@
                 <td class="px-4 py-3">
                   <div class="flex items-center gap-2">
                     <div class="w-16 h-1.5 bg-gray-100 rounded-full overflow-hidden">
-                      <div class="h-full bg-primary-500 rounded-full" :style="`width: ${item.suitability_pct}%`"></div>
+                      <div class="h-full bg-green-500 rounded-full" :style="'width: ' + item.suitability_pct + '%'"></div>
                     </div>
                     <span class="text-xs font-medium text-gray-700" x-text="`${item.suitability_pct}%`"></span>
                   </div>
@@ -219,20 +219,7 @@
 let mapInstance = null;
 let geoJsonLayerInstance = null;
 
-document.addEventListener('DOMContentLoaded', () => {
-    const mapEl = document.getElementById('crop-map');
-    if (!mapEl || mapInstance) return;
-
-    mapInstance = L.map('crop-map', { zoomControl: true }).setView([18.67, 78.10], 9);
-
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        maxZoom: 18
-    }).addTo(mapInstance);
-
-    // Invalidate at multiple intervals to handle layout shifts
-    [100, 300, 600, 1000].forEach(ms => setTimeout(() => mapInstance.invalidateSize(), ms));
-});
+// Map instance initialized dynamically inside loadMapLayer
 
 function cropAdvisoryData() {
     return {
@@ -250,14 +237,46 @@ function cropAdvisoryData() {
                 this.loading = false;
                 return;
             }
+            this.$watch('currentSeason', () => { this.fetchData(); });
+            await this.fetchData();
+        },
+        
+        async fetchData() {
+            this.loading = true;
             try {
-                const res = await fetch(`/api/v1/advisory/crop-suitability/?farm=${this.farmId}`);
+                const parts = (this.currentSeason || 'Kharif 2030').split(' ');
+                const season = parts[0];
+                const year = parts[1] || '2030';
+                
+                const res = await fetch(`/api/v1/advisory/suitability/?farm=${this.farmId}&year=${year}`);
                 if (res.ok) {
                     const data = await res.json();
                     this.suitabilityList = data.results || data;
+                    
+                    // Silently fetch dashboard data to populate global temp on topbar
+                    fetch(`/api/v1/farms/${this.farmId}/dashboard/?season=${season}&year=${year}`)
+                        .then(r => r.json())
+                        .then(dashData => {
+                            const d = dashData.results || dashData;
+                            window.dispatchEvent(new CustomEvent('update-global-temp', { detail: d?.latest_vegetation?.lst || '--' }));
+                        }).catch(() => {});
+                        
                     if (this.suitabilityList.length > 0) {
                         this.seasonText = `${this.suitabilityList[0].season} ${this.suitabilityList[0].year}`;
-                        this.selectCrop(this.suitabilityList[0]);
+                        // Keep previously selected crop if possible
+                        if (this.selectedCropId) {
+                            const found = this.suitabilityList.find(c => c.id === this.selectedCropId);
+                            if (found) this.selectCrop(found);
+                            else this.selectCrop(this.suitabilityList[0]);
+                        } else {
+                            this.selectCrop(this.suitabilityList[0]);
+                        }
+                    } else {
+                        this.suitabilityList = [];
+                        this.selectedCrop = null;
+                        this.selectedCropId = null;
+                        this.seasonText = `${season} ${year}`;
+                        setTimeout(() => this.loadMapLayer(), 50); // delay to ensure UI is visible
                     }
                 }
             } catch (err) {
@@ -270,14 +289,14 @@ function cropAdvisoryData() {
         selectCrop(item) {
             this.selectedCrop = item;
             this.selectedCropId = item.id;
-            this.loadMapLayer();
+            setTimeout(() => this.loadMapLayer(), 100);
         },
         
         onSelectDropdown() {
             const crop = this.suitabilityList.find(c => c.id == this.selectedCropId);
             if (crop) {
                 this.selectedCrop = crop;
-                this.loadMapLayer();
+                setTimeout(() => this.loadMapLayer(), 100);
             }
         },
         
@@ -306,7 +325,17 @@ function cropAdvisoryData() {
         },
         
         async loadMapLayer() {
-            if (!mapInstance || !this.selectedCrop) return;
+            if (!this.selectedCrop) return;
+            
+            if (!mapInstance) {
+                const mapEl = document.getElementById('crop-map');
+                if (!mapEl) return;
+                mapInstance = L.map('crop-map', { zoomControl: true }).setView([18.67, 78.10], 9);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; OpenStreetMap contributors',
+                    maxZoom: 18
+                }).addTo(mapInstance);
+            }
             
             this.mapLoading = true;
             
@@ -315,30 +344,65 @@ function cropAdvisoryData() {
             }
             
             try {
-                const layerType = `suitability_${this.selectedCrop.crop_detail.name.toLowerCase()}`;
-                const res = await fetch(`/api/v1/climate-risk-zones/geojson/?layer_type=${layerType}`);
-                if (res.ok) {
-                    const geojsonData = await res.json();
-                    if (geojsonData.features && geojsonData.features.length > 0) {
-                        geoJsonLayerInstance = L.geoJSON(geojsonData, {
-                            style: (feature) => {
-                                const suitability = feature.properties.risk_level || 'low'; // Using risk_level field for suitability in the demo
-                                let color = '#10b981'; // Default green for suitable
-                                if (suitability === 'moderate') color = '#f59e0b';
-                                else if (suitability === 'high') color = '#ef4444';
-                                
-                                return {
-                                    fillColor: color,
-                                    weight: 1,
-                                    opacity: 0.8,
-                                    color: 'white',
-                                    fillOpacity: 0.6
-                                };
+                const parts = (this.currentSeason || 'Kharif 2030').split(' ');
+                const year = parts[1] || '2030';
+                
+                // Fetch base polygons
+                const resRisk = await fetch(`/api/map-data/risk/?scenario=ssp245&year=${year}`);
+                if (!resRisk.ok) throw new Error("Failed to load base polygons");
+                const geojsonData = await resRisk.json();
+                
+                // Fetch suitability data for selected crop
+                const cropName = this.selectedCrop.crop_detail.name;
+                const resSuit = await fetch(`/api/map-data/suitability/?crop=${cropName}`);
+                if (!resSuit.ok) throw new Error("Failed to load suitability data");
+                const suitJson = await resSuit.json();
+                
+                // Map suitability to district
+                const suitMap = {};
+                (suitJson.data || []).forEach(item => {
+                    suitMap[item.district.toUpperCase()] = item;
+                });
+                
+                if (geojsonData.features && geojsonData.features.length > 0) {
+                    geoJsonLayerInstance = L.geoJSON(geojsonData, {
+                        style: (feature) => {
+                            const distName = (feature.properties.district || '').toUpperCase();
+                            const suitData = suitMap[distName];
+                            
+                            let color = '#e5e7eb'; // default gray
+                            if (suitData) {
+                                const suit = (suitData.suitability_projected || suitData.suitability_current || '').toLowerCase();
+                                if (suit.includes('highly')) color = '#059669'; // emerald-600
+                                else if (suit.includes('suitable')) color = '#34d399'; // emerald-400
+                                else if (suit.includes('moderate')) color = '#fbbf24'; // amber-400
+                                else if (suit.includes('marginal')) color = '#fb923c'; // orange-400
+                                else if (suit.includes('unsuitable')) color = '#ef4444'; // red-500
                             }
-                        }).addTo(mapInstance);
-                        
-                        mapInstance.fitBounds(geoJsonLayerInstance.getBounds(), { padding: [20, 20] });
-                    }
+                            
+                            return {
+                                fillColor: color,
+                                weight: 1,
+                                opacity: 1,
+                                color: 'white',
+                                fillOpacity: 0.7
+                            };
+                        },
+                        onEachFeature: (feature, layer) => {
+                            const distName = (feature.properties.district || '').toUpperCase();
+                            const suitData = suitMap[distName];
+                            let tooltipContent = `<b>${distName}</b><br/>Suitability: `;
+                            if (suitData) {
+                                tooltipContent += suitData.suitability_projected || suitData.suitability_current || 'Unknown';
+                            } else {
+                                tooltipContent += 'N/A';
+                            }
+                            layer.bindPopup(tooltipContent);
+                        }
+                    }).addTo(mapInstance);
+                    
+                    mapInstance.fitBounds(geoJsonLayerInstance.getBounds(), { padding: [20, 20] });
+                    setTimeout(() => mapInstance.invalidateSize(), 300);
                 }
             } catch (err) {
                 console.error("Failed to load map layer", err);

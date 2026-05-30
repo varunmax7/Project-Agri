@@ -248,17 +248,33 @@ function dashboardData() {
     return {
         data: null,
         loading: true,
+        farmId: null,
         async initDashboard(farmId) {
             if (!farmId) {
                 console.warn("No farm ID provided to dashboard.");
                 this.loading = false;
                 return;
             }
+            this.farmId = farmId;
+            this.$watch('currentSeason', () => {
+                this.fetchData();
+            });
+            await this.fetchData();
+        },
+        async fetchData() {
+            this.loading = true;
             try {
-                const res = await fetch(`/api/v1/farms/${farmId}/dashboard/`);
+                // Parse season and year from currentSeason (e.g., "Kharif 2025")
+                const parts = (this.currentSeason || 'Kharif 2030').split(' ');
+                const season = parts[0];
+                const year = parts[1] || '2030';
+                
+                const res = await fetch(`/api/v1/farms/${this.farmId}/dashboard/?season=${season}&year=${year}`);
                 if (res.ok) {
-                    const json = await res.json(); this.data = json.results || json;
+                    const json = await res.json(); 
+                    this.data = json.results || json;
                     window.dispatchEvent(new CustomEvent('dashboard-data-loaded', { detail: this.data }));
+                    window.dispatchEvent(new CustomEvent('update-global-temp', { detail: this.data?.latest_vegetation?.lst || '--' }));
                 } else {
                     console.error("Dashboard API error", await res.text());
                 }
@@ -295,28 +311,79 @@ document.addEventListener('DOMContentLoaded', () => {
     [100, 300, 600, 1000].forEach(ms => setTimeout(() => dashboardMap.invalidateSize(), ms));
 });
 
-function loadMapLayer(layerType, season) {
+function loadMapLayer(layerType) {
     if (!dashboardMap) return;
     if (riskLayer) { dashboardMap.removeLayer(riskLayer); riskLayer = null; }
 
-    fetch(`/api/v1/climate-risk-zones/geojson/?season=${season || 'Kharif'}&layer_type=${layerType}`)
+    const year = (dashboardData_cached && dashboardData_cached.year) ? dashboardData_cached.year : 2030;
+    fetch(`/api/map-data/risk/?scenario=ssp245&year=${year}`)
         .then(r => r.json())
         .then(geoJson => {
             if (!geoJson.features || geoJson.features.length === 0) return;
             riskLayer = L.geoJSON(geoJson, {
                 style: function(feature) {
-                    const risk = feature.properties.risk_level;
-                    let color = '#22c55e';
-                    if (risk === 'moderate') color = '#fbbf24';
-                    else if (risk === 'high') color = '#f97316';
-                    else if (risk === 'very_high') color = '#ef4444';
-                    return { color: '#fff', weight: 1, fillColor: color, fillOpacity: 0.65 };
+                    let color = '#22c55e'; // default Low/Green
+                    
+                    if (layerType === 'rainfall_anomaly') {
+                        const val = parseFloat(feature.properties.rainfall_change || 0);
+                        if (val < -10) color = '#f97316'; // negative anomaly
+                        else if (val < 0) color = '#fbbf24';
+                        else color = '#38bdf8'; // positive anomaly (blue)
+                    } else if (layerType === 'heat_stress') {
+                        const val = parseFloat(feature.properties.temperature_change || 0);
+                        if (val > 1.5) color = '#ef4444';
+                        else if (val > 1.0) color = '#f97316';
+                        else if (val > 0.5) color = '#fbbf24';
+                    } else if (layerType === 'water_stress') {
+                        const val = parseFloat(feature.properties.drought_hazard_score || 0);
+                        if (val > 0.6) color = '#ef4444';
+                        else if (val > 0.4) color = '#f97316';
+                        else if (val > 0.2) color = '#fbbf24';
+                    } else {
+                        // climate_risk
+                        const risk = (feature.properties.overall_risk_class || '').toLowerCase();
+                        if (risk.includes('moderate')) color = '#fbbf24';
+                        else if (risk.includes('high')) color = '#f97316';
+                        else if (risk.includes('extreme') || risk.includes('severe')) color = '#ef4444';
+                    }
+                    
+                    const isUserDistrict = dashboardData_cached?.farm?.district && 
+                                           feature.properties.district && 
+                                           feature.properties.district.toLowerCase() === dashboardData_cached.farm.district.toLowerCase();
+                    
+                    return { 
+                        color: isUserDistrict ? '#2563eb' : '#fff', 
+                        weight: isUserDistrict ? 3 : 1, 
+                        fillColor: color, 
+                        fillOpacity: isUserDistrict ? 0.9 : 0.7 
+                    };
                 },
                 onEachFeature: function(feature, layer) {
-                    layer.bindPopup(`<b>${feature.properties.district || ''}</b><br>Risk: ${feature.properties.risk_level}`);
+                    let popupText = `<b>${feature.properties.district || ''}</b><br>`;
+                    if (layerType === 'rainfall_anomaly') {
+                        popupText += `Rainfall Anomaly: ${parseFloat(feature.properties.rainfall_change || 0).toFixed(1)}%`;
+                    } else if (layerType === 'heat_stress') {
+                        popupText += `Temp Change: +${parseFloat(feature.properties.temperature_change || 0).toFixed(2)}°C`;
+                    } else if (layerType === 'water_stress') {
+                        popupText += `Drought Hazard: ${parseFloat(feature.properties.drought_hazard_score || 0).toFixed(2)}`;
+                    } else {
+                        popupText += `Risk: ${feature.properties.overall_risk_class || 'N/A'}`;
+                    }
+                    layer.bindPopup(popupText);
                 }
             }).addTo(dashboardMap);
-            dashboardMap.fitBounds(riskLayer.getBounds(), { padding: [20, 20] });
+            
+            // Try to find the user's district layer to zoom to it
+            let targetBounds = riskLayer.getBounds();
+            if (dashboardData_cached?.farm?.district) {
+                const userDistrictName = dashboardData_cached.farm.district.toLowerCase();
+                riskLayer.eachLayer(function(layer) {
+                    if (layer.feature.properties.district && layer.feature.properties.district.toLowerCase() === userDistrictName) {
+                        targetBounds = layer.getBounds();
+                    }
+                });
+            }
+            dashboardMap.fitBounds(targetBounds, { padding: [20, 20], maxZoom: 8 });
         }).catch(() => {});
 }
 
@@ -331,6 +398,9 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Charts and additional map data when API responds
+let waterBalanceChartInst = null;
+let yieldRiskChartInst = null;
+
 window.addEventListener('dashboard-data-loaded', (e) => {
     const data = e.detail;
     dashboardData_cached = data;
@@ -342,10 +412,13 @@ window.addEventListener('dashboard-data-loaded', (e) => {
     // --- Water Balance Chart ---
     const wbCtx = document.getElementById('waterBalanceChart');
     if (wbCtx && data.water_balance && data.water_balance.length > 0) {
+        if (waterBalanceChartInst) {
+            waterBalanceChartInst.destroy();
+        }
         const labels = data.water_balance.map(item => item.month);
         const availability = data.water_balance.map(item => item.availability_mm);
         const requirement = data.water_balance.map(item => item.requirement_mm);
-        new Chart(wbCtx, {
+        waterBalanceChartInst = new Chart(wbCtx, {
             type: 'bar',
             data: {
                 labels: labels.length ? labels : ['Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
@@ -368,16 +441,25 @@ window.addEventListener('dashboard-data-loaded', (e) => {
     // --- Yield Risk Donut ---
     const yrCtx = document.getElementById('yieldRiskChart');
     if (yrCtx && data.yield_risks && data.yield_risks.length > 0) {
+        if (yieldRiskChartInst) {
+            yieldRiskChartInst.destroy();
+        }
         const risk = data.yield_risks[0];
         let low = 0, med = 0, high = 0;
         if (risk.risk_label === 'high') { high = risk.risk_pct; med = 20; low = 100 - high - med; }
         else if (risk.risk_label === 'moderate') { med = risk.risk_pct; low = 100 - med - 10; high = 10; }
         else { low = risk.risk_pct || 80; med = 100 - low; high = 0; }
+        
+        // Ensure values don't go below 0 due to rounding
+        low = Math.max(0, low);
+        med = Math.max(0, med);
+        high = Math.max(0, high);
+        
         document.getElementById('yieldRiskValue').innerText = risk.risk_pct;
         document.getElementById('yieldLowRiskValue').innerText = low;
         document.getElementById('yieldMedRiskValue').innerText = med;
         document.getElementById('yieldHighRiskValue').innerText = high;
-        new Chart(yrCtx, {
+        yieldRiskChartInst = new Chart(yrCtx, {
             type: 'doughnut',
             data: {
                 labels: ['Low Risk', 'Medium Risk', 'High Risk'],

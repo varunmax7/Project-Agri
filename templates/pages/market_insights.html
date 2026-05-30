@@ -36,20 +36,22 @@
       </tr>
     </thead>
     <tbody class="divide-y divide-gray-50">
-      {% for row in "Paddy 🌾 2183 2240 +57 High,Soybean 🫘 4600 4820 +220 High,Maize 🌽 2090 2050 -40 Medium,Cotton 🌿 6620 6800 +180 Medium,Groundnut 🥜 6377 6100 -277 Low"|split:"," %}
-      {% with parts=row|split:" " %}
+      {% for item in market_data %}
       <tr class="hover:bg-gray-50 transition-colors">
-        <td class="px-5 py-3.5 font-medium text-gray-800">{{ parts.0 }} {{ parts.1 }}</td>
-        <td class="px-5 py-3.5 text-right text-gray-600">₹{{ parts.2 }}</td>
-        <td class="px-5 py-3.5 text-right font-semibold text-gray-900">₹{{ parts.3 }}</td>
+        <td class="px-5 py-3.5 font-medium text-gray-800">{{ item.name }} {{ item.icon }}</td>
+        <td class="px-5 py-3.5 text-right text-gray-600">₹{{ item.msp }}</td>
+        <td class="px-5 py-3.5 text-right font-semibold text-gray-900">₹{{ item.mandi }}</td>
         <td class="px-5 py-3.5 text-right">
-          <span class="font-semibold {% if '-' in parts.4 %}text-red-600{% else %}text-primary-600{% endif %}">{{ parts.4 }}</span>
+          <span class="font-semibold {% if item.diff < 0 %}text-red-600{% else %}text-primary-600{% endif %}">{% if item.diff > 0 %}+{% endif %}{{ item.diff }}</span>
         </td>
         <td class="px-5 py-3.5">
-          {% include 'components/badge.html' with text=parts.5 level=parts.5|lower %}
+          {% include 'components/badge.html' with text=item.demand level=item.demand|lower %}
         </td>
       </tr>
-      {% endwith %}
+      {% empty %}
+      <tr>
+        <td colspan="5" class="px-5 py-8 text-center text-gray-500">No crop data available for your region.</td>
+      </tr>
       {% endfor %}
     </tbody>
   </table>
@@ -57,7 +59,7 @@
 
 <!-- Price trend chart -->
 <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
-  <h3 class="text-sm font-semibold text-gray-900 mb-4">Price Trend (6 months) — Paddy</h3>
+  <h3 class="text-sm font-semibold text-gray-900 mb-4">Price Trend (6 months) — {{ trend_crop|default:"Crop" }}</h3>
   <canvas id="priceChart" class="max-h-52"></canvas>
 </div>
 
@@ -65,20 +67,23 @@
 
 {% block extra_scripts %}
 <script>
-new Chart(document.getElementById('priceChart'), {
-  type: 'line',
-  data: {
-    labels: ['Jan','Feb','Mar','Apr','May','Jun'],
-    datasets: [
-      { label: 'Mandi Price ₹/q', data: [2100, 2150, 2200, 2180, 2220, 2240], borderColor: '#22c55e', backgroundColor: 'rgba(34,197,94,0.08)', tension: 0.4, fill: true, pointRadius: 4 },
-      { label: 'MSP ₹/q', data: [2183, 2183, 2183, 2183, 2183, 2183], borderColor: '#9ca3af', borderDash: [5,5], pointRadius: 0 }
-    ]
-  },
-  options: {
-    responsive: true, maintainAspectRatio: true,
-    plugins: { legend: { position: 'top', labels: { font: { size: 11 }, boxWidth: 12 } } },
-    scales: { x: { grid: { display: false } }, y: { grid: { color: '#f3f4f6' }, ticks: { callback: v => '₹' + v } } }
-  }
-});
+  var mandiData = {{ trend_mandi|default:"[2100, 2150, 2200, 2180, 2220, 2240]" }};
+  var mspData   = {{ trend_msp|default:"[2183, 2183, 2183, 2183, 2183, 2183]" }};
+
+  new Chart(document.getElementById('priceChart'), {
+    type: 'line',
+    data: {
+      labels: ['Jan','Feb','Mar','Apr','May','Jun'],
+      datasets: [
+        { label: 'Mandi Price \u20b9/q', data: mandiData, borderColor: '#22c55e', backgroundColor: 'rgba(34,197,94,0.08)', tension: 0.4, fill: true, pointRadius: 4 },
+        { label: 'MSP \u20b9/q',         data: mspData,   borderColor: '#9ca3af', borderDash: [5,5], pointRadius: 0 }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: true,
+      plugins: { legend: { position: 'top', labels: { font: { size: 11 }, boxWidth: 12 } } },
+      scales: { x: { grid: { display: false } }, y: { grid: { color: '#f3f4f6' }, ticks: { callback: v => '\u20b9' + v } } }
+    }
+  });
 </script>
 {% endblock %}

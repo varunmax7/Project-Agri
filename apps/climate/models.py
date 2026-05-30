@@ -41,12 +41,15 @@ class ClimateRiskZone(models.Model):
     geometry = models.JSONField(default=dict)
     district = models.CharField(max_length=100)
     state = models.CharField(max_length=100, blank=True)
-    risk_level = models.CharField(max_length=10, choices=RiskLevel.choices)
-    season = models.CharField(max_length=20)
+    risk_level = models.CharField(max_length=50) # Changed from choices to CharField to accommodate various risk levels
+    season = models.CharField(max_length=20, blank=True, null=True)
+    scenario = models.CharField(max_length=50, blank=True, null=True)
+    year = models.IntegerField(blank=True, null=True)
     layer_type = models.CharField(max_length=50, default='climate_risk')
 
     def __str__(self):
-        return f"{self.district} — {self.risk_level} ({self.season})"
+        return f"{self.district} — {self.risk_level} ({self.scenario} {self.year})"
+
 
 
 class VegetationObservation(models.Model):
@@ -104,3 +107,17 @@ class ClimateProjection(models.Model):
 
     def __str__(self):
         return f"{self.farm or self.district} — {self.scenario} {self.decade}"
+
+class DistrictInsight(models.Model):
+    district = models.CharField(max_length=100)
+    scenario = models.CharField(max_length=50)
+    year = models.IntegerField()
+    key_insight_1 = models.TextField(blank=True, null=True)
+    key_insight_2 = models.TextField(blank=True, null=True)
+    key_insight_3 = models.TextField(blank=True, null=True)
+
+    class Meta:
+        unique_together = ('district', 'scenario', 'year')
+
+    def __str__(self):
+        return f"{self.district} Insight ({self.scenario} {self.year})"

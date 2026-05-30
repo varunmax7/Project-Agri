@@ -4,10 +4,10 @@
   Active module is set in each page view as {{ active_module }}
 ================================================================ -->
 <aside
-  :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
+  :class="sidebarOpen ? 'translate-x-0 lg:ml-0' : '-translate-x-full lg:-ml-64'"
   class="fixed top-0 left-0 z-30 flex flex-col w-64 h-full
-         bg-white border-r border-gray-200 text-gray-600 transition-transform duration-200 ease-in-out
-         lg:relative lg:translate-x-0 lg:flex lg:shrink-0">
+         bg-white border-r border-gray-200 text-gray-600 transition-all duration-300 ease-in-out
+         lg:relative lg:shrink-0">
 
   <!-- ── Logo / Brand ─────────────────────────────────────────── -->
   <div class="flex items-center gap-3 px-6 py-6 border-b border-gray-100">
@@ -65,7 +65,17 @@
       <span>Weather & Climate</span>
     </a>
 
-    <!-- 4. Crop Advisory -->
+    <!-- 4. District Outlook -->
+    <a href="{% url 'core:district_outlook' %}"
+       class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors
+              {% if active == 'district_outlook' %}bg-primary-50 text-primary-700{% else %}text-gray-600 hover:bg-gray-50 hover:text-gray-900{% endif %}">
+      <svg class="w-5 h-5 {% if active == 'district_outlook' %}text-primary-600{% else %}text-gray-400{% endif %}" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.7">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/>
+      </svg>
+      <span>District Outlook</span>
+    </a>
+
+    <!-- 5. Crop Advisory -->
     <a href="{% url 'core:crop_advisory' %}"
        class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors
               {% if active == 'crop_advisory' %}bg-primary-50 text-primary-700{% else %}text-gray-600 hover:bg-gray-50 hover:text-gray-900{% endif %}">
@@ -95,6 +105,16 @@
         <path stroke-linecap="round" stroke-linejoin="round" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"/>
       </svg>
       <span>Future Outlook</span>
+    </a>
+
+    <!-- 6.5. Interactive Map -->
+    <a href="{% url 'core:interactive_map' %}"
+       class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors
+              {% if active == 'interactive_map' %}bg-primary-50 text-primary-700{% else %}text-gray-600 hover:bg-gray-50 hover:text-gray-900{% endif %}">
+      <svg class="w-5 h-5 {% if active == 'interactive_map' %}text-primary-600{% else %}text-gray-400{% endif %}" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.7">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+      </svg>
+      <span>Interactive Map</span>
     </a>
 
     <!-- 7. Alerts -->

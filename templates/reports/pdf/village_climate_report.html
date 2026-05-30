@@ -130,70 +130,69 @@
     </div>
 
     <!-- Crop Suitability -->
-    <h2 class="section-title">Crop Suitability Ranking</h2>
+    <h2 class="section-title">Long-term Crop Suitability Projection</h2>
     {% if suitability_data %}
     <table>
         <thead>
             <tr>
                 <th>Crop</th>
-                <th>Season (Year)</th>
-                <th>Suitability Score</th>
-                <th>Risk Level</th>
-                <th>Expected Yield Range (q/ha)</th>
+                <th>Current Status</th>
+                <th>Projected (SSP2-4.5)</th>
+                <th>Change Trend</th>
+                <th>Recommendation</th>
             </tr>
         </thead>
         <tbody>
             {% for item in suitability_data %}
             <tr>
-                <td><strong>{{ item.crop.name }}</strong> {{ item.crop.icon }}</td>
-                <td>{{ item.season }} ({{ item.year }})</td>
+                <td><strong>{{ item.crop|title }}</strong></td>
+                <td>{{ item.suitability_current|default:"N/A" }}</td>
+                <td>{{ item.suitability_projected|default:"N/A" }}</td>
                 <td>
-                    {{ item.suitability_pct }}%
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: {{ item.suitability_pct }}%;"></div>
-                    </div>
-                </td>
-                <td>
-                    {% if item.risk_level == 'low' %}
-                        <span class="badge badge-low">Low Risk</span>
-                    {% elif item.risk_level == 'medium' %}
-                        <span class="badge badge-medium">Medium Risk</span>
+                    {% if item.change_class < 0 %}
+                        <span class="badge badge-high">Declining ({{ item.change_class }})</span>
+                    {% elif item.change_class > 0 %}
+                        <span class="badge badge-low">Improving (+{{ item.change_class }})</span>
                     {% else %}
-                        <span class="badge badge-high">High Risk</span>
+                        <span class="badge badge-medium">Stable</span>
                     {% endif %}
                 </td>
-                <td>{{ item.expected_yield_min }} - {{ item.expected_yield_max }}</td>
+                <td style="font-size: 9pt;">{{ item.recommendation }}</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
     {% else %}
-    <p>No crop suitability data available for this farm.</p>
+    <p>No crop suitability data available for this district.</p>
     {% endif %}
 
-    <!-- Water Balance Outlook -->
-    <h2 class="section-title">Water Balance Outlook</h2>
-    {% if water_data %}
+    <!-- Climate Projections -->
+    <h2 class="section-title">2030 Climate Projections (SSP2-4.5)</h2>
+    {% if climate_data %}
     <table>
         <thead>
             <tr>
-                <th>Month</th>
-                <th>Requirement (mm)</th>
-                <th>Availability (mm)</th>
-                <th>Status</th>
+                <th>Year</th>
+                <th>Avg Temp Change</th>
+                <th>Rainfall Change</th>
+                <th>Agri Stress Index</th>
+                <th>Drought Hazard</th>
             </tr>
         </thead>
         <tbody>
-            {% for water in water_data %}
+            {% for climate in climate_data %}
             <tr>
-                <td>{{ water.month|date:"F Y" }}</td>
-                <td>{{ water.requirement_mm }}</td>
-                <td>{{ water.availability_mm }}</td>
+                <td>{{ climate.year }}</td>
+                <td>+{{ climate.geometry.properties.temperature_change|floatformat:2 }}°C</td>
                 <td>
-                    {% if water.availability_mm >= water.requirement_mm %}
-                        <span style="color: #047857; font-weight: bold;">Surplus</span>
+                    {% if climate.geometry.properties.rainfall_change > 0 %}+{% endif %}{{ climate.geometry.properties.rainfall_change|floatformat:2 }}%
+                </td>
+                <td>{{ climate.geometry.properties.agri_stress_index|floatformat:2 }}</td>
+                <td>
+                    {% if climate.geometry.properties.drought_hazard_score > 30 %}
+                        <span class="badge badge-high">{{ climate.geometry.properties.drought_hazard_score|floatformat:2 }}</span>
                     {% else %}
-                        <span style="color: #dc2626; font-weight: bold;">Deficit</span>
+                        <span class="badge badge-low">{{ climate.geometry.properties.drought_hazard_score|floatformat:2 }}</span>
                     {% endif %}
                 </td>
             </tr>
@@ -201,7 +200,7 @@
         </tbody>
     </table>
     {% else %}
-    <p>No water balance projections available for this farm.</p>
+    <p>No climate projections available for this district.</p>
     {% endif %}
 
     <!-- Strategic Interventions -->

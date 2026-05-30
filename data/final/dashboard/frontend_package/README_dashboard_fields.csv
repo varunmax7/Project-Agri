@@ -1,0 +1,63 @@
+field_name,display_name,description,units,example
+state,State,State or union territory name.,text,BIHAR
+district,District,District name used by Horizon.,text,ARARIA
+scenario,Scenario,Climate pathway scenario.,text,ssp585
+year,Year,Projection horizon year.,year,2040
+overall_risk_score,Overall Risk Score,Composite risk score from existing Risk Engine.,0-100,82.5
+overall_risk_class,Overall Risk Class,Decision class for overall climate risk.,class,Very High Risk
+flood_hazard_score,Flood Hazard Score,Existing flood hazard score.,0-100,99.8
+flood_hazard_class,Flood Hazard Class,Decision class for flood hazard.,class,Very High
+drought_hazard_score,Drought Hazard Score,Existing drought hazard score.,0-100,62.4
+drought_hazard_class,Drought Hazard Class,Decision class for drought hazard.,class,High
+ag_stress_score,Agricultural Stress Score,Existing agricultural stress score.,0-100,75.2
+ag_stress_class,Agricultural Stress Class,Decision class for agricultural stress.,class,High
+water_availability_index,Water Availability Index,Projected relative water availability.,index,1.05
+climate_confidence_score,Climate Confidence Score,Layer A climate confidence score when available.,0-100,72
+confidence_class,Confidence Class,"High, Medium, or Low from confidence score.",class,Medium
+temperature_change,Temperature Change,Projected temperature anomaly.,deg C,1.8
+rainfall_change,Rainfall Change,Projected annual rainfall change.,percent,9.9
+soil_moisture_deficit,Soil Moisture Deficit,Projected soil moisture deficit.,index,0.02
+heat_stress_days,Heat Stress Days,Projected days above 35C.,days,11.7
+cdd,Consecutive Dry Days,Projected consecutive dry days indicator.,days,63.2
+cwd,Consecutive Wet Days,Projected consecutive wet days indicator.,days,32.9
+extreme_rainfall_change_pct,Extreme Rainfall Change,Change indicator for extreme rainfall.,percent,9.9
+rx1day,RX1day,Maximum 1-day rainfall indicator.,mm,72.5
+rx3day,RX3day,Maximum 3-day rainfall indicator.,mm,119.7
+rain_p95,Rainfall P95,95th percentile rainfall indicator.,mm,24.4
+rain_p99,Rainfall P99,99th percentile rainfall indicator.,mm,50.5
+spi3,SPI-3,Three-month standardized precipitation index.,index,-0.2
+spi6,SPI-6,Six-month standardized precipitation index.,index,-0.1
+key_insight_1,Key Insight 1,Short automated district insight.,text,Water availability is projected to decline.
+key_insight_2,Key Insight 2,Second short automated district insight.,text,Extreme rainfall events are projected to increase.
+key_insight_3,Key Insight 3,Third short automated district insight.,text,Overall risk class is High Risk.
+primary_driver,Primary Driver,Highest normalized risk driver.,text,Flood Hazard
+secondary_driver,Secondary Driver,Second-highest normalized risk driver.,text,Agricultural Stress
+third_driver,Third Driver,Third-highest normalized risk driver.,text,Temperature Increase
+annual_rainfall,Annual Rainfall,Projected annual rainfall.,mm,1871.7
+rainfall_anomaly,Rainfall Anomaly,Projected rainfall anomaly.,mm,168.8
+mean_temperature,Mean Temperature,Projected mean temperature.,deg C,24.1
+temperature_anomaly,Temperature Anomaly,Projected temperature anomaly before dashboard renaming.,deg C,1.7
+predicted_sm_anomaly,Predicted Soil Moisture Anomaly,Projected model output for soil moisture anomaly.,index,-0.016
+water_security_index,Water Security Index,Projected water security index.,index,44.5
+predicted_ndvi_anomaly,Predicted NDVI Anomaly,Projected model output for NDVI anomaly.,index,0.0001
+predicted_ndwi_anomaly,Predicted NDWI Anomaly,Projected model output for NDWI anomaly.,index,-0.002
+avg_overall_risk,Average Overall Risk,State average of overall risk score.,0-100,42.1
+avg_flood_risk,Average Flood Risk,State average of flood hazard score.,0-100,45.0
+avg_drought_risk,Average Drought Risk,State average of drought hazard score.,0-100,30.2
+avg_ag_stress,Average Agricultural Stress,State average of agricultural stress score.,0-100,28.4
+avg_water_availability,Average Water Availability,State average water availability index.,index,1.02
+avg_temperature_change,Average Temperature Change,State average projected temperature change.,deg C,1.3
+avg_rainfall_change,Average Rainfall Change,State average projected rainfall change.,percent,5.4
+district_count,District Count,Number of districts in a state summary group.,count,36
+overall_risk_2030,Overall Risk 2030,District trend value for overall risk in 2030.,0-100,16.9
+overall_risk_2035,Overall Risk 2035,District trend value for overall risk in 2035.,0-100,25.4
+overall_risk_2040,Overall Risk 2040,District trend value for overall risk in 2040.,0-100,40.1
+flood_risk_2030,Flood Risk 2030,District trend value for flood risk in 2030.,0-100,46.8
+flood_risk_2035,Flood Risk 2035,District trend value for flood risk in 2035.,0-100,52.0
+flood_risk_2040,Flood Risk 2040,District trend value for flood risk in 2040.,0-100,59.3
+drought_risk_2030,Drought Risk 2030,District trend value for drought risk in 2030.,0-100,1.6
+drought_risk_2035,Drought Risk 2035,District trend value for drought risk in 2035.,0-100,10.0
+drought_risk_2040,Drought Risk 2040,District trend value for drought risk in 2040.,0-100,18.2
+agstress_2030,Agricultural Stress 2030,District trend value for agricultural stress in 2030.,0-100,0.0
+agstress_2035,Agricultural Stress 2035,District trend value for agricultural stress in 2035.,0-100,20.1
+agstress_2040,Agricultural Stress 2040,District trend value for agricultural stress in 2040.,0-100,65.3
