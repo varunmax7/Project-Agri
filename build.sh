@@ -11,6 +11,11 @@ python manage.py collectstatic --no-input
 echo "Applying database migrations..."
 python manage.py migrate
 
-# Note: We do not automatically seed demo data here, as it would recreate objects on every deploy.
-# To seed demo data on Render, run the command via the Render Shell:
-# python manage.py seed_demo_data
+echo "Ensuring admin user exists..."
+python manage.py ensure_admin
+
+echo "Loading agricultural GeoJSON & CSV data into the database..."
+python manage.py load_agri_data
+
+echo "Seeding demo farm data..."
+python manage.py seed_demo_data
