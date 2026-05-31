@@ -4,6 +4,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import get_user_model
 from .serializers import RegisterSerializer, UserSerializer
+from apps.farms.utils import create_demo_farm_for_user
 
 User = get_user_model()
 
@@ -16,6 +17,9 @@ class RegisterView(generics.CreateAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
+
+        # Generate Demo Farm for the new user
+        create_demo_farm_for_user(user)
 
         # Generate JWT token
         refresh = RefreshToken.for_user(user)
