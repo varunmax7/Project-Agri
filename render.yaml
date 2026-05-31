@@ -14,7 +14,7 @@ services:
     name: floodguard-web
     env: python
     buildCommand: "./build.sh"
-    startCommand: "gunicorn config.wsgi:application"
+    startCommand: "./start.sh"
     plan: free
     envVars:
       - key: DATABASE_URL
