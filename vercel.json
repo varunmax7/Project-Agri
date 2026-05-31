@@ -1,4 +1,7 @@
 {
+  "env": {
+    "DISABLE_COLLECTSTATIC": "1"
+  },
   "rewrites": [
     {
       "source": "/(.*)",
