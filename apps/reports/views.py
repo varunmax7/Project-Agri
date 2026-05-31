@@ -8,8 +8,6 @@ from .serializers import ReportSerializer
 from django.template.loader import render_to_string
 from django.core.files.base import ContentFile
 from django.utils import timezone
-import weasyprint
-
 
 @extend_schema_view(
     list=extend_schema(
@@ -91,6 +89,7 @@ class ReportViewSet(
 
         # Render HTML and generate PDF
         try:
+            import weasyprint
             html_string = render_to_string('reports/pdf/village_climate_report.html', context)
             pdf_bytes = weasyprint.HTML(string=html_string).write_pdf()
             
