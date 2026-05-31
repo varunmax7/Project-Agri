@@ -13,6 +13,11 @@ SECRET_KEY = env('SECRET_KEY')
 DEBUG = env('DEBUG')
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=[])
 
+# Vercel specific host allowance
+if os.environ.get('VERCEL_URL'):
+    ALLOWED_HOSTS.append(os.environ.get('VERCEL_URL'))
+ALLOWED_HOSTS.append('.vercel.app')
+
 DJANGO_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
