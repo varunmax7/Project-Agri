@@ -327,7 +327,6 @@ class InteractiveMapView(ModuleView):
 # ---------------------------------------------------------------------------
 # API views for Map Data
 # ---------------------------------------------------------------------------
-@login_required
 def api_map_risk(request):
     scenario = request.GET.get('scenario', 'ssp245')
     year_str = request.GET.get('year', '2030')
@@ -352,7 +351,6 @@ def api_map_risk(request):
         "features": features
     })
 
-@login_required
 def api_map_suitability(request):
     crop = request.GET.get('crop', 'Maize')
     
@@ -371,7 +369,6 @@ def api_map_suitability(request):
         
     return JsonResponse({"data": data})
 
-@login_required
 def api_district_insights(request):
     district = request.GET.get('district', '')
     scenario = request.GET.get('scenario', 'ssp245')

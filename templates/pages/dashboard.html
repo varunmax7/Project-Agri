@@ -347,9 +347,12 @@ function loadMapLayer(layerType) {
                         else if (risk.includes('extreme') || risk.includes('severe')) color = '#ef4444';
                     }
                     
-                    const isUserDistrict = dashboardData_cached?.farm?.district && 
+                    let userDist = (dashboardData_cached?.farm?.district || '').toLowerCase();
+                    if (userDist === 'nagarkarnool') userDist = 'nagarkurnool';
+                    
+                    const isUserDistrict = userDist && 
                                            feature.properties.district && 
-                                           feature.properties.district.toLowerCase() === dashboardData_cached.farm.district.toLowerCase();
+                                           feature.properties.district.toLowerCase() === userDist;
                     
                     return { 
                         color: isUserDistrict ? '#2563eb' : '#fff', 
@@ -376,7 +379,9 @@ function loadMapLayer(layerType) {
             // Try to find the user's district layer to zoom to it
             let targetBounds = riskLayer.getBounds();
             if (dashboardData_cached?.farm?.district) {
-                const userDistrictName = dashboardData_cached.farm.district.toLowerCase();
+                let userDistrictName = dashboardData_cached.farm.district.toLowerCase();
+                if (userDistrictName === 'nagarkarnool') userDistrictName = 'nagarkurnool';
+                
                 riskLayer.eachLayer(function(layer) {
                     if (layer.feature.properties.district && layer.feature.properties.district.toLowerCase() === userDistrictName) {
                         targetBounds = layer.getBounds();

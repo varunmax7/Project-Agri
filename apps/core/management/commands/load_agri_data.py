@@ -6,13 +6,13 @@ from django.core.management.base import BaseCommand
 from apps.climate.models import ClimateRiskZone, DistrictInsight
 from apps.cropdata.models import CropSuitability
 
+from django.conf import settings
+
 class Command(BaseCommand):
     help = 'Loads agricultural data (GeoJSON and CSVs) into the database'
 
     def handle(self, *args, **options):
-        # Base dir is FloodGuard Agri Intelligence 
-        base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))))
-        data_dir = os.path.join(base_dir, 'data')
+        data_dir = os.path.join(settings.BASE_DIR, 'data')
 
         self.stdout.write("Loading GeoJSON files...")
         self.load_geojson(data_dir)

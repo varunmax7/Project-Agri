@@ -87,7 +87,12 @@ class FarmViewSet(viewsets.ModelViewSet):
             
         # --- Recommended Crops & Future Outlook ---
         from apps.cropdata.models import CropSuitability
-        suit_qs = CropSuitability.objects.filter(district__iexact=farm.district)
+        
+        search_district = farm.district
+        if search_district and search_district.lower() == 'nagarkarnool':
+            search_district = 'Nagarkurnool'
+            
+        suit_qs = CropSuitability.objects.filter(district__iexact=search_district)
         
         def suit_to_pct(suit_str):
             s = str(suit_str)

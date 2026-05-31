@@ -96,7 +96,10 @@ function weatherData() {
                     if (!geoJson.features) return;
                     wLayer = L.geoJSON(geoJson, {
                         style: (f) => {
-                            const isDist = this.data?.farm?.district && f.properties.district && f.properties.district.toLowerCase() === this.data.farm.district.toLowerCase();
+                            let userDist = (this.data?.farm?.district || '').toLowerCase();
+                            if (userDist === 'nagarkarnool') userDist = 'nagarkurnool';
+                            
+                            const isDist = userDist && f.properties.district && f.properties.district.toLowerCase() === userDist;
                             const r = (f.properties.overall_risk_class || '').toLowerCase();
                             let c = '#22c55e';
                             if (r.includes('moderate')) c = '#fbbf24';
@@ -108,7 +111,9 @@ function weatherData() {
                     
                     let bounds = wLayer.getBounds();
                     if (this.data?.farm?.district) {
-                        const ud = this.data.farm.district.toLowerCase();
+                        let ud = this.data.farm.district.toLowerCase();
+                        if (ud === 'nagarkarnool') ud = 'nagarkurnool';
+                        
                         wLayer.eachLayer(l => {
                             if (l.feature.properties.district && l.feature.properties.district.toLowerCase() === ud) bounds = l.getBounds();
                         });
