@@ -1,0 +1,11 @@
+data/final/gis/
+data/models/
+data/features/
+data/projections/
+data/evaluation/
+data/validation/
+data/risk/
+media/
+db.sqlite3
+dump.rdb
+celerybeat-schedule*
