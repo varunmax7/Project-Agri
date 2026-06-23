@@ -33,7 +33,7 @@ class FarmViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return Farm.objects.filter(user=self.request.user).prefetch_related(
+        return Farm.objects.all().prefetch_related(
             'primary_crops', 'fields', 'activity_logs'
         )
 

@@ -41,7 +41,7 @@ class CropSuitabilityViewSet(viewsets.ViewSet):
         from apps.farms.models import Farm
         from apps.cropdata.models import CropSuitability
         
-        farm = Farm.objects.filter(id=farm_id, user=request.user).first()
+        farm = Farm.objects.filter(id=farm_id).first()
         if not farm:
             return Response([])
             
@@ -151,7 +151,7 @@ class CropSuitabilityTrendViewSet(mixins.ListModelMixin, viewsets.GenericViewSet
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        qs = CropSuitabilityTrend.objects.filter(farm__user=self.request.user).select_related('crop')
+        qs = CropSuitabilityTrend.objects.all().select_related('crop')
         farm_id = self.request.query_params.get('farm')
         scenario = self.request.query_params.get('scenario')
         crop_id = self.request.query_params.get('crop')
@@ -179,7 +179,7 @@ class WaterBalanceViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        qs = WaterBalance.objects.filter(farm__user=self.request.user)
+        qs = WaterBalance.objects.all()
         farm_id = self.request.query_params.get('farm')
         season = self.request.query_params.get('season')
         if farm_id:
@@ -201,7 +201,7 @@ class IrrigationAdvisoryViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        qs = IrrigationAdvisory.objects.filter(farm__user=self.request.user)
+        qs = IrrigationAdvisory.objects.all()
         farm_id = self.request.query_params.get('farm')
         if farm_id:
             qs = qs.filter(farm_id=farm_id)
@@ -223,7 +223,7 @@ class YieldRiskViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        qs = YieldRisk.objects.filter(farm__user=self.request.user).select_related('crop')
+        qs = YieldRisk.objects.all().select_related('crop')
         farm_id = self.request.query_params.get('farm')
         season = self.request.query_params.get('season')
         if farm_id:

@@ -216,6 +216,21 @@ document.addEventListener('DOMContentLoaded', function() {
         `;
     }
 
+    function showClickPrompt() {
+        document.getElementById('loading-state').classList.add('hidden');
+        document.getElementById('loading-state').style.display = 'none';
+        document.getElementById('chart-container').classList.add('hidden');
+        const emptyEl = document.getElementById('empty-state');
+        emptyEl.classList.remove('hidden');
+        emptyEl.innerHTML = `
+            <svg class="w-16 h-16 mb-4 text-green-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"></path>
+            </svg>
+            <p class="text-gray-600 font-medium">Click on the green parcel</p>
+            <p class="text-gray-400 text-sm mt-1">to start downloading Sentinel-2 NDVI satellite data</p>
+        `;
+    }
+
     function fetchNDVI(stacCoords) {
         currentStacCoords = stacCoords;
         showLoading();
@@ -294,7 +309,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
-    function setupParcel(coords) {
+    function setupParcel(coords, autoFetchNDVI) {
         if (parcelLayer) {
             map.removeLayer(parcelLayer);
         }
@@ -311,16 +326,24 @@ document.addEventListener('DOMContentLoaded', function() {
         parcelLayer = L.polygon(coords, {
             color: '#4ade80',
             weight: 3,
-            fillOpacity: 0.3
+            fillOpacity: 0.3,
+            className: 'cursor-pointer'
         }).addTo(map);
 
         map.fitBounds(parcelLayer.getBounds(), { padding: [30, 30] });
 
-        // Auto-fetch both feeds for the current parcel
-        fetchNDVI(stacCoords);
+        // Only fetch parcel details (location/weather/soil) automatically
         fetchParcelDetails(centroid[0], centroid[1]);
 
-        // Re-fetch on subsequent clicks
+        // NDVI fetch only if explicitly requested (e.g. from "Generate" button)
+        if (autoFetchNDVI) {
+            fetchNDVI(stacCoords);
+        } else {
+            // Show a prompt telling the user to click the parcel for NDVI
+            showClickPrompt();
+        }
+
+        // On parcel click: fetch NDVI + refresh parcel details
         parcelLayer.on('click', function() {
             fetchNDVI(stacCoords);
             fetchParcelDetails(centroid[0], centroid[1]);
@@ -593,17 +616,17 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         const coords = createSquarePolygon(lat, lng, acres);
-        setupParcel(coords);
+        setupParcel(coords, true);  // Generate button = auto-fetch NDVI
     });
 
-    // Initialize default parcel on load
+    // Initialize default parcel on load (NO auto NDVI fetch)
     const defaultLat = 16.35871;
     const defaultLng = 78.7548417;
     document.getElementById('inputLat').value = defaultLat;
     document.getElementById('inputLng').value = defaultLng;
     map.setView([defaultLat, defaultLng], 16);
     const defaultCoords = createSquarePolygon(defaultLat, defaultLng, 5.0);
-    setupParcel(defaultCoords);
+    setupParcel(defaultCoords, false);  // Don't auto-fetch NDVI on page load
 });
 </script>
 {% endblock %}

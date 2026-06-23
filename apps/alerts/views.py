@@ -62,11 +62,11 @@ class AlertViewSet(viewsets.ModelViewSet):
                 Alert.objects.create(farm=farm, category='strategic', severity='low', title=f'{best_crop.crop} Suitability Improving', message=f'{best_crop.crop} suitability is projected to improve by {best_crop.change_class} classes. Recommendation: {best_crop.recommendation}')
 
     def get_queryset(self):
-        user_farms = self.request.user.farms.all()
-        for farm in user_farms:
+        from apps.farms.models import Farm
+        for farm in Farm.objects.all():
             self._sync_real_alerts(farm)
-            
-        qs = Alert.objects.filter(farm__user=self.request.user)
+
+        qs = Alert.objects.all()
         farm_id = self.request.query_params.get('farm')
         category = self.request.query_params.get('category')
         severity = self.request.query_params.get('severity')

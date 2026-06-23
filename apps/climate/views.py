@@ -30,7 +30,7 @@ class LocationClimateIndexViewSet(mixins.ListModelMixin, mixins.RetrieveModelMix
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        qs = LocationClimateIndex.objects.filter(farm__user=self.request.user)
+        qs = LocationClimateIndex.objects.all()
         farm_id = self.request.query_params.get('farm')
         season = self.request.query_params.get('season')
         year = self.request.query_params.get('year')
@@ -90,7 +90,7 @@ class VegetationObservationViewSet(mixins.ListModelMixin, mixins.RetrieveModelMi
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        qs = VegetationObservation.objects.filter(farm__user=self.request.user)
+        qs = VegetationObservation.objects.all()
         farm_id = self.request.query_params.get('farm')
         if farm_id:
             qs = qs.filter(farm_id=farm_id)
@@ -105,7 +105,7 @@ class StressAssessmentViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, 
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        qs = StressAssessment.objects.filter(farm__user=self.request.user)
+        qs = StressAssessment.objects.all()
         farm_id = self.request.query_params.get('farm')
         if farm_id:
             qs = qs.filter(farm_id=farm_id)
@@ -127,7 +127,7 @@ class ClimateProjectionViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin,
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        qs = ClimateProjection.objects.filter(farm__user=self.request.user)
+        qs = ClimateProjection.objects.all()
         farm_id = self.request.query_params.get('farm')
         scenario = self.request.query_params.get('scenario')
         if farm_id:

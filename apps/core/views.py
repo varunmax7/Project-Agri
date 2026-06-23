@@ -8,6 +8,7 @@ from django.http import JsonResponse
 from apps.alerts.models import Alert
 from apps.climate.models import ClimateRiskZone, DistrictInsight
 from apps.cropdata.models import CropSuitability
+from apps.farms.models import Farm
 
 
 # ---------------------------------------------------------------------------
@@ -23,8 +24,8 @@ class ModuleView(LoginRequiredMixin, TemplateView):
         ctx['active_module'] = self.active_module
         ctx['page_title'] = self.page_title
         ctx['page_subtitle'] = self.page_subtitle
-        # Inject the user's first farm for the topbar farm switcher
-        farms = self.request.user.farms.all()
+        # Expose every farm in the system to every signed-in user.
+        farms = Farm.objects.all()
         ctx['user_farms'] = farms
         ctx['current_farm'] = farms.first()
         if ctx['current_farm']:

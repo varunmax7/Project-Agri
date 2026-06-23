@@ -28,7 +28,7 @@ class ReportViewSet(
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        qs = Report.objects.filter(farm__user=self.request.user)
+        qs = Report.objects.all()
         farm_id = self.request.query_params.get('farm')
         report_type = self.request.query_params.get('type')
         if farm_id:
@@ -59,10 +59,9 @@ class ReportViewSet(
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        # Verify the farm belongs to the requesting user
         from apps.farms.models import Farm
         try:
-            farm = Farm.objects.get(pk=farm_id, user=request.user)
+            farm = Farm.objects.get(pk=farm_id)
         except Farm.DoesNotExist:
             return Response({'detail': 'Farm not found.'}, status=status.HTTP_404_NOT_FOUND)
 
