@@ -1,0 +1,609 @@
+{% extends "base.html" %}
+
+{% block title %}Parcel Inspector — FloodGuard Agri Intelligence{% endblock %}
+
+{% block content %}
+<div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+  <div>
+    <h1 class="text-2xl font-bold text-gray-900">Parcel Inspector (STAC Open Data)</h1>
+    <p class="text-gray-500 mt-1 text-sm">Click on a farm parcel to dynamically stream Sentinel-2 NDVI time series data from AWS Earth Search.</p>
+  </div>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[600px]">
+  <!-- Left Side: Map -->
+  <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden flex flex-col">
+    <div class="p-4 border-b border-gray-100 bg-white flex flex-col sm:flex-row gap-3 items-end">
+      <div class="flex-1">
+        <label class="block text-xs font-medium text-gray-700 mb-1">Latitude</label>
+        <input type="number" id="inputLat" step="any" value="30.9015" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm">
+      </div>
+      <div class="flex-1">
+        <label class="block text-xs font-medium text-gray-700 mb-1">Longitude</label>
+        <input type="number" id="inputLng" step="any" value="75.8345" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm">
+      </div>
+      <div class="flex-1">
+        <label class="block text-xs font-medium text-gray-700 mb-1">Acres</label>
+        <input type="number" id="inputAcres" step="0.1" value="5.0" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm">
+      </div>
+      <button id="btnGenerate" class="px-4 py-2 bg-primary-600 text-white text-sm font-medium rounded-md shadow-sm hover:bg-primary-700 transition-colors">
+        Generate
+      </button>
+    </div>
+    <div id="inspector-map" class="flex-1 w-full relative z-0"></div>
+  </div>
+
+  <!-- Right Side: Analytics Panel -->
+  <div class="bg-white rounded-xl shadow-sm border border-gray-100 flex flex-col p-6">
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="font-semibold text-gray-800">Crop Health (NDVI)</h2>
+      <span id="source-badge" class="hidden inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800"></span>
+    </div>
+    
+    <div id="loading-state" class="hidden flex-col items-center justify-center flex-1 h-full text-center">
+      <div class="w-12 h-12 border-4 border-primary-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+      <p id="loading-text" class="text-gray-600 font-medium">Streaming satellite data from AWS...</p>
+      <p id="loading-subtext" class="text-sm text-gray-400 mt-2">This queries the STAC API, masks clouds, and calculates NDVI on the fly.</p>
+    </div>
+
+    <div id="empty-state" class="flex flex-col items-center justify-center flex-1 h-full text-gray-400 text-center">
+      <svg class="w-16 h-16 mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+      <p>Select a parcel on the map to begin analysis.</p>
+    </div>
+
+    <div id="chart-container" class="hidden flex-1 relative w-full h-full">
+      <canvas id="ndviChart"></canvas>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     Parcel Intelligence — real-time land description for the selected parcel
+     ============================================================ -->
+<div class="mt-6">
+  <div class="flex items-center justify-between mb-3">
+    <div>
+      <h2 class="text-xl font-bold text-gray-900">Parcel Intelligence</h2>
+      <p class="text-gray-500 text-sm">Live land profile streamed from open public APIs each time you click a parcel.</p>
+    </div>
+    <span id="intel-status" class="hidden inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-700">Loading…</span>
+  </div>
+
+  <div id="intel-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+
+    <!-- Location & Terrain -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
+      <div class="flex items-center gap-2 mb-3">
+        <svg class="w-5 h-5 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        <h3 class="font-semibold text-gray-800">Location &amp; Terrain</h3>
+      </div>
+      <div id="card-location" class="text-sm text-gray-500">Click a parcel to load.</div>
+    </div>
+
+    <!-- Live Weather -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
+      <div class="flex items-center gap-2 mb-3">
+        <svg class="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 014-4h.5a6 6 0 0111.83 1H21a3 3 0 010 6H7a4 4 0 01-4-4z"/></svg>
+        <h3 class="font-semibold text-gray-800">Live Weather</h3>
+      </div>
+      <div id="card-weather" class="text-sm text-gray-500">—</div>
+    </div>
+
+    <!-- 7-Day Forecast -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
+      <div class="flex items-center gap-2 mb-3">
+        <svg class="w-5 h-5 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+        <h3 class="font-semibold text-gray-800">7-Day Forecast</h3>
+      </div>
+      <div id="card-forecast" class="text-sm text-gray-500">—</div>
+    </div>
+
+    <!-- 30-Day Climate -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
+      <div class="flex items-center gap-2 mb-3">
+        <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+        <h3 class="font-semibold text-gray-800">Last 30 Days</h3>
+      </div>
+      <div id="card-climate" class="text-sm text-gray-500">—</div>
+    </div>
+
+    <!-- Soil Profile -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
+      <div class="flex items-center gap-2 mb-3">
+        <svg class="w-5 h-5 text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        <h3 class="font-semibold text-gray-800">Soil Profile (0–5cm)</h3>
+      </div>
+      <div id="card-soil" class="text-sm text-gray-500">—</div>
+    </div>
+
+    <!-- NDVI Health Summary -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
+      <div class="flex items-center gap-2 mb-3">
+        <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+        <h3 class="font-semibold text-gray-800">NDVI Health Summary</h3>
+      </div>
+      <div id="card-ndvi-summary" class="text-sm text-gray-500">—</div>
+    </div>
+
+  </div>
+
+  <p class="mt-3 text-xs text-gray-400">
+    Sources: OpenStreetMap Nominatim (location) · Open-Meteo (weather, forecast, archive, elevation) · ISRIC SoilGrids (soil) · AWS Earth Search Sentinel-2 L2A (NDVI).
+  </p>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    let map = L.map('inspector-map').setView([30.9015, 75.8345], 16);
+    let parcelLayer = null;
+    let ndviChart = null;
+    let currentStacCoords = null;
+    const ctx = document.getElementById('ndviChart').getContext('2d');
+
+    // Add Google Satellite Basemap
+    L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',{
+        maxZoom: 20,
+        subdomains:['mt0','mt1','mt2','mt3']
+    }).addTo(map);
+
+    function createSquarePolygon(lat, lng, acres) {
+        const sideLength = Math.sqrt(acres * 4046.86); // 1 acre = 4046.86 sq meters
+        const halfSide = sideLength / 2;
+        
+        // Approximate degrees per meter
+        const latOffset = halfSide / 111111;
+        const lngOffset = halfSide / (111111 * Math.cos(lat * Math.PI / 180));
+        
+        return [
+            [lat - latOffset, lng - lngOffset], // SW
+            [lat - latOffset, lng + lngOffset], // SE
+            [lat + latOffset, lng + lngOffset], // NE
+            [lat + latOffset, lng - lngOffset], // NW
+            [lat - latOffset, lng - lngOffset]  // Back to SW
+        ];
+    }
+
+    function showLoading() {
+        document.getElementById('empty-state').classList.add('hidden');
+        document.getElementById('chart-container').classList.add('hidden');
+        const loadingEl = document.getElementById('loading-state');
+        loadingEl.classList.remove('hidden');
+        loadingEl.style.display = 'flex';
+        // Reset loading text
+        document.getElementById('loading-text').textContent = 'Streaming satellite data from AWS...';
+        document.getElementById('loading-subtext').textContent = 'This queries the STAC API, masks clouds, and calculates NDVI on the fly.';
+    }
+
+    function showChart() {
+        document.getElementById('loading-state').classList.add('hidden');
+        document.getElementById('loading-state').style.display = 'none';
+        document.getElementById('empty-state').classList.add('hidden');
+        document.getElementById('chart-container').classList.remove('hidden');
+    }
+
+    function showError(message) {
+        const loadingEl = document.getElementById('loading-state');
+        loadingEl.classList.add('hidden');
+        loadingEl.style.display = 'none';
+        document.getElementById('chart-container').classList.add('hidden');
+        
+        const emptyEl = document.getElementById('empty-state');
+        emptyEl.classList.remove('hidden');
+        emptyEl.innerHTML = `
+            <svg class="w-16 h-16 mb-4 text-red-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+            </svg>
+            <p class="text-red-500 font-medium mb-2">${message}</p>
+            <button onclick="retryFetch()" class="mt-2 px-4 py-2 bg-primary-600 text-white text-sm font-medium rounded-md shadow-sm hover:bg-primary-700 transition-colors">
+                Retry
+            </button>
+        `;
+    }
+
+    function showEmpty() {
+        document.getElementById('loading-state').classList.add('hidden');
+        document.getElementById('loading-state').style.display = 'none';
+        document.getElementById('chart-container').classList.add('hidden');
+        const emptyEl = document.getElementById('empty-state');
+        emptyEl.classList.remove('hidden');
+        emptyEl.innerHTML = `
+            <svg class="w-16 h-16 mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <p>Select a parcel on the map to begin analysis.</p>
+        `;
+    }
+
+    function fetchNDVI(stacCoords) {
+        currentStacCoords = stacCoords;
+        showLoading();
+
+        // Clear stale NDVI summary so we don't display the previous parcel's
+        // values while the new fetch is in flight.
+        const summaryEl = document.getElementById('card-ndvi-summary');
+        if (summaryEl) {
+            summaryEl.innerHTML = `<div class="flex items-center gap-2 text-gray-400"><div class="w-3 h-3 border-2 border-gray-300 border-t-transparent rounded-full animate-spin"></div>Waiting for Sentinel-2 stream…</div>`;
+        }
+
+        if (parcelLayer) {
+            parcelLayer.setStyle({ fillOpacity: 0.6, color: '#22c55e' });
+        }
+
+        // Progressive loading messages to keep user informed. The pipeline pulls
+        // a full year of Sentinel-2 history (up to 25 clearest scenes) so this
+        // can take 1.5 – 2.5 minutes on a normal connection.
+        const progress1 = setTimeout(() => {
+            const el = document.getElementById('loading-subtext');
+            if (el) el.textContent = 'Connecting to AWS Earth Search and querying Sentinel-2 catalog...';
+        }, 5000);
+        const progress2 = setTimeout(() => {
+            const el = document.getElementById('loading-text');
+            const sub = document.getElementById('loading-subtext');
+            if (el) el.textContent = 'Downloading real Sentinel-2 satellite bands...';
+            if (sub) sub.textContent = 'Streaming NIR, Red and SCL bands for the clearest scenes of the last year. This typically takes 1.5 – 2.5 minutes.';
+        }, 15000);
+        const progress3 = setTimeout(() => {
+            const el = document.getElementById('loading-subtext');
+            if (el) el.textContent = 'Computing per-scene NDVI and masking clouds... almost done.';
+        }, 90000);
+
+        const clearTimers = () => { clearTimeout(progress1); clearTimeout(progress2); clearTimeout(progress3); };
+
+        fetch("{% url 'farms:stac_ndvi' %}", {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ polygon: stacCoords })
+        })
+        .then(response => {
+            clearTimers();
+            return response.json();
+        })
+        .then(data => {
+            if (data.error) {
+                showError("Error: " + data.error);
+                return;
+            }
+
+            if (!data.data || data.data.length === 0) {
+                showError("No cloud-free satellite data found for this location.");
+                return;
+            }
+
+            showChart();
+            renderChart(data.data, data.source || 'live');
+            if (parcelLayer) {
+                parcelLayer.setStyle({ fillOpacity: 0.3, color: '#4ade80' });
+            }
+        })
+        .catch(error => {
+            clearTimers();
+            console.error('Error fetching STAC data:', error);
+            showError("Failed to fetch satellite data. Please try again.");
+            if (parcelLayer) {
+                parcelLayer.setStyle({ fillOpacity: 0.3, color: '#4ade80' });
+            }
+        });
+    }
+
+    // Expose retry function globally
+    window.retryFetch = function() {
+        if (currentStacCoords) {
+            fetchNDVI(currentStacCoords);
+        }
+    };
+
+    function setupParcel(coords) {
+        if (parcelLayer) {
+            map.removeLayer(parcelLayer);
+        }
+
+        // STAC uses [Lng, Lat]
+        const stacCoords = coords.map(coord => [coord[1], coord[0]]);
+
+        // Centroid (lat, lng) for point-based queries (weather/soil/location/elevation)
+        const centroid = coords.slice(0, -1).reduce(
+            (acc, c) => [acc[0] + c[0] / (coords.length - 1), acc[1] + c[1] / (coords.length - 1)],
+            [0, 0]
+        );
+
+        parcelLayer = L.polygon(coords, {
+            color: '#4ade80',
+            weight: 3,
+            fillOpacity: 0.3
+        }).addTo(map);
+
+        map.fitBounds(parcelLayer.getBounds(), { padding: [30, 30] });
+
+        // Auto-fetch both feeds for the current parcel
+        fetchNDVI(stacCoords);
+        fetchParcelDetails(centroid[0], centroid[1]);
+
+        // Re-fetch on subsequent clicks
+        parcelLayer.on('click', function() {
+            fetchNDVI(stacCoords);
+            fetchParcelDetails(centroid[0], centroid[1]);
+        });
+    }
+
+    // ---------------- Parcel Intelligence ----------------
+    const WMO = {
+        0: ['Clear sky', '☀️'], 1: ['Mainly clear', '🌤️'], 2: ['Partly cloudy', '⛅'], 3: ['Overcast', '☁️'],
+        45: ['Fog', '🌫️'], 48: ['Rime fog', '🌫️'],
+        51: ['Light drizzle', '🌦️'], 53: ['Drizzle', '🌦️'], 55: ['Heavy drizzle', '🌧️'],
+        61: ['Light rain', '🌦️'], 63: ['Rain', '🌧️'], 65: ['Heavy rain', '🌧️'],
+        71: ['Light snow', '🌨️'], 73: ['Snow', '🌨️'], 75: ['Heavy snow', '❄️'],
+        80: ['Rain showers', '🌦️'], 81: ['Showers', '🌧️'], 82: ['Violent showers', '⛈️'],
+        95: ['Thunderstorm', '⛈️'], 96: ['Thunderstorm w/ hail', '⛈️'], 99: ['Severe thunderstorm', '⛈️'],
+    };
+    const wmoLabel = (c) => (WMO[c] || ['Unknown', '·'])[0];
+    const wmoIcon  = (c) => (WMO[c] || ['', '·'])[1];
+
+    function setIntelStatus(text, klass) {
+        const el = document.getElementById('intel-status');
+        if (!el) return;
+        el.textContent = text;
+        el.className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ' + klass;
+        el.classList.remove('hidden');
+    }
+
+    function row(label, value) {
+        return `<div class="flex justify-between py-1 border-b border-gray-50 last:border-0">
+                  <span class="text-gray-500">${label}</span>
+                  <span class="font-medium text-gray-800">${value}</span>
+                </div>`;
+    }
+
+    function renderLocation(loc, elev) {
+        const el = document.getElementById('card-location');
+        if (!loc || loc.error) { el.innerHTML = `<span class="text-red-400">Location lookup failed.</span>`; return; }
+        const parts = [loc.village, loc.district, loc.state, loc.country].filter(Boolean);
+        el.innerHTML = `
+            <div class="text-base font-semibold text-gray-900 mb-2">${parts.join(', ') || loc.display_name || '—'}</div>
+            ${loc.display_name ? `<div class="text-xs text-gray-400 mb-3">${loc.display_name}</div>` : ''}
+            ${row('District', loc.district || '—')}
+            ${row('State', loc.state || '—')}
+            ${row('Country', loc.country || '—')}
+            ${row('Postcode', loc.postcode || '—')}
+            ${row('Elevation', (elev && elev.elevation_m != null) ? elev.elevation_m + ' m' : '—')}
+        `;
+    }
+
+    function renderWeather(w) {
+        const el = document.getElementById('card-weather');
+        if (!w || w.error || !w.current) { el.innerHTML = `<span class="text-red-400">Weather unavailable.</span>`; return; }
+        const c = w.current;
+        const code = c.weather_code;
+        el.innerHTML = `
+            <div class="flex items-baseline gap-3 mb-3">
+                <span class="text-4xl">${wmoIcon(code)}</span>
+                <div>
+                    <div class="text-2xl font-bold text-gray-900">${c.temperature_2m?.toFixed(1)}°C</div>
+                    <div class="text-xs text-gray-500">${wmoLabel(code)} · feels ${c.apparent_temperature?.toFixed(1)}°C</div>
+                </div>
+            </div>
+            ${row('Humidity', (c.relative_humidity_2m ?? '—') + '%')}
+            ${row('Cloud cover', (c.cloud_cover ?? '—') + '%')}
+            ${row('Wind', (c.wind_speed_10m ?? '—') + ' km/h ' + (c.wind_direction_10m ?? '') + '°')}
+            ${row('Gusts', (c.wind_gusts_10m ?? '—') + ' km/h')}
+            ${row('Pressure', (c.surface_pressure ?? '—') + ' hPa')}
+            ${row('Precip (now)', (c.precipitation ?? 0) + ' mm')}
+            <div class="text-xs text-gray-400 mt-2">${c.time ? 'Observed ' + c.time : ''}</div>
+        `;
+    }
+
+    function renderForecast(w) {
+        const el = document.getElementById('card-forecast');
+        if (!w || !w.daily || !w.daily.time) { el.innerHTML = `<span class="text-red-400">Forecast unavailable.</span>`; return; }
+        const d = w.daily;
+        const rows = d.time.map((day, i) => `
+            <div class="flex items-center justify-between py-1.5 border-b border-gray-50 last:border-0 text-sm">
+                <div class="w-20 text-gray-700">${new Date(day).toLocaleDateString(undefined, { weekday: 'short', day: 'numeric', month: 'short' })}</div>
+                <div class="w-8 text-center">${wmoIcon(d.weather_code[i])}</div>
+                <div class="w-16 text-right text-gray-500">${d.temperature_2m_min[i]?.toFixed(0)}° / <span class="text-gray-900 font-medium">${d.temperature_2m_max[i]?.toFixed(0)}°</span></div>
+                <div class="w-20 text-right text-sky-600 font-medium">${d.precipitation_sum[i]?.toFixed(1)} mm</div>
+                <div class="w-12 text-right text-amber-600 text-xs">UV ${d.uv_index_max[i]?.toFixed(0) ?? '—'}</div>
+            </div>
+        `).join('');
+        el.innerHTML = rows;
+    }
+
+    function renderClimate(rc) {
+        const el = document.getElementById('card-climate');
+        if (!rc || rc.error) { el.innerHTML = `<span class="text-red-400">30-day climate unavailable.</span>`; return; }
+        const wb = rc.water_balance_mm;
+        const wbColor = wb == null ? 'text-gray-500' : (wb >= 0 ? 'text-emerald-600' : 'text-red-600');
+        el.innerHTML = `
+            <div class="text-xs text-gray-400 mb-2">${rc.window_start} → ${rc.window_end}</div>
+            ${row('Total rainfall', rc.total_precip_mm + ' mm')}
+            ${row('Rainy days (>1mm)', rc.rainy_days + ' / ' + rc.days_observed)}
+            ${row('Heaviest day', rc.max_daily_rain_mm + ' mm')}
+            ${row('Avg max temp', (rc.avg_tmax_c ?? '—') + ' °C')}
+            ${row('Avg min temp', (rc.avg_tmin_c ?? '—') + ' °C')}
+            ${row('Peak heat', (rc.peak_tmax_c ?? '—') + ' °C')}
+            ${row('Reference ET', (rc.total_et0_mm ?? '—') + ' mm')}
+            ${row('Avg solar', (rc.avg_radiation_mj ?? '—') + ' MJ/m²/day')}
+            <div class="flex justify-between py-1 mt-2 border-t border-gray-100">
+                <span class="text-gray-700 font-medium">Water balance</span>
+                <span class="font-bold ${wbColor}">${wb == null ? '—' : (wb > 0 ? '+' : '') + wb + ' mm'}</span>
+            </div>
+            <div class="text-xs text-gray-400 mt-1">Rainfall − reference evapotranspiration</div>
+        `;
+    }
+
+    function renderSoil(s) {
+        const el = document.getElementById('card-soil');
+        if (!s || s.error || !Object.keys(s).length) { el.innerHTML = `<span class="text-red-400">Soil data unavailable.</span>`; return; }
+        el.innerHTML = `
+            <div class="text-base font-semibold text-gray-900 mb-2">${s.texture || 'Soil profile'}</div>
+            ${row('pH (H₂O)', s.phh2o ?? '—')}
+            ${row('Organic carbon', s.soc != null ? s.soc + ' g/kg' : '—')}
+            ${row('Total nitrogen', s.nitrogen != null ? s.nitrogen + ' g/kg' : '—')}
+            ${row('Sand', s.sand != null ? s.sand + ' %' : '—')}
+            ${row('Silt', s.silt != null ? s.silt + ' %' : '—')}
+            ${row('Clay', s.clay != null ? s.clay + ' %' : '—')}
+            ${row('Bulk density', s.bdod != null ? s.bdod + ' g/cm³' : '—')}
+            ${row('CEC', s.cec != null ? s.cec + ' cmol/kg' : '—')}
+            <div class="text-xs text-gray-400 mt-2">ISRIC SoilGrids · 0–5 cm mean</div>
+        `;
+    }
+
+    function renderNdviSummary(timeSeries, source) {
+        const el = document.getElementById('card-ndvi-summary');
+        if (!timeSeries || !timeSeries.length) { el.innerHTML = `<span class="text-gray-400">No NDVI observations yet.</span>`; return; }
+        const values = timeSeries.map(d => d.ndvi);
+        const latest = timeSeries[timeSeries.length - 1];
+        const earliest = timeSeries[0];
+        const min = Math.min(...values), max = Math.max(...values);
+        const mean = values.reduce((a, b) => a + b, 0) / values.length;
+        const trend = latest.ndvi - earliest.ndvi;
+        const health = latest.ndvi > 0.6 ? ['Vigorous canopy', 'text-emerald-600']
+                     : latest.ndvi > 0.4 ? ['Active growth', 'text-green-600']
+                     : latest.ndvi > 0.25 ? ['Sparse vegetation', 'text-amber-600']
+                     : ['Bare / stressed', 'text-red-600'];
+        el.innerHTML = `
+            <div class="mb-3">
+                <span class="text-2xl font-bold text-gray-900">${latest.ndvi.toFixed(3)}</span>
+                <span class="text-xs text-gray-400 ml-2">on ${latest.date}</span>
+                <div class="text-sm font-medium ${health[1]} mt-0.5">${health[0]}</div>
+            </div>
+            ${row('Observations', timeSeries.length + ' (source: ' + source + ')')}
+            ${row('Date range', earliest.date + ' → ' + latest.date)}
+            ${row('Mean', mean.toFixed(3))}
+            ${row('Min / Max', min.toFixed(3) + ' / ' + max.toFixed(3))}
+            ${row('Trend (last − first)', (trend >= 0 ? '+' : '') + trend.toFixed(3))}
+        `;
+    }
+
+    let currentCentroid = null;
+    function fetchParcelDetails(lat, lng) {
+        currentCentroid = [lat, lng];
+        setIntelStatus('Loading parcel intelligence…', 'bg-amber-100 text-amber-800');
+
+        // Reset cards to loading state
+        ['card-location','card-weather','card-forecast','card-climate','card-soil'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.innerHTML = `<div class="flex items-center gap-2 text-gray-400"><div class="w-3 h-3 border-2 border-gray-300 border-t-transparent rounded-full animate-spin"></div>Streaming…</div>`;
+        });
+
+        fetch("{% url 'farms:parcel_details' %}", {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ lat: lat, lng: lng })
+        })
+        .then(r => r.json())
+        .then(data => {
+            if (data.error) {
+                setIntelStatus('Failed: ' + data.error, 'bg-red-100 text-red-800');
+                return;
+            }
+            renderLocation(data.location, data.elevation);
+            renderWeather(data.weather);
+            renderForecast(data.weather);
+            renderClimate(data.recent_climate);
+            renderSoil(data.soil);
+            setIntelStatus('● Live', 'bg-green-100 text-green-800');
+        })
+        .catch(err => {
+            console.error('Parcel details fetch failed', err);
+            setIntelStatus('Network error', 'bg-red-100 text-red-800');
+        });
+    }
+
+    function renderChart(timeSeriesData, source) {
+        const labels = timeSeriesData.map(d => d.date);
+        const values = timeSeriesData.map(d => d.ndvi);
+
+        // Feed the summary card too
+        renderNdviSummary(timeSeriesData, source);
+
+        if (ndviChart) {
+            ndviChart.destroy();
+        }
+
+        // Update source badge
+        const badgeEl = document.getElementById('source-badge');
+        if (badgeEl) {
+            if (source === 'live') {
+                badgeEl.textContent = '● Live from AWS';
+                badgeEl.className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800';
+            } else {
+                badgeEl.textContent = '● Simulated Model';
+                badgeEl.className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800';
+            }
+            badgeEl.classList.remove('hidden');
+        }
+
+        ndviChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Mean NDVI',
+                    data: values,
+                    borderColor: '#22c55e',
+                    backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                    borderWidth: 3,
+                    pointBackgroundColor: '#fff',
+                    pointBorderColor: '#16a34a',
+                    pointRadius: 5,
+                    pointHoverRadius: 7,
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                        backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                        titleColor: '#1f2937',
+                        bodyColor: '#4b5563',
+                        borderColor: '#e5e7eb',
+                        borderWidth: 1,
+                        padding: 10,
+                        displayColors: false,
+                        callbacks: {
+                            label: function(context) { return `NDVI: ${context.parsed.y}`; }
+                        }
+                    }
+                },
+                scales: {
+                    x: { grid: { display: false }, ticks: { maxTicksLimit: 8 } },
+                    y: { beginAtZero: true, max: 1.0, grid: { color: '#f3f4f6' }, title: { display: true, text: 'NDVI' } }
+                }
+            }
+        });
+    }
+
+    // Handle "Generate" button click
+    document.getElementById('btnGenerate').addEventListener('click', function() {
+        const lat = parseFloat(document.getElementById('inputLat').value);
+        const lng = parseFloat(document.getElementById('inputLng').value);
+        const acres = parseFloat(document.getElementById('inputAcres').value);
+        
+        if (isNaN(lat) || isNaN(lng) || isNaN(acres) || acres <= 0) {
+            alert("Please enter valid positive numbers for Latitude, Longitude, and Acres.");
+            return;
+        }
+
+        const coords = createSquarePolygon(lat, lng, acres);
+        setupParcel(coords);
+    });
+
+    // Initialize default parcel on load
+    const defaultLat = 16.35871;
+    const defaultLng = 78.7548417;
+    document.getElementById('inputLat').value = defaultLat;
+    document.getElementById('inputLng').value = defaultLng;
+    map.setView([defaultLat, defaultLng], 16);
+    const defaultCoords = createSquarePolygon(defaultLat, defaultLng, 5.0);
+    setupParcel(defaultCoords);
+});
+</script>
+{% endblock %}

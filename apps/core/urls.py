@@ -23,6 +23,7 @@ urlpatterns = [
     path('help/', views.HelpView.as_view(), name='help'),
     path('settings/', views.SettingsView.as_view(), name='settings'),
     path('interactive-map/', views.InteractiveMapView.as_view(), name='interactive_map'),
+    path('inspector/', __import__('apps.farms.views', fromlist=['parcel_inspector_view']).parcel_inspector_view, name='parcel_inspector'),
 
     # API endpoints
     path('api/map-data/risk/', views.api_map_risk, name='api_map_risk'),

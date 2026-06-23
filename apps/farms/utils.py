@@ -98,18 +98,16 @@ def create_demo_farm_for_user(user):
 
     # 6. Advisory
     CropSuitability.objects.update_or_create(
-        crop=paddy.name, farm=farm, season='Kharif', year=2030,
+        crop=paddy, farm=farm, season='Kharif', year=2030,
         defaults={
-            'district': 'Nizamabad', 'state': 'Telangana',
             'suitability_pct': 65.0, 'recommendation_label': 'Moderate Risk',
             'expected_yield_min': 45.0, 'expected_yield_max': 55.0,
             'risk_level': 'high', 'reasons': json.dumps(['High water stress expected', 'Delay in monsoon'])
         }
     )
     CropSuitability.objects.update_or_create(
-        crop=soybean.name, farm=farm, season='Kharif', year=2030,
+        crop=soybean, farm=farm, season='Kharif', year=2030,
         defaults={
-            'district': 'Nizamabad', 'state': 'Telangana',
             'suitability_pct': 85.0, 'recommendation_label': 'Highly Suitable',
             'expected_yield_min': 18.0, 'expected_yield_max': 24.0,
             'risk_level': 'low', 'reasons': json.dumps(['Drought tolerant', 'Matches rainfall pattern'])
