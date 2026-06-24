@@ -248,6 +248,7 @@ class FarmViewSet(viewsets.ModelViewSet):
 from django.shortcuts import render
 from django.http import JsonResponse
 import json
+import time
 from datetime import datetime, timedelta
 
 def parcel_inspector_view(request):
@@ -527,44 +528,105 @@ def _classify_soil_texture(sand, silt, clay):
     return 'Sandy Loam'
 
 
+_SOIL_CACHE = {}
+_SOIL_CACHE_MAX = 512
+
+
+def _soilgrids_query(lat, lng, timeout):
+    r = requests.get(
+        'https://rest.isric.org/soilgrids/v2.0/properties/query',
+        params=[
+            ('lat', lat), ('lon', lng),
+            ('property', 'phh2o'),
+            ('property', 'soc'),
+            ('property', 'clay'),
+            ('property', 'sand'),
+            ('property', 'silt'),
+            ('property', 'bdod'),
+            ('property', 'cec'),
+            ('property', 'nitrogen'),
+            ('depth', '0-5cm'),
+            ('value', 'mean'),
+        ],
+        timeout=timeout,
+    )
+    r.raise_for_status()
+    return r.json()
+
+
+def _parse_soilgrids(data):
+    out = {}
+    for layer in (data.get('properties', {}) or {}).get('layers', []) or []:
+        name = layer.get('name')
+        d_factor = (layer.get('unit_measure') or {}).get('d_factor') or 1
+        depths = layer.get('depths') or []
+        if not depths:
+            continue
+        mean = (depths[0].get('values') or {}).get('mean')
+        if mean is None:
+            continue
+        out[name] = round(mean / d_factor, 2)
+    return out
+
+
 def _fetch_soil(lat, lng):
-    try:
-        r = requests.get(
-            'https://rest.isric.org/soilgrids/v2.0/properties/query',
-            params=[
-                ('lat', lat), ('lon', lng),
-                ('property', 'phh2o'),
-                ('property', 'soc'),
-                ('property', 'clay'),
-                ('property', 'sand'),
-                ('property', 'silt'),
-                ('property', 'bdod'),
-                ('property', 'cec'),
-                ('property', 'nitrogen'),
-                ('depth', '0-5cm'),
-                ('value', 'mean'),
-            ],
-            timeout=12,
-        )
-        data = r.json()
-        out = {}
-        for layer in (data.get('properties', {}) or {}).get('layers', []) or []:
-            name = layer.get('name')
-            d_factor = (layer.get('unit_measure') or {}).get('d_factor') or 1
-            depths = layer.get('depths') or []
-            if not depths: continue
-            values = (depths[0].get('values') or {})
-            mean = values.get('mean')
-            if mean is None: continue
-            out[name] = round(mean / d_factor, 2)
-        clay = out.get('clay')
-        sand = out.get('sand')
-        silt = out.get('silt')
+    # SoilGrids resolves at ~250 m, so round the cache key to ~100 m bins —
+    # repeated clicks on the same parcel never re-hit the (slow) upstream.
+    cache_key = (round(lat, 3), round(lng, 3))
+    cached = _SOIL_CACHE.get(cache_key)
+    if cached is not None:
+        return cached
+
+    # ISRIC is frequently slow (>15s) and sometimes returns 200 with all-null
+    # means at points that fall on a no-data tile. Retry the network call with
+    # backoff, and on an all-null response try a small jitter (~250 m) to land
+    # on a neighbouring tile that does have data.
+    last_error = None
+    data = None
+    for attempt in range(3):
+        try:
+            data = _soilgrids_query(lat, lng, timeout=25)
+            break
+        except Exception as e:
+            last_error = e
+            time.sleep(1.5 * (attempt + 1))
+
+    if data is None:
+        return {'error': f'soilgrids unreachable: {last_error}'}
+
+    out = _parse_soilgrids(data)
+
+    if not out:
+        # Walk an outward ring (≈300 m, 1.1 km, 3.3 km) — many points in India
+        # land on a no-data SoilGrids cell and only a few neighbouring tiles in
+        # the 250 m grid are populated.
+        offsets = []
+        for radius in (0.003, 0.01, 0.03):
+            offsets.extend([(radius, 0.0), (-radius, 0.0), (0.0, radius), (0.0, -radius),
+                            (radius, radius), (-radius, -radius), (radius, -radius), (-radius, radius)])
+        for d_lat, d_lng in offsets:
+            try:
+                jitter = _soilgrids_query(lat + d_lat, lng + d_lng, timeout=15)
+            except Exception:
+                continue
+            out = _parse_soilgrids(jitter)
+            if out:
+                break
+
+    if not out:
+        result = {'error': 'no soil data at this location'}
+    else:
+        clay, sand, silt = out.get('clay'), out.get('sand'), out.get('silt')
         if clay is not None and sand is not None and silt is not None:
             out['texture'] = _classify_soil_texture(sand, silt, clay)
-        return out
-    except Exception as e:
-        return {'error': str(e)}
+        result = out
+
+    # Cache both successes and no-data results so repeated clicks on the same
+    # parcel don't keep paying the ISRIC roundtrip / timeout cost.
+    if len(_SOIL_CACHE) >= _SOIL_CACHE_MAX:
+        _SOIL_CACHE.pop(next(iter(_SOIL_CACHE)))
+    _SOIL_CACHE[cache_key] = result
+    return result
 
 
 def _fetch_elevation(lat, lng):

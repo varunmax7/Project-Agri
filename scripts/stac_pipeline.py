@@ -6,8 +6,17 @@ import warnings
 # Suppress warnings for cleaner output
 warnings.filterwarnings("ignore")
 
-# Crucial for reading public AWS buckets without credentials
-os.environ['AWS_NO_SIGN_REQUEST'] = 'YES'
+# Crucial for reading public AWS buckets without credentials.
+# Extra GDAL/CURL settings make parallel S3 reads safe: disable directory
+# probing (one less HTTP call per asset), enable per-process VSI caching,
+# and retry transient 5xx/timeouts a few times instead of failing the whole load.
+os.environ.setdefault('AWS_NO_SIGN_REQUEST', 'YES')
+os.environ.setdefault('GDAL_DISABLE_READDIR_ON_OPEN', 'EMPTY_DIR')
+os.environ.setdefault('CPL_VSIL_CURL_ALLOWED_EXTENSIONS', '.tif,.TIF,.tiff')
+os.environ.setdefault('VSI_CACHE', 'TRUE')
+os.environ.setdefault('VSI_CACHE_SIZE', '67108864')  # 64 MB
+os.environ.setdefault('GDAL_HTTP_MAX_RETRY', '4')
+os.environ.setdefault('GDAL_HTTP_RETRY_DELAY', '1')
 
 import pystac_client
 import odc.stac
@@ -57,54 +66,49 @@ def get_stac_ndvi_time_series(roi_polygon_coords, start_date, end_date):
     # 5. Load the data using odc-stac (streams ONLY the requested bounding box).
     # 60m resolution: for mean NDVI over a 5-acre parcel a 60m grid has ~3x3 pixels
     # which is plenty for an unbiased mean, and ~9x less data than 20m.
+    # chunks={} makes the load lazy (dask-backed) and pool=16 fans out the S3
+    # byte-range reads across 16 worker threads — the slow part was waiting on
+    # serial HTTPS roundtrips, not the math.
     dataset = odc.stac.load(
         items,
         bbox=bbox,
         bands=["red", "nir", "scl"],
         resolution=60,
-        groupby="solar_day"
+        groupby="solar_day",
+        pool=16,
+        fail_on_error=False,
     )
 
-    # 6. Process the data (Calculate NDVI)
-    results = []
+    # 6. Vectorized NDVI + masked spatial mean over every timestep in one go.
+    # Previously this looped per-timestep and called .values N times, forcing N
+    # separate compute passes (and N serial fetches). Doing it as one xarray
+    # expression lets dask schedule all the band reads concurrently and run a
+    # single compute, while producing identical numbers.
     import math
-    total_timesteps = len(dataset.time)
-    
-    # Iterate through the time steps
-    for i in range(total_timesteps):
-        # Select the data for this specific date
-        ds_time = dataset.isel(time=i)
-        
-        # SCL masking: 4=Vegetation, 5=Bare Soils, 6=Water. 
-        # Exclude clouds (9), shadows (3), etc.
-        valid_mask = ds_time.scl.isin([4, 5, 6])
-        
-        # Calculate NDVI: (NIR - Red) / (NIR + Red)
-        # We convert to float32 to avoid integer division issues
-        nir = ds_time.nir.astype('float32')
-        red = ds_time.red.astype('float32')
-        
-        ndvi = (nir - red) / (nir + red)
-        
-        # Apply the mask
-        ndvi_masked = ndvi.where(valid_mask)
-        
-        # Calculate the mean NDVI across all pixels in our bounding box for this date
-        mean_ndvi = float(ndvi_masked.mean().values)
-        
-        # Get the date string
-        date_str = str(ds_time.time.values)[:10]
-        
-        # Skip if no valid pixels (e.g., all clouds despite the catalog filter)
-        if not math.isnan(mean_ndvi):
-             results.append({
-                "date": date_str,
-                "ndvi": round(mean_ndvi, 4)
-            })
+    import numpy as np
 
-    # Sort by date
+    valid_mask = dataset.scl.isin([4, 5, 6])
+    nir = dataset.nir.astype('float32')
+    red = dataset.red.astype('float32')
+    ndvi = (nir - red) / (nir + red)
+    ndvi_masked = ndvi.where(valid_mask)
+    mean_per_time = ndvi_masked.mean(dim=('y', 'x'))
+
+    mean_values = np.asarray(mean_per_time.values)
+    time_values = mean_per_time.time.values
+
+    results = []
+    for date_val, mean_ndvi in zip(time_values, mean_values):
+        mean_ndvi = float(mean_ndvi)
+        if math.isnan(mean_ndvi):
+            continue
+        results.append({
+            "date": str(date_val)[:10],
+            "ndvi": round(mean_ndvi, 4),
+        })
+
     results.sort(key=lambda x: x['date'])
-    print(f"Processed {total_timesteps} timesteps, {len(results)} valid NDVI observations.")
+    print(f"Processed {len(time_values)} timesteps, {len(results)} valid NDVI observations.")
     return results
 
 if __name__ == "__main__":

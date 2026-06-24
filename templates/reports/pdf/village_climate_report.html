@@ -2,143 +2,358 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Climate Report</title>
+    <title>{{ report_title }} — FloodGuard Agri Intelligence</title>
     <style>
         @page {
             size: A4;
-            margin: 2cm;
+            margin: 1.8cm 2cm;
             @bottom-center {
-                content: "FloodGuard Agri Intelligence | Page " counter(page) " of " counter(pages);
-                font-size: 9pt;
-                color: #6b7280;
+                content: "FloodGuard Agri Intelligence  •  Page " counter(page) " of " counter(pages);
+                font-size: 8pt;
+                color: #9ca3af;
                 font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
             }
         }
         body {
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
             color: #1f2937;
-            line-height: 1.5;
+            line-height: 1.55;
             margin: 0;
             padding: 0;
-            font-size: 11pt;
+            font-size: 10pt;
         }
+
+        /* ── Header ────────────────────────────────────────── */
         .header {
-            border-bottom: 2px solid #047857;
-            padding-bottom: 20px;
-            margin-bottom: 30px;
+            border-bottom: 3px solid #047857;
+            padding-bottom: 16px;
+            margin-bottom: 24px;
+        }
+        .header-brand {
+            font-size: 9pt;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #047857;
+            font-weight: 700;
+            margin-bottom: 6px;
         }
         .header h1 {
-            color: #047857;
+            color: #111827;
             margin: 0;
-            font-size: 24pt;
-            font-weight: 700;
+            font-size: 22pt;
+            font-weight: 800;
         }
-        .header p {
-            margin: 5px 0 0 0;
+        .header-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
             color: #6b7280;
-            font-size: 10pt;
+            font-size: 9pt;
         }
+
+        /* ── Sections ──────────────────────────────────────── */
         .section-title {
             color: #047857;
-            font-size: 16pt;
-            border-bottom: 1px solid #e5e7eb;
-            padding-bottom: 8px;
-            margin-top: 30px;
-            margin-bottom: 15px;
+            font-size: 14pt;
+            font-weight: 700;
+            border-bottom: 2px solid #d1fae5;
+            padding-bottom: 6px;
+            margin-top: 28px;
+            margin-bottom: 14px;
+            page-break-after: avoid;
         }
-        .grid-2 {
+        .subsection-title {
+            font-size: 11pt;
+            font-weight: 700;
+            color: #374151;
+            margin-top: 18px;
+            margin-bottom: 8px;
+        }
+
+        /* ── Summary cards ─────────────────────────────────── */
+        .summary-grid {
             display: flex;
-            width: 100%;
+            gap: 12px;
             margin-bottom: 20px;
         }
-        .col {
+        .summary-card {
             flex: 1;
-            padding-right: 15px;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 12px 14px;
+            text-align: center;
         }
-        .label {
-            font-weight: bold;
-            color: #4b5563;
-            font-size: 10pt;
+        .summary-card .card-label {
+            font-size: 8pt;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: #6b7280;
+            font-weight: 600;
         }
-        .value {
-            font-size: 12pt;
-            margin-bottom: 10px;
+        .summary-card .card-value {
+            font-size: 18pt;
+            font-weight: 800;
+            color: #111827;
+            margin: 4px 0 2px;
         }
+        .summary-card .card-sub {
+            font-size: 8pt;
+            color: #9ca3af;
+        }
+
+        /* ── KV rows ───────────────────────────────────────── */
+        .kv-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0;
+            margin-bottom: 14px;
+        }
+        .kv-row {
+            width: 50%;
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 10px 5px 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+        .kv-label { color: #6b7280; font-size: 9pt; }
+        .kv-value { font-weight: 600; font-size: 10pt; }
+
+        /* ── Tables ────────────────────────────────────────── */
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 15px;
+            margin-top: 10px;
+            margin-bottom: 16px;
+            font-size: 9pt;
         }
         th, td {
             border: 1px solid #e5e7eb;
-            padding: 10px;
+            padding: 7px 10px;
             text-align: left;
         }
         th {
-            background-color: #f9fafb;
-            color: #374151;
+            background-color: #047857;
+            color: #ffffff;
             font-weight: 600;
+            font-size: 8pt;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
+        tr:nth-child(even) { background-color: #f9fafb; }
+
+        /* ── Badges ────────────────────────────────────────── */
         .badge {
             display: inline-block;
             padding: 2px 8px;
-            border-radius: 12px;
-            font-size: 9pt;
-            font-weight: bold;
+            border-radius: 10px;
+            font-size: 8pt;
+            font-weight: 700;
         }
-        .badge-low { background-color: #d1fae5; color: #065f46; }
-        .badge-medium { background-color: #fef3c7; color: #92400e; }
-        .badge-high { background-color: #fee2e2; color: #991b1b; }
-        
+        .badge-low { background: #d1fae5; color: #065f46; }
+        .badge-moderate { background: #fef3c7; color: #92400e; }
+        .badge-high { background: #fee2e2; color: #991b1b; }
+        .badge-very-high { background: #fecaca; color: #7f1d1d; }
+
+        /* ── Progress bar ──────────────────────────────────── */
         .progress-bar {
-            background-color: #e5e7eb;
+            background: #e5e7eb;
             border-radius: 4px;
-            height: 8px;
+            height: 7px;
             width: 100%;
-            margin-top: 5px;
+            margin-top: 3px;
         }
         .progress-fill {
-            background-color: #047857;
             height: 100%;
             border-radius: 4px;
         }
+        .progress-green { background: #059669; }
+        .progress-amber { background: #d97706; }
+        .progress-red   { background: #dc2626; }
+
+        /* ── Insights box ──────────────────────────────────── */
+        .insight-box {
+            background: #f0fdf4;
+            border-left: 4px solid #047857;
+            padding: 12px 16px;
+            margin: 10px 0 16px;
+            border-radius: 0 8px 8px 0;
+        }
+        .insight-box p {
+            margin: 4px 0;
+            font-size: 9.5pt;
+        }
+        .insight-icon { color: #047857; font-weight: 700; margin-right: 4px; }
+
+        /* ── Risk box ──────────────────────────────────────── */
+        .risk-box {
+            background: #fef2f2;
+            border-left: 4px solid #dc2626;
+            padding: 12px 16px;
+            margin: 10px 0 16px;
+            border-radius: 0 8px 8px 0;
+        }
+        .risk-box p { margin: 4px 0; font-size: 9.5pt; }
+
+        /* ── Footer ────────────────────────────────────────── */
+        .disclaimer {
+            margin-top: 30px;
+            padding-top: 14px;
+            border-top: 1px solid #e5e7eb;
+            font-size: 8pt;
+            color: #9ca3af;
+            line-height: 1.4;
+        }
+        .page-break { page-break-before: always; }
     </style>
 </head>
 <body>
 
+    <!-- ═══════════════════════════════════════════════════════
+         COVER / HEADER
+         ═══════════════════════════════════════════════════════ -->
     <div class="header">
-        <h1>Climate & Agriculture Report</h1>
-        <p>Prepared for: <strong>{{ farm.name|default:"Farm" }}</strong></p>
-        <p>Generated on: {{ generation_date|date:"F d, Y" }} | Report Type: {{ report.get_type_display }}</p>
-    </div>
-
-    <!-- Farm Profile -->
-    <h2 class="section-title">Farm Profile</h2>
-    <div class="grid-2">
-        <div class="col">
-            <div class="label">Location</div>
-            <div class="value">{{ farm.village }}, {{ farm.district }}</div>
-            <div class="label">Total Area</div>
-            <div class="value">{{ farm.total_area_hectares|default:"-" }} Hectares</div>
-        </div>
-        <div class="col">
-            <div class="label">Soil Type</div>
-            <div class="value">{{ farm.profile.get_soil_type_display|default:"-" }}</div>
-            <div class="label">Primary Irrigation Source</div>
-            <div class="value">{{ farm.profile.get_primary_irrigation_display|default:"-" }}</div>
+        <div class="header-brand">FloodGuard Agri Intelligence</div>
+        <h1>{{ report_title }}</h1>
+        <div class="header-meta">
+            <span>Farm: <strong>{{ farm.name }}</strong> · {{ farm.village }}, {{ farm.district }}, {{ farm.state }}</span>
+            <span>Generated: {{ generation_date|date:"d M Y, H:i" }}</span>
         </div>
     </div>
 
-    <!-- Crop Suitability -->
-    <h2 class="section-title">Long-term Crop Suitability Projection</h2>
+    <!-- ═══════════════════════════════════════════════════════
+         1. FARM PROFILE
+         ═══════════════════════════════════════════════════════ -->
+    <h2 class="section-title">1. Farm Profile</h2>
+    <div class="kv-grid">
+        <div class="kv-row"><span class="kv-label">Farm Name</span><span class="kv-value">{{ farm.name }}</span></div>
+        <div class="kv-row"><span class="kv-label">Owner</span><span class="kv-value">{{ user.get_full_name|default:user.username }}</span></div>
+        <div class="kv-row"><span class="kv-label">Village</span><span class="kv-value">{{ farm.village }}</span></div>
+        <div class="kv-row"><span class="kv-label">District</span><span class="kv-value">{{ farm.district }}</span></div>
+        <div class="kv-row"><span class="kv-label">State</span><span class="kv-value">{{ farm.state }}</span></div>
+        <div class="kv-row"><span class="kv-label">Area</span><span class="kv-value">{{ farm.area_acres }} Acres</span></div>
+        <div class="kv-row"><span class="kv-label">Soil Type</span><span class="kv-value">{{ farm.soil_type }}</span></div>
+        <div class="kv-row"><span class="kv-label">Irrigation</span><span class="kv-value">{{ farm.irrigation_source }}</span></div>
+        {% if farm.elevation %}
+        <div class="kv-row"><span class="kv-label">Elevation</span><span class="kv-value">{{ farm.elevation }} m</span></div>
+        {% endif %}
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════
+         2. CLIMATE RISK OVERVIEW
+         ═══════════════════════════════════════════════════════ -->
+    <h2 class="section-title">2. District Climate Risk Overview</h2>
+
+    {% if climate_summary %}
+    <div class="summary-grid">
+        <div class="summary-card">
+            <div class="card-label">Overall Risk</div>
+            <div class="card-value">{{ climate_summary.overall_risk_score }}</div>
+            <div class="card-sub">{{ climate_summary.overall_risk_class }}</div>
+        </div>
+        <div class="summary-card">
+            <div class="card-label">Temp Change</div>
+            <div class="card-value">+{{ climate_summary.temperature_change }}°C</div>
+            <div class="card-sub">by 2030 (SSP2-4.5)</div>
+        </div>
+        <div class="summary-card">
+            <div class="card-label">Rainfall Change</div>
+            <div class="card-value">{{ climate_summary.rainfall_change }}%</div>
+            <div class="card-sub">projected shift</div>
+        </div>
+        <div class="summary-card">
+            <div class="card-label">Drought Hazard</div>
+            <div class="card-value">{{ climate_summary.drought_hazard_score }}</div>
+            <div class="card-sub">{{ climate_summary.drought_hazard_class }}</div>
+        </div>
+    </div>
+
+    <div class="kv-grid">
+        <div class="kv-row"><span class="kv-label">Flood Hazard</span><span class="kv-value">{{ climate_summary.flood_hazard_score }} ({{ climate_summary.flood_hazard_class }})</span></div>
+        <div class="kv-row"><span class="kv-label">Ag Stress</span><span class="kv-value">{{ climate_summary.ag_stress_score }} ({{ climate_summary.ag_stress_class }})</span></div>
+        <div class="kv-row"><span class="kv-label">Water Availability Index</span><span class="kv-value">{{ climate_summary.water_availability_index }}</span></div>
+        <div class="kv-row"><span class="kv-label">Heat Stress Days</span><span class="kv-value">{{ climate_summary.heat_stress_days }}</span></div>
+    </div>
+    {% else %}
+    <p>No climate risk data available for this district.</p>
+    {% endif %}
+
+    <!-- ═══════════════════════════════════════════════════════
+         3. MULTI-DECADE CLIMATE PROJECTIONS
+         ═══════════════════════════════════════════════════════ -->
+    <h2 class="section-title">3. Climate Projections (SSP2-4.5, 2030 – 2040)</h2>
+    {% if climate_projections %}
+    <table>
+        <thead>
+            <tr>
+                <th>Year</th>
+                <th>Overall Risk</th>
+                <th>Risk Class</th>
+                <th>Temp Change</th>
+                <th>Rainfall Change</th>
+                <th>Drought Hazard</th>
+                <th>Flood Hazard</th>
+                <th>Ag Stress</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in climate_projections %}
+            <tr>
+                <td><strong>{{ p.year }}</strong></td>
+                <td>{{ p.overall_risk_score }}</td>
+                <td>
+                    {% if 'Low' in p.overall_risk_class %}
+                    <span class="badge badge-low">{{ p.overall_risk_class }}</span>
+                    {% elif 'Moderate' in p.overall_risk_class %}
+                    <span class="badge badge-moderate">{{ p.overall_risk_class }}</span>
+                    {% elif 'High' in p.overall_risk_class %}
+                    <span class="badge badge-high">{{ p.overall_risk_class }}</span>
+                    {% else %}
+                    <span class="badge badge-very-high">{{ p.overall_risk_class }}</span>
+                    {% endif %}
+                </td>
+                <td>+{{ p.temperature_change }}°C</td>
+                <td>{% if p.rainfall_change > 0 %}+{% endif %}{{ p.rainfall_change }}%</td>
+                <td>{{ p.drought_hazard_score }}</td>
+                <td>{{ p.flood_hazard_score }}</td>
+                <td>{{ p.ag_stress_score }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No multi-decade climate projection data available.</p>
+    {% endif %}
+
+    <!-- ═══════════════════════════════════════════════════════
+         4. DISTRICT INSIGHTS
+         ═══════════════════════════════════════════════════════ -->
+    {% if district_insights %}
+    <h2 class="section-title">4. District Climate Insights</h2>
+    {% for insight in district_insights %}
+    <div class="insight-box">
+        <p><strong>{{ insight.scenario|upper }} – {{ insight.year }}:</strong></p>
+        {% if insight.key_insight_1 %}<p><span class="insight-icon">▸</span> {{ insight.key_insight_1 }}</p>{% endif %}
+        {% if insight.key_insight_2 %}<p><span class="insight-icon">▸</span> {{ insight.key_insight_2 }}</p>{% endif %}
+        {% if insight.key_insight_3 %}<p><span class="insight-icon">▸</span> {{ insight.key_insight_3 }}</p>{% endif %}
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    <!-- ═══════════════════════════════════════════════════════
+         5. CROP SUITABILITY PROJECTIONS
+         ═══════════════════════════════════════════════════════ -->
+    <div class="page-break"></div>
+    <h2 class="section-title">5. Crop Suitability Projections — {{ farm.district }}</h2>
     {% if suitability_data %}
     <table>
         <thead>
             <tr>
                 <th>Crop</th>
-                <th>Current Status</th>
-                <th>Projected (SSP2-4.5)</th>
-                <th>Change Trend</th>
+                <th>Current Suitability</th>
+                <th>Projected (2040, SSP2-4.5)</th>
+                <th>Decline Classes</th>
+                <th>Risk Level</th>
                 <th>Recommendation</th>
             </tr>
         </thead>
@@ -149,15 +364,26 @@
                 <td>{{ item.suitability_current|default:"N/A" }}</td>
                 <td>{{ item.suitability_projected|default:"N/A" }}</td>
                 <td>
-                    {% if item.change_class < 0 %}
-                        <span class="badge badge-high">Declining ({{ item.change_class }})</span>
-                    {% elif item.change_class > 0 %}
-                        <span class="badge badge-low">Improving (+{{ item.change_class }})</span>
+                    {% if item.change_class > 0 %}
+                    <span class="badge badge-high">↓ {{ item.change_class }} class{{ item.change_class|pluralize:"es" }}</span>
+                    {% elif item.change_class < 0 %}
+                    <span class="badge badge-low">↑ Improving</span>
                     {% else %}
-                        <span class="badge badge-medium">Stable</span>
+                    <span class="badge badge-low">— Stable</span>
                     {% endif %}
                 </td>
-                <td style="font-size: 9pt;">{{ item.recommendation }}</td>
+                <td>
+                    {% if 'Very High' in item.risk_level %}
+                    <span class="badge badge-very-high">{{ item.risk_level }}</span>
+                    {% elif 'High' in item.risk_level %}
+                    <span class="badge badge-high">{{ item.risk_level }}</span>
+                    {% elif 'Moderate' in item.risk_level %}
+                    <span class="badge badge-moderate">{{ item.risk_level }}</span>
+                    {% else %}
+                    <span class="badge badge-low">{{ item.risk_level }}</span>
+                    {% endif %}
+                </td>
+                <td style="font-size: 8pt; max-width: 180px;">{{ item.recommendation|truncatewords:30 }}</td>
             </tr>
             {% endfor %}
         </tbody>
@@ -166,51 +392,79 @@
     <p>No crop suitability data available for this district.</p>
     {% endif %}
 
-    <!-- Climate Projections -->
-    <h2 class="section-title">2030 Climate Projections (SSP2-4.5)</h2>
-    {% if climate_data %}
-    <table>
-        <thead>
-            <tr>
-                <th>Year</th>
-                <th>Avg Temp Change</th>
-                <th>Rainfall Change</th>
-                <th>Agri Stress Index</th>
-                <th>Drought Hazard</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for climate in climate_data %}
-            <tr>
-                <td>{{ climate.year }}</td>
-                <td>+{{ climate.geometry.properties.temperature_change|floatformat:2 }}°C</td>
-                <td>
-                    {% if climate.geometry.properties.rainfall_change > 0 %}+{% endif %}{{ climate.geometry.properties.rainfall_change|floatformat:2 }}%
-                </td>
-                <td>{{ climate.geometry.properties.agri_stress_index|floatformat:2 }}</td>
-                <td>
-                    {% if climate.geometry.properties.drought_hazard_score > 30 %}
-                        <span class="badge badge-high">{{ climate.geometry.properties.drought_hazard_score|floatformat:2 }}</span>
-                    {% else %}
-                        <span class="badge badge-low">{{ climate.geometry.properties.drought_hazard_score|floatformat:2 }}</span>
-                    {% endif %}
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    {% else %}
-    <p>No climate projections available for this district.</p>
+    <!-- ═══════════════════════════════════════════════════════
+         6. CROP-WISE DETAILED ANALYSIS
+         ═══════════════════════════════════════════════════════ -->
+    {% if suitability_data %}
+    <h2 class="section-title">6. Crop-Wise Detailed Analysis</h2>
+    {% for item in suitability_data %}
+    <div class="subsection-title">{{ item.crop|title }}</div>
+    <div class="kv-grid">
+        <div class="kv-row"><span class="kv-label">Current Suitability</span><span class="kv-value">{{ item.suitability_current }}</span></div>
+        <div class="kv-row"><span class="kv-label">Projected (2040)</span><span class="kv-value">{{ item.suitability_projected }}</span></div>
+        <div class="kv-row"><span class="kv-label">Risk Level</span><span class="kv-value">{{ item.risk_level }}</span></div>
+        <div class="kv-row"><span class="kv-label">Change Classes</span><span class="kv-value">{{ item.change_class }}</span></div>
+    </div>
+    {% if item.recommendation %}
+    <div class="insight-box">
+        <p><span class="insight-icon">⚙</span> <strong>Recommendation:</strong> {{ item.recommendation }}</p>
+    </div>
+    {% endif %}
+    {% endfor %}
     {% endif %}
 
-    <!-- Strategic Interventions -->
-    <h2 class="section-title">Strategic Interventions & Recommendations</h2>
-    <p>Based on the climate modeling for your region, the following structural adjustments are recommended to mitigate long-term climate risks:</p>
+    <!-- ═══════════════════════════════════════════════════════
+         7. STRATEGIC INTERVENTIONS
+         ═══════════════════════════════════════════════════════ -->
+    <div class="page-break"></div>
+    <h2 class="section-title">7. Strategic Interventions & Recommendations</h2>
+    <p>Based on multi-decade climate modeling (SSP2-4.5 and SSP5-8.5 scenarios) for <strong>{{ farm.district }}</strong> district, the following structural adjustments are recommended:</p>
+
+    {% if has_high_risk_crops %}
+    <div class="risk-box">
+        <p><strong>⚠ High-Risk Crops Detected</strong></p>
+        <p>One or more crops in your district show significant suitability decline by 2040. Consider transitioning to more climate-resilient alternatives.</p>
+    </div>
+    {% endif %}
+
+    <div class="subsection-title">Water Management</div>
     <ul>
-        <li><strong>Irrigation Infrastructure:</strong> Given potential water deficits in critical growth phases, investment in drip or micro-sprinkler systems is highly advised to optimize water use efficiency by up to 40%.</li>
-        <li><strong>Crop Transition:</strong> If Paddy suitability declines below 50% in future SSP scenarios, consider phasing into drought-resistant cash crops such as Millets or specialized Pulses.</li>
-        <li><strong>Soil Moisture Retention:</strong> Increase organic carbon content through mulching and cover cropping to improve the soil's natural water retention capacity during dry spells.</li>
+        <li><strong>Irrigation Infrastructure:</strong> Given potential water availability changes, invest in drip or micro-sprinkler systems to optimize water use efficiency by up to 40%.</li>
+        <li><strong>Rainwater Harvesting:</strong> Construct farm ponds or check dams to capture monsoon surplus for use during dry spells.</li>
     </ul>
+
+    <div class="subsection-title">Crop Diversification</div>
+    <ul>
+        <li><strong>Climate-Resilient Varieties:</strong> Adopt drought-tolerant and heat-tolerant cultivars for crops showing suitability decline.</li>
+        <li><strong>Crop Transition:</strong> If any crop's projected suitability drops to "Unsuitable", phase into Millets, specialized Pulses, or other drought-resistant alternatives.</li>
+        <li><strong>Intercropping:</strong> Use mixed cropping systems to spread climate risk across multiple crop types.</li>
+    </ul>
+
+    <div class="subsection-title">Soil Health</div>
+    <ul>
+        <li><strong>Organic Carbon:</strong> Increase soil organic carbon through mulching, cover cropping, and composting to improve natural water retention.</li>
+        <li><strong>Conservation Tillage:</strong> Reduce tillage intensity to preserve soil structure and moisture content.</li>
+    </ul>
+
+    <div class="subsection-title">Financial Risk Mitigation</div>
+    <ul>
+        <li><strong>Crop Insurance:</strong> Enroll in PMFBY (Pradhan Mantri Fasal Bima Yojana) to cover climate-induced yield losses.</li>
+        <li><strong>Diversified Income:</strong> Explore agro-forestry, dairy, or apiculture as supplementary income streams to hedge against crop failures.</li>
+    </ul>
+
+    <!-- ═══════════════════════════════════════════════════════
+         DISCLAIMER
+         ═══════════════════════════════════════════════════════ -->
+    <div class="disclaimer">
+        <strong>Disclaimer:</strong> This report is generated by FloodGuard Agri Intelligence using climate projection models
+        (CMIP6 SSP scenarios), ICRISAT historical crop data, and geospatial analysis. Projections are indicative and based
+        on best-available scientific data. Actual climate and agricultural outcomes may vary. This report does not constitute
+        financial or agricultural advice. Consult local Krishi Vigyan Kendra (KVK) or agricultural extension officers for
+        site-specific guidance.
+        <br><br>
+        <strong>Data Sources:</strong> CMIP6 Climate Models · ICRISAT District-Level Crop Database · India Meteorological Department ·
+        ISRIC SoilGrids · AWS Earth Search Sentinel-2 L2A.
+    </div>
 
 </body>
 </html>
