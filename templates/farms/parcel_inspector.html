@@ -6,7 +6,7 @@
 <div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
   <div>
     <h1 class="text-2xl font-bold text-gray-900">Parcel Inspector (STAC Open Data)</h1>
-    <p class="text-gray-500 mt-1 text-sm">Click on a farm parcel to dynamically stream Sentinel-2 NDVI time series data from AWS Earth Search.</p>
+    <p class="text-gray-500 mt-1 text-sm">Click on a farm parcel to stream Sentinel-2 NDVI time series via the Microsoft Planetary Computer.</p>
   </div>
 </div>
 
@@ -128,7 +128,7 @@
   </div>
 
   <p class="mt-3 text-xs text-gray-400">
-    Sources: OpenStreetMap Nominatim (location) · Open-Meteo (weather, forecast, archive, elevation) · ISRIC SoilGrids (soil) · AWS Earth Search Sentinel-2 L2A (NDVI).
+    Sources: OpenStreetMap Nominatim (location) · Open-Meteo (weather, forecast, archive, elevation) · ISRIC SoilGrids (soil) · Microsoft Planetary Computer Sentinel-2 L2A (NDVI).
   </p>
 </div>
 {% endblock %}
@@ -246,23 +246,23 @@ document.addEventListener('DOMContentLoaded', function() {
             parcelLayer.setStyle({ fillOpacity: 0.6, color: '#22c55e' });
         }
 
-        // Progressive loading messages. With parallel S3 reads (pool=16) the
-        // full year of Sentinel-2 history (up to 25 clearest scenes) usually
-        // streams in 20 – 45 seconds.
+        // Progressive loading messages. We pull 5 clearest scenes via the
+        // Microsoft Planetary Computer STAC + signed Azure URLs in parallel,
+        // which typically lands in 25 – 50 seconds end-to-end.
         const progress1 = setTimeout(() => {
             const el = document.getElementById('loading-subtext');
-            if (el) el.textContent = 'Connecting to AWS Earth Search and querying Sentinel-2 catalog...';
+            if (el) el.textContent = 'Connecting to Microsoft Planetary Computer and querying Sentinel-2 catalog...';
         }, 2000);
         const progress2 = setTimeout(() => {
             const el = document.getElementById('loading-text');
             const sub = document.getElementById('loading-subtext');
             if (el) el.textContent = 'Downloading real Sentinel-2 satellite bands...';
-            if (sub) sub.textContent = 'Streaming NIR, Red and SCL bands in parallel for the clearest scenes of the last year. This typically takes 20 – 45 seconds.';
-        }, 6000);
+            if (sub) sub.textContent = 'Streaming NIR and Red bands in parallel for the 5 clearest recent scenes. Usually 25 – 50 seconds.';
+        }, 5000);
         const progress3 = setTimeout(() => {
             const el = document.getElementById('loading-subtext');
-            if (el) el.textContent = 'Computing per-scene NDVI and masking clouds... almost done.';
-        }, 25000);
+            if (el) el.textContent = 'Computing per-scene NDVI... almost done.';
+        }, 30000);
 
         const clearTimers = () => { clearTimeout(progress1); clearTimeout(progress2); clearTimeout(progress3); };
 
@@ -287,7 +287,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             showChart();
-            renderChart(data.data, data.source || 'live');
+            renderChart(data.data, data.source || 'live', data.fallback_reason);
             if (parcelLayer) {
                 parcelLayer.setStyle({ fillOpacity: 0.3, color: '#4ade80' });
             }
@@ -534,7 +534,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    function renderChart(timeSeriesData, source) {
+    function renderChart(timeSeriesData, source, fallbackReason) {
         const labels = timeSeriesData.map(d => d.date);
         const values = timeSeriesData.map(d => d.ndvi);
 
@@ -549,11 +549,20 @@ document.addEventListener('DOMContentLoaded', function() {
         const badgeEl = document.getElementById('source-badge');
         if (badgeEl) {
             if (source === 'live') {
-                badgeEl.textContent = '● Live from AWS';
+                badgeEl.textContent = '● Live Sentinel-2 NDVI';
                 badgeEl.className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800';
+                badgeEl.title = 'Real NDVI computed from Sentinel-2 L2A bands streamed via Microsoft Planetary Computer';
             } else {
-                badgeEl.textContent = '● Simulated Model';
-                badgeEl.className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800';
+                const reasonMap = {
+                    'timeout': 'Satellite stream timed out — showing seasonal model',
+                    'pipeline_failed': 'Satellite stream failed — showing seasonal model',
+                    'invalid_json': 'Satellite stream returned bad data — showing seasonal model',
+                    'no_observations': 'No cloud-free scenes found — showing seasonal model',
+                };
+                const label = reasonMap[fallbackReason] || '● Simulated Model';
+                badgeEl.textContent = '⚠ ' + label;
+                badgeEl.className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800';
+                badgeEl.title = 'Live Sentinel-2 stream unavailable. Reason: ' + (fallbackReason || 'unknown');
             }
             badgeEl.classList.remove('hidden');
         }

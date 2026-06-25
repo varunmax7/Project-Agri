@@ -277,19 +277,16 @@ def stac_ndvi_timeseries(request):
         if polygon_coords[0] != polygon_coords[-1]:
             polygon_coords.append(polygon_coords[0])
 
-        # One year of real Sentinel-2 history. The pipeline still caps the
-        # number of scenes it actually downloads, so this controls breadth, not
-        # raw network volume.
+        # 120 days of recent Sentinel-2 history. Long enough to see two clear
+        # crop-growth inflections in either season, short enough that the
+        # search returns in seconds instead of timing out the whole request.
         end_date = datetime.today().strftime('%Y-%m-%d')
-        start_date = (datetime.today() - timedelta(days=365)).strftime('%Y-%m-%d')
-
-        # Set AWS environment for unsigned public bucket access
-        import os
-        os.environ['AWS_NO_SIGN_REQUEST'] = 'YES'
+        start_date = (datetime.today() - timedelta(days=120)).strftime('%Y-%m-%d')
 
         # Run the STAC pipeline as a completely isolated subprocess.
         # This completely bypasses GDAL/osgeo deadlocks in Django's threading model,
         # and prevents the macOS socket DNS resolution bug from hanging the server.
+        import os
         import subprocess
         from django.conf import settings
 
@@ -309,7 +306,7 @@ def stac_ndvi_timeseries(request):
                 input=input_data,
                 text=True,
                 capture_output=True,
-                timeout=170
+                timeout=55,
             )
 
             if process.returncode != 0:
@@ -440,6 +437,9 @@ def _fetch_location(lat, lng):
 
 
 def _fetch_weather(lat, lng):
+    # Open-Meteo's EU edge can sit at 10–25 s latency from South Asia under
+    # load. A short timeout was masking real responses, so the panel always
+    # rendered "unavailable" even though the API was about to answer.
     try:
         r = requests.get(
             'https://api.open-meteo.com/v1/forecast',
@@ -451,7 +451,7 @@ def _fetch_weather(lat, lng):
                 'forecast_days': 7,
                 'timezone': 'auto',
             },
-            timeout=8,
+            timeout=30,
         )
         return r.json()
     except Exception as e:
@@ -474,7 +474,7 @@ def _fetch_recent_climate(lat, lng):
                 'daily': 'precipitation_sum,temperature_2m_max,temperature_2m_min,et0_fao_evapotranspiration,shortwave_radiation_sum',
                 'timezone': 'auto',
             },
-            timeout=10,
+            timeout=30,
         )
         data = r.json()
         daily = data.get('daily', {}) or {}
@@ -599,19 +599,28 @@ def _fetch_soil(lat, lng):
     if not out:
         # Walk an outward ring (≈300 m, 1.1 km, 3.3 km) — many points in India
         # land on a no-data SoilGrids cell and only a few neighbouring tiles in
-        # the 250 m grid are populated.
+        # the 250 m grid are populated. Fire all probes in parallel and take
+        # the first non-empty response so we're bounded by one slow request,
+        # not 24 serial ones.
+        from concurrent.futures import ThreadPoolExecutor, as_completed
         offsets = []
         for radius in (0.003, 0.01, 0.03):
             offsets.extend([(radius, 0.0), (-radius, 0.0), (0.0, radius), (0.0, -radius),
                             (radius, radius), (-radius, -radius), (radius, -radius), (-radius, radius)])
-        for d_lat, d_lng in offsets:
-            try:
-                jitter = _soilgrids_query(lat + d_lat, lng + d_lng, timeout=15)
-            except Exception:
-                continue
-            out = _parse_soilgrids(jitter)
-            if out:
-                break
+        with ThreadPoolExecutor(max_workers=len(offsets)) as ex:
+            futures = {
+                ex.submit(_soilgrids_query, lat + d_lat, lng + d_lng, 12): (d_lat, d_lng)
+                for d_lat, d_lng in offsets
+            }
+            for fut in as_completed(futures):
+                try:
+                    jitter = fut.result()
+                except Exception:
+                    continue
+                parsed = _parse_soilgrids(jitter)
+                if parsed:
+                    out = parsed
+                    break
 
     if not out:
         result = {'error': 'no soil data at this location'}
@@ -634,7 +643,7 @@ def _fetch_elevation(lat, lng):
         r = requests.get(
             'https://api.open-meteo.com/v1/elevation',
             params={'latitude': lat, 'longitude': lng},
-            timeout=6,
+            timeout=20,
         )
         data = r.json()
         elev_arr = data.get('elevation') or []
