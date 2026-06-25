@@ -21,6 +21,7 @@
 
 ## 📋 Table of Contents
 
+- [Recent Updates](#-recent-updates)
 - [The Problem](#-the-problem)
 - [Our Approach](#-our-approach)
 - [Key Features](#-key-features)
@@ -37,6 +38,46 @@
 - [Research & Data Sources](#-research--data-sources)
 - [Contributing](#-contributing)
 - [License](#-license)
+
+---
+
+## 🆕 Recent Updates
+
+### Parcel Inspector — Live NDVI Pipeline Overhaul (2026-06-25)
+
+The Parcel Inspector's "Crop Health (NDVI)" widget was timing out and falling back to the simulated seasonal model for almost every request. Root cause: the pipeline streamed Sentinel-2 L2A COGs from **AWS Earth Search (us-west-2 S3)**, and on South-Asian networks the effective bandwidth to that bucket can drop below 1 KB/s — measured 560 bytes/s during this incident. With 25 scenes × 3 bands × ~5 round-trips each, the 170-second subprocess timeout fired before any pixels were read.
+
+**Changes:**
+
+| File | Change | Why |
+|---|---|---|
+| `scripts/stac_pipeline.py` | Rewritten end-to-end. Now uses **Microsoft Planetary Computer** STAC API with `planetary_computer.sign_inplace` for SAS-token signing. Reads B04 (red) + B08 (nir) bands only via direct `rasterio` windowed reads (no `odc.stac` / `dask` overhead). Caps to 5 clearest scenes streamed in parallel via `ThreadPoolExecutor`. | MPC serves the same Sentinel-2 L2A data from Azure's global CDN — roughly 30× faster than AWS us-west-2 from this network. Skipping SCL and using direct rasterio cuts I/O in half and removes dask scheduling latency. |
+| `apps/farms/views.py` (`stac_ndvi_timeseries`) | Date window reduced **365 d → 120 d**, subprocess timeout **170 s → 55 s**, stale `AWS_NO_SIGN_REQUEST` env var removed. | Shorter window means smaller search response and fewer candidate scenes. Faster timeout means worst-case wait drops from ~3 min to under 1 min. |
+| `apps/farms/views.py` (`_fetch_weather`, `_fetch_recent_climate`, `_fetch_elevation`) | Open-Meteo HTTP timeouts bumped from **8 / 10 / 6 seconds** to **30 / 30 / 20 seconds**. | Open-Meteo's edge nodes routinely take 10–25 s to respond from South Asia. The previous short timeouts were guaranteeing the Weather / 7-Day Forecast / 30-Day Climate panels rendered "unavailable" even when the API was about to answer. |
+| `apps/farms/views.py` (`_fetch_soil`) | ISRIC SoilGrids fallback probes now fire in **parallel** via `ThreadPoolExecutor`, taking the first non-empty response. | Previously walked an outward ring of 24 jitter points serially. One bad cell could block the whole thing. Now bounded by the single slowest request. |
+| `templates/farms/parcel_inspector.html` | Source badge now reports the **fallback reason** explicitly ("Satellite stream timed out — showing seasonal model", etc.) instead of an opaque "● Simulated Model". Loading copy, page subtitle, and source footnote updated to credit Microsoft Planetary Computer. | Honest UX — when a fallback fires, users can tell whether it's a transient stream failure, a no-data window, or a real outage. |
+| `requirements.txt` | Added `planetary-computer>=1.0.0`, pinned `rasterio>=1.3.9`. | Required by the rewritten pipeline. `odc-stac` and `rioxarray` retained for other workflows. |
+
+**Result:** End-to-end view test on the same parcel that previously timed out now returns `source: "live"` with 5 real NDVI observations in **~20 seconds** (Sentinel-2 B04 + B08 stream + per-scene mean NDVI).
+
+### How the new pipeline works
+
+```
+POST /api/farms/api/stac-ndvi/
+  body: { polygon: [[lng,lat], ...] }
+
+  1. View serialises polygon + 120-day window into JSON, spawns subprocess (55 s budget)
+  2. Subprocess (scripts/stac_pipeline.py):
+       a. pystac_client.Client.open(MPC, modifier=planetary_computer.sign_inplace)
+       b. search Sentinel-2 L2A by bbox + date, eo:cloud_cover < 40%
+       c. sort by cloud cover, keep 5 clearest scenes
+       d. ThreadPoolExecutor reads B04 (red) + B08 (nir) windowed by parcel bbox
+       e. NDVI = (nir - red) / (nir + red), mean over valid pixels
+       f. JSON-dump results to stdout
+  3. View returns { data: [...], source: "live" }
+     — or, on timeout/error: { data: <seasonal model>, source: "simulated",
+                                fallback_reason: "timeout" | ... }
+```
 
 ---
 
@@ -359,6 +400,11 @@ Generated PDF reports containing farm profiles, crop suitability projections, an
 | **PostgreSQL + PostGIS** (production) | Spatial database for GeoJSON and geometry queries |
 | **GeoJSON** | District boundary polygons + climate risk zone geometries |
 | **CSV Data Pipeline** | CMIP6/ICRISAT crop suitability data ingestion |
+| **pystac-client** | STAC catalog queries against the Microsoft Planetary Computer |
+| **planetary-computer** | SAS-token signing for MPC asset URLs |
+| **rasterio** | Direct windowed COG reads for per-parcel NDVI |
+| **odc-stac / rioxarray** | Optional batch raster workflows (retained for non-inspector pipelines) |
+| **shapely** | Polygon geometry handling for parcel bounding boxes |
 
 ### DevOps
 
@@ -663,6 +709,24 @@ Full-screen map explorer with:
 
 - **Help** (`/help/`) — Auto-generated data dictionary from CSV field definitions + FAQ
 - **Settings** (`/settings/`) — Profile, location, season defaults, units, notification preferences
+
+---
+
+### Module 14: Parcel Inspector (STAC Open Data)
+
+**Route:** `/farms/inspector/`
+**Template:** `templates/farms/parcel_inspector.html`
+**API Endpoints:**
+- `POST /api/farms/api/stac-ndvi/` — Live Sentinel-2 NDVI time series for a polygon
+- `POST /api/farms/api/parcel-details/` — Reverse-geocoded location, live weather, 7-day forecast, 30-day climate, soil profile, elevation
+
+A field-level intelligence tool for any user-drawn parcel anywhere in the world. Pick a lat/lng/acreage (or click on the satellite basemap), and the page:
+
+1. **Streams Sentinel-2 NDVI** via the Microsoft Planetary Computer — see [Recent Updates](#-recent-updates) for the live pipeline details. Falls back to a seasonal model with an explicit reason badge if the live stream cannot complete inside the 55-second budget.
+2. **Renders Parcel Intelligence cards** — fired in parallel against four open public APIs (Nominatim, Open-Meteo forecast/archive/elevation, ISRIC SoilGrids). Each card isolates its own failure so one slow upstream cannot take down the rest.
+3. **Computes an NDVI Health Summary** — latest value, vigour class, observation count, date range, mean / min / max, trend (last − first).
+
+This module is **research-quality but does not require user authentication or pre-loaded data** — it works for any coordinate in any country, making it the easiest entry point to demonstrate the platform.
 
 ---
 
@@ -1119,6 +1183,10 @@ FloodGuard's projections are grounded in peer-reviewed climate science:
 | **ICRISAT** (International Crops Research Institute for the Semi-Arid Tropics) | District-level crop area, yield, and production data; agro-ecological characterization | [ICRISAT Data](http://data.icrisat.org/) |
 | **IMD** (India Meteorological Department) | Historical and real-time rainfall, temperature data | [IMD](https://mausam.imd.gov.in/) |
 | **ICAR** (Indian Council of Agricultural Research) | Crop suitability guidelines, agro-climatic zone definitions | [ICAR](https://icar.org.in/) |
+| **Microsoft Planetary Computer** | Live Sentinel-2 L2A imagery for per-parcel NDVI time series (Parcel Inspector) | [Planetary Computer](https://planetarycomputer.microsoft.com/) |
+| **Open-Meteo** | Current weather, 7-day forecast, 30-day archive, elevation (Parcel Intelligence cards) | [Open-Meteo](https://open-meteo.com/) |
+| **ISRIC SoilGrids** | Per-parcel topsoil properties (pH, organic carbon, texture, bulk density, CEC) | [SoilGrids](https://soilgrids.org/) |
+| **OpenStreetMap Nominatim** | Reverse geocoding for parcel locations (village / district / state) | [Nominatim](https://nominatim.openstreetmap.org/) |
 
 ### Risk Scoring Methodology
 
